@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { ComplaintCase, BureauType, CaseStatus, PriorityLevel } from "@/lib/api/types";
 import { CaseBridgeStore } from "@/lib/api/store";
+import { SupabaseDataService } from "@/lib/supabase/dataService";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { BureauBadge } from "@/components/shared/BureauBadge";
@@ -49,7 +50,9 @@ function CasesExplorerContent() {
   const pageSize = 10;
 
   const loadData = () => {
-    setCases(CaseBridgeStore.getCases());
+    SupabaseDataService.getCases().then((data) => {
+      setCases(data);
+    });
   };
 
   useEffect(() => {

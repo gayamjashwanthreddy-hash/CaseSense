@@ -16,6 +16,7 @@ import {
   RefreshCw,
 } from "lucide-react";
 import { CaseBridgeStore } from "@/lib/api/store";
+import { SupabaseDataService } from "@/lib/supabase/dataService";
 import { PublicTrackingData } from "@/lib/api/types";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { BureauBadge } from "@/components/shared/BureauBadge";
@@ -29,7 +30,7 @@ export default function TrackComplaintPage() {
   const [hasSearched, setHasSearched] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleSearch = (e?: React.FormEvent) => {
+  const handleSearch = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     if (!refNumber.trim() || !verificationKey.trim()) {
       setErrorMessage("Please enter both the Reference Number and your Complainant Email / Phone / Tracking Code.");
@@ -39,10 +40,8 @@ export default function TrackComplaintPage() {
     setIsSearching(true);
     setErrorMessage(null);
 
-    // Call store method
-    setTimeout(() => {
-      CaseBridgeStore.init();
-      const result = CaseBridgeStore.trackComplaint(refNumber, verificationKey);
+    try {
+      const result = await SupabaseDataService.trackComplaint(refNumber, verificationKey);
       setIsSearching(false);
       setHasSearched(true);
       if (result) {
@@ -51,21 +50,27 @@ export default function TrackComplaintPage() {
         setTrackingData(null);
         setErrorMessage("No matching complaint record found. Ensure the Reference Number matches your receipt and that you provided the registered email or phone used during submission.");
       }
-    }, 300);
+    } catch (err: any) {
+      setIsSearching(false);
+      setHasSearched(true);
+      setTrackingData(null);
+      setErrorMessage("Service unavailable. Please retry shortly.");
+    }
   };
 
-  const handleDemoPreset = (ref: string, key: string) => {
+  const handleDemoPreset = async (ref: string, key: string) => {
     setRefNumber(ref);
     setVerificationKey(key);
     setIsSearching(true);
     setErrorMessage(null);
-    setTimeout(() => {
-      CaseBridgeStore.init();
-      const result = CaseBridgeStore.trackComplaint(ref, key);
+    try {
+      const result = await SupabaseDataService.trackComplaint(ref, key);
       setIsSearching(false);
       setHasSearched(true);
       setTrackingData(result);
-    }, 200);
+    } catch {
+      setIsSearching(false);
+    }
   };
 
   return (

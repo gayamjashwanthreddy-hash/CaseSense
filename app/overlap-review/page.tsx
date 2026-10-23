@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { OverlapPair, OverlapResolutionStatus } from "@/lib/api/types";
 import { CaseBridgeStore } from "@/lib/api/store";
+import { SupabaseDataService } from "@/lib/supabase/dataService";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { PriorityBadge } from "@/components/shared/PriorityBadge";
 import { formatDateTime } from "@/lib/utils";
@@ -24,7 +25,9 @@ export default function OverlapQueuePage() {
   const [activeTab, setActiveTab] = useState<OverlapResolutionStatus | "ALL">("PENDING_REVIEW");
 
   const loadData = () => {
-    setOverlaps(CaseBridgeStore.getOverlaps());
+    SupabaseDataService.getOverlaps().then((data) => {
+      setOverlaps(data);
+    });
   };
 
   useEffect(() => {

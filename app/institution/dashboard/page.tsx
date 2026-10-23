@@ -16,6 +16,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { CaseBridgeStore } from "@/lib/api/store";
+import { SupabaseDataService } from "@/lib/supabase/dataService";
 import { InstitutionAccount, ComplaintCase, InstitutionResponse, Institution } from "@/lib/api/types";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { BureauBadge } from "@/components/shared/BureauBadge";
@@ -39,16 +40,19 @@ export default function InstitutionDashboardPage() {
     setInstitution(current);
 
     // Fetch master profile
-    const master = CaseBridgeStore.getInstitutionById(current.institutionId);
-    setInstitutionMaster(master || null);
+    SupabaseDataService.getInstitutionById(current.institutionId).then((master) => {
+      setInstitutionMaster(master || null);
+    });
 
     // Fetch SCOPED complaints ONLY for this institution
-    const allCases = CaseBridgeStore.getCases({ institutionId: current.institutionId });
-    setScopedCases(allCases);
+    SupabaseDataService.getCases({ institutionId: current.institutionId }).then((allCases) => {
+      setScopedCases(allCases);
+    });
 
     // Fetch responses for this institution
-    const responses = CaseBridgeStore.getInstitutionResponses(current.institutionId);
-    setScopedResponses(responses);
+    SupabaseDataService.getInstitutionResponses(current.institutionId).then((responses) => {
+      setScopedResponses(responses);
+    });
   };
 
   useEffect(() => {

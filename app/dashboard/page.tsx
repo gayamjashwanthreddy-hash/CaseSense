@@ -29,6 +29,7 @@ import {
   Pie,
 } from "recharts";
 import { CaseBridgeStore } from "@/lib/api/store";
+import { SupabaseDataService } from "@/lib/supabase/dataService";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { BureauBadge } from "@/components/shared/BureauBadge";
@@ -40,7 +41,9 @@ export default function DashboardPage() {
   const [metrics, setMetrics] = useState<any>(() => CaseBridgeStore.getDashboardMetrics());
 
   const fetchMetrics = () => {
-    setMetrics(CaseBridgeStore.getDashboardMetrics());
+    SupabaseDataService.getDashboardMetrics().then((data) => {
+      setMetrics(data);
+    });
   };
 
   useEffect(() => {

@@ -16,6 +16,7 @@ import {
   FileCheck,
 } from "lucide-react";
 import { CaseBridgeStore } from "@/lib/api/store";
+import { SupabaseDataService } from "@/lib/supabase/dataService";
 import { InstitutionAccount, InstitutionResponse } from "@/lib/api/types";
 import { formatDate } from "@/lib/utils";
 
@@ -33,8 +34,9 @@ export default function InstitutionResponsesLedgerPage() {
     }
     setInstitution(current);
 
-    const list = CaseBridgeStore.getInstitutionResponses(current.institutionId);
-    setResponses(list);
+    SupabaseDataService.getInstitutionResponses(current.institutionId).then((list) => {
+      setResponses(list);
+    });
   };
 
   useEffect(() => {

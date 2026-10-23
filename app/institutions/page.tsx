@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { Institution } from "@/lib/api/types";
 import { CaseBridgeStore } from "@/lib/api/store";
+import { SupabaseDataService } from "@/lib/supabase/dataService";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 
 export default function InstitutionsDirectoryPage() {
@@ -24,7 +25,9 @@ export default function InstitutionsDirectoryPage() {
   const [riskFilter, setRiskFilter] = useState("ALL");
 
   const loadData = () => {
-    setInstitutions(CaseBridgeStore.getInstitutions());
+    SupabaseDataService.getInstitutions().then((data) => {
+      setInstitutions(data);
+    });
   };
 
   useEffect(() => {

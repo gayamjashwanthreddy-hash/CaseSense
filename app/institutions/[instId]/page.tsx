@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { Institution, ComplaintCase } from "@/lib/api/types";
 import { CaseBridgeStore } from "@/lib/api/store";
+import { SupabaseDataService } from "@/lib/supabase/dataService";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { BureauBadge } from "@/components/shared/BureauBadge";
 import { StatusBadge } from "@/components/shared/StatusBadge";
@@ -42,12 +43,14 @@ export default function InstitutionProfilePage({
   });
 
   const loadData = () => {
-    const inst = CaseBridgeStore.getInstitutionById(instId);
-    if (inst) {
-      setInstitution(inst);
-      const cases = CaseBridgeStore.getCases({ institutionId: inst.id });
-      setInstCases(cases);
-    }
+    SupabaseDataService.getInstitutionById(instId).then((inst) => {
+      if (inst) {
+        setInstitution(inst);
+        SupabaseDataService.getCases({ institutionId: inst.id }).then((cases) => {
+          setInstCases(cases);
+        });
+      }
+    });
   };
 
   useEffect(() => {

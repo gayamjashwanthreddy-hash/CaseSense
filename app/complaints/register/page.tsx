@@ -21,6 +21,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { CaseBridgeStore } from "@/lib/api/store";
+import { SupabaseDataService } from "@/lib/supabase/dataService";
 import { Institution, ComplaintCategory, ComplainantType, ComplaintCase } from "@/lib/api/types";
 import { useToast } from "@/lib/context/ToastContext";
 
@@ -81,8 +82,9 @@ export default function RegisterComplaintPage() {
 
   useEffect(() => {
     CaseBridgeStore.init();
-    const list = CaseBridgeStore.getInstitutions();
-    setInstitutions(list);
+    SupabaseDataService.getInstitutions().then((list) => {
+      setInstitutions(list);
+    });
   }, []);
 
   // Filtered institutions
@@ -181,12 +183,12 @@ export default function RegisterComplaintPage() {
   };
 
   // Final Submission
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setIsSubmitting(true);
     const targetInstId = isUnlistedInstitution ? "1-10492811" : selectedInstId; // fallback to seed inst for demo if unlisted
 
-    setTimeout(() => {
-      const { newCase, trackingCode, refNumber } = CaseBridgeStore.createPublicComplaint({
+    try {
+      const { newCase, trackingCode, refNumber } = await SupabaseDataService.createPublicComplaint({
         institutionId: targetInstId,
         category,
         subject,
@@ -206,7 +208,10 @@ export default function RegisterComplaintPage() {
           trackingCode
         )}&inst=${encodeURIComponent(newCase.institutionName)}`
       );
-    }, 400);
+    } catch (e: any) {
+      setIsSubmitting(false);
+      toast("Submission could not be completed. Please check your inputs.", "error");
+    }
   };
 
   return (

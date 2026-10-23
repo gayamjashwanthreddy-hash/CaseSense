@@ -16,6 +16,7 @@ import {
   Lock,
 } from "lucide-react";
 import { CaseBridgeStore } from "@/lib/api/store";
+import { SupabaseDataService } from "@/lib/supabase/dataService";
 import { InstitutionAccount, ComplaintCase, CaseStatus, BureauType } from "@/lib/api/types";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { BureauBadge } from "@/components/shared/BureauBadge";
@@ -40,8 +41,9 @@ export default function InstitutionComplaintsPage() {
     setInstitution(current);
 
     // Scoped strictly to current institution's PID
-    const instCases = CaseBridgeStore.getCases({ institutionId: current.institutionId });
-    setCases(instCases);
+    SupabaseDataService.getCases({ institutionId: current.institutionId }).then((instCases) => {
+      setCases(instCases);
+    });
   };
 
   useEffect(() => {

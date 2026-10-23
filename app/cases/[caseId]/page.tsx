@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { ComplaintCase, CaseStatus, AuditLogEntry, BureauType } from "@/lib/api/types";
 import { CaseBridgeStore } from "@/lib/api/store";
+import { SupabaseDataService } from "@/lib/supabase/dataService";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { BureauBadge } from "@/components/shared/BureauBadge";
 import { StatusBadge } from "@/components/shared/StatusBadge";

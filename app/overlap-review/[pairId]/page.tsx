@@ -28,6 +28,7 @@ import {
   BureauType,
 } from "@/lib/api/types";
 import { CaseBridgeStore } from "@/lib/api/store";
+import { SupabaseDataService } from "@/lib/supabase/dataService";
 import { SEED_OVERLAPS, SEED_CASES } from "@/lib/api/seedData";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { BureauBadge } from "@/components/shared/BureauBadge";
@@ -60,14 +61,15 @@ export default function OverlapReviewWorkspacePage({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const loadData = () => {
-    const p = pairId ? CaseBridgeStore.getOverlapById(pairId) : SEED_OVERLAPS[0];
-    if (p) {
-      setPairState(p);
-      const cA = CaseBridgeStore.getCaseById(p.caseAId);
-      const cB = CaseBridgeStore.getCaseById(p.caseBId);
-      setCaseAState(cA || null);
-      setCaseBState(cB || null);
-      if (p.leadBureau) setSelectedLeadBureau(p.leadBureau);
+    if (pairId) {
+      SupabaseDataService.getOverlapById(pairId).then((p) => {
+        if (p) {
+          setPairState(p);
+          SupabaseDataService.getCaseById(p.caseAId).then((cA) => setCaseAState(cA || null));
+          SupabaseDataService.getCaseById(p.caseBId).then((cB) => setCaseBState(cB || null));
+          if (p.leadBureau) setSelectedLeadBureau(p.leadBureau);
+        }
+      });
     }
   };
 
@@ -103,7 +105,7 @@ export default function OverlapReviewWorkspacePage({
     );
   };
 
-  const handleExecuteResolution = () => {
+  const handleExecuteResolution = async () => {
     if (!activeModalAction) return;
     if (!reviewerJustification.trim()) {
       alert("Please provide official reviewer rationale for administrative records.");
@@ -111,12 +113,11 @@ export default function OverlapReviewWorkspacePage({
     }
 
     setIsSubmitting(true);
-    CaseBridgeStore.resolveOverlap(
+    await SupabaseDataService.resolveOverlap(
       pair.id,
       activeModalAction,
       reviewerJustification.trim(),
-      `${currentUser.name} (${currentUser.designation})`,
-      activeModalAction === "MERGED" ? selectedLeadBureau : undefined
+      activeModalAction === "MERGED" ? selectedLeadBureau : (pair.leadBureau || "REGULATION")
     );
 
     setIsSubmitting(false);

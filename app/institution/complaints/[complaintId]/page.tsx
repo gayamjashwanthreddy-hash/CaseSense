@@ -19,6 +19,7 @@ import {
   FileCheck,
 } from "lucide-react";
 import { CaseBridgeStore } from "@/lib/api/store";
+import { SupabaseDataService } from "@/lib/supabase/dataService";
 import { InstitutionAccount, ComplaintCase, InstitutionResponse } from "@/lib/api/types";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { BureauBadge } from "@/components/shared/BureauBadge";
@@ -138,7 +139,7 @@ export default function InstitutionComplaintDetailPage() {
     toast(`Attached sample proof: ${name}`, "info");
   };
 
-  const handleSubmitResponse = (e: React.FormEvent) => {
+  const handleSubmitResponse = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!statement.trim() || statement.trim().length < 20) {
       toast("Please provide a substantial counter-affidavit statement (minimum 20 characters).", "warning");
@@ -146,8 +147,8 @@ export default function InstitutionComplaintDetailPage() {
     }
 
     setIsSubmitting(true);
-    setTimeout(() => {
-      CaseBridgeStore.submitInstitutionResponse({
+    try {
+      await SupabaseDataService.submitInstitutionResponse({
         caseId: complaint.id,
         institutionId: institution.institutionId,
         submittedBy: institution.contactPerson,
@@ -160,7 +161,10 @@ export default function InstitutionComplaintDetailPage() {
       setStatement("");
       setUploadedFiles([]);
       toast("Formal response filed with AICTE registry.", "success");
-    }, 400);
+    } catch {
+      setIsSubmitting(false);
+      toast("Error submitting response to database.", "error");
+    }
   };
 
   return (
