@@ -12,6 +12,8 @@ import {
   BarChart3,
   ShieldCheck,
   ChevronRight,
+  Database,
+  ExternalLink,
 } from "lucide-react";
 import { CaseBridgeStore } from "@/lib/api/store";
 
@@ -44,14 +46,15 @@ export function Sidebar() {
       href: "/cases",
       icon: FolderKanban,
       badge: activeCasesCount > 0 ? activeCasesCount : null,
-      badgeColor: "bg-slate-200 text-slate-700",
+      badgeColor: "bg-slate-800 text-slate-300 border border-slate-700",
     },
     {
       label: "Bureau Coordination",
       href: "/overlap-review",
       icon: GitCompare,
-      badge: pendingOverlapCount > 0 ? `${pendingOverlapCount} Pending` : null,
-      badgeColor: "bg-amber-100 text-amber-800 border border-amber-300 font-semibold",
+      badge: pendingOverlapCount > 0 ? `${pendingOverlapCount}` : null,
+      badgeColor:
+        "bg-amber-500/20 text-amber-300 border border-amber-500/40 font-mono font-semibold",
     },
     {
       label: "Institution Profiles",
@@ -80,13 +83,19 @@ export function Sidebar() {
   ];
 
   return (
-    <aside className="w-64 bg-slate-50 border-r border-slate-200 flex flex-col justify-between shrink-0 select-none min-h-[calc(100vh-3.5rem)]">
+    <aside className="w-64 bg-[#0A1626] border-r border-[#162942] flex flex-col justify-between shrink-0 select-none min-h-[calc(100vh-3.5rem)] text-[#E2E8F0]">
       <div className="py-4">
-        <div className="px-4 mb-3 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-          Administrative Modules
+        <div className="px-4 mb-3 flex items-center justify-between">
+          <span className="text-[10px] font-mono uppercase tracking-widest text-[#7D8FA9]">
+            Console Navigation
+          </span>
+          <span className="inline-flex items-center gap-1 text-[10px] font-mono text-emerald-400">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            LIVE
+          </span>
         </div>
 
-        <nav className="space-y-0.5 px-2">
+        <nav className="space-y-1 px-2.5">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive =
@@ -97,50 +106,72 @@ export function Sidebar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center justify-between px-3 py-2 text-xs font-medium rounded-md transition-colors ${
+                className={`group flex items-center justify-between px-3 py-2.5 text-xs font-medium rounded-lg transition-all duration-150 ${
                   isActive
-                    ? "bg-slate-200/80 text-slate-900 font-semibold border-l-2 border-blue-700"
-                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                    ? "bg-[#162D4A] text-white shadow-xs border border-[#2A4973]/70 font-semibold"
+                    : "text-[#94A3B8] hover:text-white hover:bg-[#12233A]/60"
                 }`}
               >
                 <div className="flex items-center gap-2.5">
                   <Icon
-                    className={`w-4 h-4 ${
-                      isActive ? "text-blue-700" : "text-slate-400"
+                    className={`w-4 h-4 transition-colors ${
+                      isActive
+                        ? "text-[#58A6FF]"
+                        : "text-[#64748B] group-hover:text-[#94A3B8]"
                     }`}
                   />
-                  <span>{item.label}</span>
+                  <span className="tracking-tight">{item.label}</span>
                 </div>
 
-                {item.badge && (
-                  <span
-                    className={`text-[10px] px-1.5 py-0.5 rounded ${
-                      item.badgeColor || "bg-slate-200 text-slate-700"
-                    }`}
-                  >
-                    {item.badge}
-                  </span>
-                )}
+                <div className="flex items-center gap-1.5">
+                  {item.badge && (
+                    <span
+                      className={`text-[10px] px-1.5 py-0.2 rounded-md font-mono ${
+                        item.badgeColor || "bg-slate-800 text-slate-300"
+                      }`}
+                    >
+                      {item.badge}
+                    </span>
+                  )}
+                  {isActive && (
+                    <div className="w-1 h-3.5 rounded-full bg-[#58A6FF]" />
+                  )}
+                </div>
               </Link>
             );
           })}
         </nav>
       </div>
 
-      {/* Footer Info: AICTE Reference & Portal Links */}
-      <div className="p-3 border-t border-slate-200 text-[11px] text-slate-500 bg-white/50 space-y-2">
-        <div className="flex items-center justify-between text-[10px]">
-          <a href="/" className="text-blue-700 hover:underline font-medium">
-            ← Public Website
-          </a>
-          <a href="/institution/dashboard" className="text-amber-800 hover:underline font-medium">
-            Institution Portal →
-          </a>
+      {/* System Telemetry & Quick Navigation */}
+      <div className="p-3.5 border-t border-[#162942] bg-[#070F1B] space-y-3">
+        <div className="flex items-center justify-between text-[11px]">
+          <Link
+            href="/"
+            className="text-[#58A6FF] hover:text-blue-300 transition-colors font-medium flex items-center gap-1 text-[11px]"
+          >
+            <span>Public Home</span>
+            <ExternalLink className="w-3 h-3" />
+          </Link>
+          <Link
+            href="/institution/dashboard"
+            className="text-amber-400 hover:text-amber-300 transition-colors font-medium flex items-center gap-1 text-[11px]"
+          >
+            <span>College Desk</span>
+            <ChevronRight className="w-3 h-3" />
+          </Link>
         </div>
-        <div className="pt-1 border-t border-slate-100">
-          <div className="font-semibold text-slate-700">AICTE Coordination Protocol</div>
-          <div className="text-[10px] text-slate-400 mt-0.5">
-            Regulation Bureau &bull; PGRC &bull; Approval Bureau &bull; Legal Cell
+
+        <div className="pt-2 border-t border-[#162942]/60">
+          <div className="flex items-center justify-between text-[10px] text-[#7D8FA9] font-mono">
+            <span className="flex items-center gap-1">
+              <Database className="w-3 h-3 text-[#58A6FF]" />
+              <span>SUPABASE RLS</span>
+            </span>
+            <span className="text-emerald-400 font-semibold">ENFORCED</span>
+          </div>
+          <div className="text-[10px] text-[#64748B] mt-1 font-mono">
+            AICTE Cross-Bureau Overlap Engine
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import {
@@ -15,6 +15,9 @@ import {
   Building2,
   X,
   FileSpreadsheet,
+  Layers,
+  ArrowRight,
+  RotateCcw,
 } from "lucide-react";
 import { ComplaintCase, BureauType, CaseStatus, PriorityLevel } from "@/lib/api/types";
 import { CaseBridgeStore } from "@/lib/api/store";
@@ -25,7 +28,6 @@ import { BureauBadge } from "@/components/shared/BureauBadge";
 import { PriorityBadge } from "@/components/shared/PriorityBadge";
 import { CaseQuickDrawer } from "@/components/cases/CaseQuickDrawer";
 import { formatDate } from "@/lib/utils";
-import { Suspense } from "react";
 import { useToast } from "@/lib/context/ToastContext";
 
 function CasesExplorerContent() {
@@ -37,9 +39,9 @@ function CasesExplorerContent() {
   const [selectedCaseForDrawer, setSelectedCaseForDrawer] = useState<ComplaintCase | null>(null);
 
   // Filters state initialized from query params if present
-  const [search, setSearch] = useState(searchParams.get("search") || "");
-  const [bureauFilter, setBureauFilter] = useState(searchParams.get("bureau") || "ALL");
-  const [statusFilter, setStatusFilter] = useState(searchParams.get("status") || "ALL");
+  const [search, setSearch] = useState(searchParams ? searchParams.get("search") || "" : "");
+  const [bureauFilter, setBureauFilter] = useState(searchParams ? searchParams.get("bureau") || "ALL" : "ALL");
+  const [statusFilter, setStatusFilter] = useState(searchParams ? searchParams.get("status") || "ALL" : "ALL");
   const [priorityFilter, setPriorityFilter] = useState("ALL");
   const [overlapOnly, setOverlapOnly] = useState(false);
 
@@ -64,9 +66,11 @@ function CasesExplorerContent() {
 
   // Update filters if searchParams change
   useEffect(() => {
-    if (searchParams.get("search")) setSearch(searchParams.get("search") || "");
-    if (searchParams.get("bureau")) setBureauFilter(searchParams.get("bureau") || "ALL");
-    if (searchParams.get("status")) setStatusFilter(searchParams.get("status") || "ALL");
+    if (searchParams) {
+      if (searchParams.get("search")) setSearch(searchParams.get("search") || "");
+      if (searchParams.get("bureau")) setBureauFilter(searchParams.get("bureau") || "ALL");
+      if (searchParams.get("status")) setStatusFilter(searchParams.get("status") || "ALL");
+    }
   }, [searchParams]);
 
   // Filtering Logic
@@ -121,70 +125,8 @@ function CasesExplorerContent() {
     });
   }, [filteredCases, sortField, sortOrder]);
 
-  // Pagination Logic
   const totalPages = Math.ceil(sortedCases.length / pageSize) || 1;
-  const paginatedCases = useMemo(() => {
-    const start = (currentPage - 1) * pageSize;
-    return sortedCases.slice(start, start + pageSize);
-  }, [sortedCases, currentPage, pageSize]);
-
-  const handleExportCSV = () => {
-    if (filteredCases.length === 0) {
-      toast({ title: "No Records to Export", type: "warning" });
-      return;
-    }
-
-    const headers = [
-      "Case ID",
-      "Reference",
-      "Institution ID",
-      "Institution Name",
-      "Bureau",
-      "Category",
-      "Subject",
-      "Complainant",
-      "Received Date",
-      "Status",
-      "Priority",
-      "Days Open",
-      "SLA Deadline",
-      "Assigned Officer",
-      "Overlap Flagged",
-    ];
-
-    const rows = filteredCases.map((c) => [
-      `"${c.id}"`,
-      `"${c.refNumber}"`,
-      `"${c.institutionId}"`,
-      `"${c.institutionName.replace(/"/g, '""')}"`,
-      `"${c.bureau}"`,
-      `"${c.category}"`,
-      `"${c.subject.replace(/"/g, '""')}"`,
-      `"${c.complainantName.replace(/"/g, '""')}"`,
-      `"${c.receivedDate}"`,
-      `"${c.status}"`,
-      `"${c.priority}"`,
-      c.daysOpen,
-      `"${c.slaDeadline}"`,
-      `"${c.assignedOfficer}"`,
-      c.hasOverlap ? "YES" : "NO",
-    ]);
-
-    const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map((e) => e.join(","))].join("\n");
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `AICTE_Case_Register_${new Date().toISOString().split("T")[0]}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
-    toast({
-      title: "Export Generated",
-      message: `Exported ${filteredCases.length} regulatory cases into CSV.`,
-      type: "success",
-    });
-  };
+  const paginatedCases = sortedCases.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   const clearFilters = () => {
     setSearch("");
@@ -195,57 +137,98 @@ function CasesExplorerContent() {
     setCurrentPage(1);
   };
 
+  const handleExportCSV = () => {
+    const headers = [
+      "Case ID",
+      "Ref Number",
+      "Institution ID",
+      "Institution Name",
+      "Bureau",
+      "Subject",
+      "Status",
+      "Priority",
+      "Days Open",
+      "SLA Deadline",
+      "Complainant",
+      "Has Overlap",
+    ];
+
+    const rows = filteredCases.map((c) => [
+      c.id,
+      c.refNumber,
+      c.institutionId,
+      `"${c.institutionName.replace(/"/g, '""')}"`,
+      c.bureau,
+      `"${c.subject.replace(/"/g, '""')}"`,
+      c.status,
+      c.priority,
+      c.daysOpen,
+      c.slaDeadline,
+      `"${c.complainantName}"`,
+      c.hasOverlap ? "YES" : "NO",
+    ]);
+
+    const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map((e) => e.join(","))].join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `AICTE_Case_Register_${new Date().toISOString().split("T")[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    toast(`Exported ${filteredCases.length} records to CSV`, "info");
+  };
+
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-slate-200">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-slate-200/90">
         <div>
           <Breadcrumbs items={[{ label: "Complaint Explorer" }]} />
-          <h1 className="text-xl font-bold text-slate-900 tracking-tight">
+          <h1 className="text-xl sm:text-2xl font-extrabold text-[#08121E] tracking-tight font-sans mt-0.5">
             AICTE Cross-Bureau Case Register
           </h1>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-xs text-slate-500 font-mono mt-1">
             Search, filter, inspect, and track proceedings across technical institutions nationwide.
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           <button
             onClick={handleExportCSV}
-            className="inline-flex items-center gap-1.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 text-xs font-medium px-3 py-1.5 rounded-md shadow-sm transition-colors"
+            className="inline-flex items-center gap-1.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 text-xs font-semibold px-3 py-2 rounded-lg shadow-xs transition-colors font-sans"
           >
             <Download className="w-3.5 h-3.5 text-slate-500" />
-            <span>Export Register (CSV)</span>
+            <span>Export CSV</span>
           </button>
           <Link
             href="/intake"
-            className="inline-flex items-center gap-1.5 bg-blue-700 hover:bg-blue-800 text-white text-xs font-semibold px-3 py-1.5 rounded-md shadow-sm transition-colors"
+            className="inline-flex items-center gap-1.5 bg-[#0A1626] hover:bg-[#162D4A] text-white text-xs font-semibold px-3.5 py-2 rounded-lg shadow-xs transition-colors font-sans"
           >
-            <span>+ New Intake</span>
+            <span>+ Register Complaint</span>
           </Link>
         </div>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-white p-3.5 rounded-md border border-slate-200 shadow-sm space-y-3">
+      <div className="bg-white p-4 rounded-xl border border-slate-200/90 shadow-xs space-y-3.5">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
           {/* Global Search */}
           <div className="lg:col-span-2 relative">
-            <Search className="w-4 h-4 text-slate-400 absolute left-2.5 top-2.5" />
+            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-3" />
             <input
               type="text"
-              placeholder="Search ID, Institution, Complainant, or Keywords..."
+              placeholder="Search by ID, PID, College, or Keywords..."
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value);
                 setCurrentPage(1);
               }}
-              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-md pl-8 pr-8 py-2 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:bg-white"
+              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg pl-8 pr-8 py-2 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-[#1769AA] focus:border-[#1769AA] focus:bg-white font-sans transition-all"
             />
             {search && (
               <button
                 onClick={() => setSearch("")}
-                className="absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-600"
+                className="absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-600 p-0.5"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -260,14 +243,14 @@ function CasesExplorerContent() {
                 setBureauFilter(e.target.value);
                 setCurrentPage(1);
               }}
-              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-md px-2.5 py-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-600"
+              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#1769AA] font-sans"
             >
-              <option value="ALL">All Receiving Bureaus</option>
+              <option value="ALL">All Bureaus / Cells</option>
               <option value="PGRC">Public Grievance Redressal (PGRC)</option>
               <option value="REGULATION">Regulation Bureau (RB)</option>
               <option value="APPROVAL">Approval Bureau (AB)</option>
               <option value="LEGAL">Legal Cell</option>
-              <option value="CPGRAMS">CPGRAMS / PMO Desk</option>
+              <option value="CPGRAMS">CPGRAMS / MoE Desk</option>
             </select>
           </div>
 
@@ -279,7 +262,7 @@ function CasesExplorerContent() {
                 setStatusFilter(e.target.value);
                 setCurrentPage(1);
               }}
-              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-md px-2.5 py-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-600"
+              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#1769AA] font-sans"
             >
               <option value="ALL">All Statuses</option>
               <option value="OVERDUE">Overdue / SLA Breach</option>
@@ -302,7 +285,7 @@ function CasesExplorerContent() {
                 setPriorityFilter(e.target.value);
                 setCurrentPage(1);
               }}
-              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-md px-2.5 py-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-600"
+              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#1769AA] font-sans"
             >
               <option value="ALL">All Priorities</option>
               <option value="CRITICAL">Critical Urgency</option>
@@ -314,9 +297,9 @@ function CasesExplorerContent() {
         </div>
 
         {/* Second Row: Toggle and Stats */}
-        <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pt-2 border-t border-slate-100 text-xs">
           <div className="flex items-center gap-4">
-            <label className="inline-flex items-center gap-1.5 cursor-pointer select-none">
+            <label className="inline-flex items-center gap-2 cursor-pointer select-none">
               <input
                 type="checkbox"
                 checked={overlapOnly}
@@ -324,38 +307,45 @@ function CasesExplorerContent() {
                   setOverlapOnly(e.target.checked);
                   setCurrentPage(1);
                 }}
-                className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 w-3.5 h-3.5"
+                className="rounded border-slate-300 text-[#1769AA] focus:ring-[#1769AA] w-3.5 h-3.5"
               />
-              <span className="text-slate-700 font-medium">Show Only Overlapping / Multi-Bureau Inquiries</span>
+              <span className="text-slate-700 font-medium font-sans">
+                Show Only Overlapping / Multi-Bureau Inquiries
+              </span>
             </label>
 
-            {(search || bureauFilter !== "ALL" || statusFilter !== "ALL" || priorityFilter !== "ALL" || overlapOnly) && (
+            {(search ||
+              bureauFilter !== "ALL" ||
+              statusFilter !== "ALL" ||
+              priorityFilter !== "ALL" ||
+              overlapOnly) && (
               <button
                 onClick={clearFilters}
-                className="text-blue-700 hover:text-blue-900 underline text-xs font-medium"
+                className="text-[#1769AA] hover:text-blue-900 text-xs font-semibold inline-flex items-center gap-1 font-mono"
               >
-                Reset All Filters
+                <RotateCcw className="w-3 h-3" />
+                <span>Reset Filters</span>
               </button>
             )}
           </div>
 
-          <div className="text-slate-500 font-medium">
+          <div className="text-slate-500 font-mono text-xs">
             Showing <strong className="text-slate-900">{filteredCases.length}</strong> matching records
           </div>
         </div>
       </div>
 
       {/* Main Administrative Data Table */}
-      <div className="bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-xl border border-slate-200/90 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse text-xs">
+          <table className="w-full text-left border-collapse text-xs font-sans">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-200 text-slate-600 font-semibold select-none">
-                <th className="py-2.5 px-3.5">Case Reference</th>
-                <th className="py-2.5 px-3.5">Institution Name & AICTE ID</th>
-                <th className="py-2.5 px-3.5">Bureau</th>
-                <th className="py-2.5 px-3.5">Subject Allegation</th>
-                <th className="py-2.5 px-3.5">
+              <tr className="bg-slate-100/70 border-b border-slate-200/80 text-slate-600 font-mono text-[11px] select-none">
+                <th className="py-3 px-4 font-semibold">Case Reference</th>
+                <th className="py-3 px-4 font-semibold">Institution Name & PID</th>
+                <th className="py-3 px-4 font-semibold">Bureau</th>
+                <th className="py-3 px-4 font-semibold">Subject Matter</th>
+                <th className="py-3 px-4 font-semibold">
                   <button
                     onClick={() => {
                       if (sortField === "days") {
@@ -371,15 +361,15 @@ function CasesExplorerContent() {
                     <ArrowUpDown className="w-3 h-3 text-slate-400" />
                   </button>
                 </th>
-                <th className="py-2.5 px-3.5">Status</th>
-                <th className="py-2.5 px-3.5">Overlap</th>
-                <th className="py-2.5 px-3.5 text-right">Actions</th>
+                <th className="py-3 px-4 font-semibold">Status</th>
+                <th className="py-3 px-4 font-semibold">Overlap</th>
+                <th className="py-3 px-4 font-semibold text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-slate-100 font-sans">
               {paginatedCases.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="py-12 text-center text-slate-500">
+                  <td colSpan={8} className="py-12 text-center text-slate-500 font-mono text-xs">
                     <div className="max-w-xs mx-auto space-y-1">
                       <div className="font-semibold text-slate-700">No matching cases found</div>
                       <div className="text-[11px] text-slate-400">
@@ -396,84 +386,86 @@ function CasesExplorerContent() {
                     onClick={() => setSelectedCaseForDrawer(c)}
                   >
                     {/* Case ID */}
-                    <td className="py-2.5 px-3.5 font-semibold text-slate-900">
-                      <div className="text-blue-700 group-hover:underline flex items-center gap-1">
+                    <td className="py-3 px-4 font-mono font-bold text-slate-900">
+                      <div className="text-[#1769AA] group-hover:underline flex items-center gap-1">
                         <span>{c.id}</span>
                       </div>
-                      <div className="text-[10px] text-slate-400 font-mono mt-0.5">{formatDate(c.receivedDate)}</div>
+                      <div className="text-[10px] text-slate-400 font-mono mt-0.5">
+                        {formatDate(c.receivedDate)}
+                      </div>
                     </td>
 
                     {/* Institution */}
-                    <td className="py-2.5 px-3.5 max-w-xs">
-                      <div className="font-medium text-slate-900 truncate" title={c.institutionName}>
+                    <td className="py-3 px-4 max-w-xs">
+                      <div className="font-semibold text-slate-900 truncate" title={c.institutionName}>
                         {c.institutionName}
                       </div>
-                      <div className="text-[10px] text-slate-500 flex items-center gap-2 mt-0.5">
-                        <span className="font-mono">{c.institutionId}</span>
+                      <div className="text-[10px] text-slate-500 font-mono flex items-center gap-2 mt-0.5">
+                        <span>PID: {c.institutionId}</span>
                         <span>&bull;</span>
                         <span>{c.institutionState}</span>
                       </div>
                     </td>
 
                     {/* Bureau */}
-                    <td className="py-2.5 px-3.5">
+                    <td className="py-3 px-4">
                       <BureauBadge bureau={c.bureau} />
                     </td>
 
                     {/* Subject */}
-                    <td className="py-2.5 px-3.5 max-w-sm">
+                    <td className="py-3 px-4 max-w-sm">
                       <div className="text-slate-800 line-clamp-1 font-medium" title={c.subject}>
                         {c.subject}
                       </div>
-                      <div className="text-[10px] text-slate-400 mt-0.5 truncate">
+                      <div className="text-[10px] text-slate-400 mt-0.5 truncate font-mono">
                         By {c.complainantName} ({c.complainantType})
                       </div>
                     </td>
 
                     {/* Days Open / SLA */}
-                    <td className="py-2.5 px-3.5">
-                      <div className={`font-semibold ${c.daysOpen > 30 ? "text-rose-700" : "text-slate-700"}`}>
+                    <td className="py-3 px-4 font-mono">
+                      <div className={`font-bold ${c.daysOpen > 30 ? "text-rose-700" : "text-slate-700"}`}>
                         {c.daysOpen} days
                       </div>
                       <div className="text-[10px] text-slate-400">Due {formatDate(c.slaDeadline)}</div>
                     </td>
 
                     {/* Status */}
-                    <td className="py-2.5 px-3.5">
-                      <StatusBadge status={c.status} />
+                    <td className="py-3 px-4">
+                      <StatusBadge status={c.status} size="sm" />
                     </td>
 
                     {/* Overlap indicator */}
-                    <td className="py-2.5 px-3.5" onClick={(e) => e.stopPropagation()}>
+                    <td className="py-3 px-4" onClick={(e) => e.stopPropagation()}>
                       {c.hasOverlap && c.overlapPairId ? (
                         <Link
                           href={`/overlap-review/${c.overlapPairId}`}
-                          className="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-1.5 py-0.5 rounded transition-colors"
+                          className="inline-flex items-center gap-1.5 text-[10px] font-mono font-semibold text-amber-900 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 px-2 py-0.5 rounded-md transition-colors"
                           title="Open Cross-Bureau Overlap Review Workspace"
                         >
-                          <AlertTriangle className="w-3 h-3 text-amber-600" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
                           <span>Flagged</span>
                         </Link>
                       ) : (
-                        <span className="text-[10px] text-slate-400 font-normal">None</span>
+                        <span className="text-[10px] text-slate-400 font-mono">Isolated</span>
                       )}
                     </td>
 
                     {/* Actions */}
-                    <td className="py-2.5 px-3.5 text-right space-x-1" onClick={(e) => e.stopPropagation()}>
+                    <td className="py-3 px-4 text-right space-x-1.5" onClick={(e) => e.stopPropagation()}>
                       <button
                         onClick={() => setSelectedCaseForDrawer(c)}
-                        className="p-1 rounded text-slate-500 hover:text-slate-900 hover:bg-slate-200 transition-colors"
-                        title="Quick Preview"
+                        className="p-1 rounded-md text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors"
+                        title="Quick Preview Drawer"
                       >
                         <Eye className="w-3.5 h-3.5" />
                       </button>
 
                       <Link
                         href={`/cases/${encodeURIComponent(c.id)}`}
-                        className="inline-flex items-center text-[11px] font-medium text-blue-700 hover:text-blue-900 px-2 py-0.5 bg-blue-50 hover:bg-blue-100 rounded transition-colors"
+                        className="inline-flex items-center text-[11px] font-semibold text-[#1769AA] hover:text-blue-900 px-2 py-0.5 bg-blue-50 hover:bg-blue-100 rounded-md transition-colors font-mono"
                       >
-                        View Full
+                        Full Dossier
                       </Link>
                     </td>
                   </tr>
@@ -484,24 +476,24 @@ function CasesExplorerContent() {
         </div>
 
         {/* Pagination Controls */}
-        <div className="p-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between text-xs text-slate-600 select-none">
+        <div className="p-3.5 bg-slate-50 border-t border-slate-200/90 flex items-center justify-between text-xs text-slate-600 font-mono select-none">
           <div>
             Showing{" "}
-            <strong>
+            <strong className="text-slate-900">
               {filteredCases.length === 0 ? 0 : (currentPage - 1) * pageSize + 1}
             </strong>{" "}
             to{" "}
-            <strong>
+            <strong className="text-slate-900">
               {Math.min(currentPage * pageSize, filteredCases.length)}
             </strong>{" "}
-            of <strong>{filteredCases.length}</strong> cases
+            of <strong className="text-slate-900">{filteredCases.length}</strong> cases
           </div>
 
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             <button
               onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
               disabled={currentPage === 1}
-              className="p-1.5 rounded border border-slate-200 bg-white hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="p-1.5 rounded-md border border-slate-200 bg-white hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <ChevronLeft className="w-3.5 h-3.5" />
             </button>
@@ -511,7 +503,7 @@ function CasesExplorerContent() {
             <button
               onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
               disabled={currentPage === totalPages}
-              className="p-1.5 rounded border border-slate-200 bg-white hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="p-1.5 rounded-md border border-slate-200 bg-white hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <ChevronRight className="w-3.5 h-3.5" />
             </button>
@@ -532,7 +524,7 @@ export default function CasesExplorerPage() {
   return (
     <Suspense
       fallback={
-        <div className="py-12 text-center text-xs text-slate-500">
+        <div className="py-20 text-center font-mono text-xs text-slate-500">
           Loading AICTE case register...
         </div>
       }

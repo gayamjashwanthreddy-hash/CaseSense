@@ -14,6 +14,9 @@ import {
   User,
   ShieldCheck,
   Search,
+  Shield,
+  Send,
+  Info,
 } from "lucide-react";
 import { CaseBridgeStore } from "@/lib/api/store";
 import { Institution, BureauType, ComplaintCategory, PriorityLevel } from "@/lib/api/types";
@@ -159,38 +162,42 @@ function ComplaintIntakeContent() {
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
-      {/* Header */}
-      <div className="pb-3 border-b border-slate-200">
+      {/* Header - Editorial Dark Strip */}
+      <div className="bg-[#0A1626] text-white p-6 rounded-2xl border border-[#142C46] shadow-xl space-y-3">
         <Breadcrumbs items={[{ label: "Complaint Intake" }]} />
-        <h1 className="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-          <FilePlus2 className="w-5 h-5 text-blue-700" />
-          <span>New Regulatory Grievance Registration</span>
-        </h1>
-        <p className="text-xs text-slate-500 mt-0.5">
-          AICTE multi-bureau centralized intake protocol with proactive overlap screening.
-        </p>
+        <div className="pt-1">
+          <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2.5">
+            <FilePlus2 className="w-6 h-6 text-blue-400" />
+            <span>AICTE Centralized Grievance Intake</span>
+          </h1>
+          <p className="text-xs text-slate-300 mt-1 max-w-2xl leading-relaxed">
+            Multi-bureau statutory intake protocol with instantaneous entity resolution and cross-cell overlap detection.
+          </p>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Section 1: Target Institution Lookup */}
-        <div className="bg-white p-5 rounded-md border border-slate-200 shadow-sm space-y-4">
-          <div className="border-b border-slate-100 pb-2">
-            <h2 className="text-sm font-bold text-slate-900 flex items-center gap-1.5">
-              <Building2 className="w-4 h-4 text-blue-700" />
-              <span>1. Institution Identification</span>
-            </h2>
-            <p className="text-xs text-slate-500">
-              Select or search target technical college using permanent AICTE credentials.
-            </p>
+        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div className="border-b border-slate-100 pb-3 flex items-center justify-between flex-wrap gap-2">
+            <div>
+              <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                <Building2 className="w-4 h-4 text-blue-700" />
+                <span>1. Institution Identification</span>
+              </h2>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Select target technical college using permanent AICTE credentials.
+              </p>
+            </div>
           </div>
 
-          <div className="space-y-2">
-            <label className="text-xs font-semibold text-slate-800">
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-slate-800 block">
               Select Institution from AICTE Registry: <span className="text-rose-600">*</span>
             </label>
             <select
               {...register("institutionId")}
-              className="w-full text-xs bg-slate-50 border border-slate-200 rounded p-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-600"
+              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-600 font-sans"
             >
               <option value="">— Select Registered Institution —</option>
               {institutions.map((i) => (
@@ -200,65 +207,68 @@ function ComplaintIntakeContent() {
               ))}
             </select>
             {errors.institutionId && (
-              <p className="text-rose-600 text-[11px] font-medium">{errors.institutionId.message}</p>
+              <p className="text-rose-600 text-[11px] font-semibold mt-1">{errors.institutionId.message}</p>
             )}
           </div>
 
           {/* Autopopulated details if institution is selected */}
           {selectedInst && (
-            <div className="bg-slate-50 p-3.5 rounded border border-slate-200 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+            <div className="bg-[#F8FAFC] p-4 rounded-xl border border-slate-200 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
               <div>
-                <span className="text-[10px] text-slate-400 uppercase font-semibold">Jurisdiction</span>
-                <div className="font-semibold text-slate-800 mt-0.5">
+                <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Jurisdiction</span>
+                <div className="font-bold text-slate-900 mt-0.5">
                   {selectedInst.district}, {selectedInst.state}
                 </div>
-                <div className="text-[11px] text-slate-500">{selectedInst.region}</div>
+                <div className="text-[11px] text-slate-500">{selectedInst.region} Region</div>
               </div>
               <div>
-                <span className="text-[10px] text-slate-400 uppercase font-semibold">Affiliated Body</span>
-                <div className="font-semibold text-slate-800 mt-0.5 line-clamp-1">
+                <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Affiliated Body</span>
+                <div className="font-bold text-slate-900 mt-0.5 line-clamp-1">
                   {selectedInst.affiliatedUniversity}
                 </div>
                 <div className="text-[11px] text-slate-500">{selectedInst.category}</div>
               </div>
               <div>
-                <span className="text-[10px] text-slate-400 uppercase font-semibold">Approval Status</span>
-                <div className="font-semibold text-slate-800 mt-0.5">{selectedInst.approvalStatus}</div>
-                <div className="text-[11px] text-slate-500">{selectedInst.accreditation}</div>
+                <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Approval Status</span>
+                <div className="font-bold text-slate-900 mt-0.5">{selectedInst.approvalStatus}</div>
+                <div className="text-[11px] text-slate-500 font-mono">{selectedInst.accreditation}</div>
               </div>
             </div>
           )}
 
           {/* Proactive Duplicate / Overlap Pre-screening Alert */}
           {activeInstCasesCount > 0 && (
-            <div className="p-3.5 bg-amber-50 border-l-4 border-l-amber-600 border border-amber-200 rounded text-xs space-y-1">
-              <div className="flex items-center gap-1.5 font-bold text-amber-900">
-                <AlertTriangle className="w-4 h-4 text-amber-700" />
-                <span>Proactive Overlap Advisory</span>
+            <div className="p-4 bg-amber-500/10 border-l-4 border-l-amber-600 border border-amber-500/30 rounded-xl text-xs space-y-1">
+              <div className="flex items-center gap-2 font-bold text-amber-950">
+                <AlertTriangle className="w-4 h-4 text-amber-600" />
+                <span>Proactive Cross-Bureau Overlap Advisory</span>
               </div>
-              <p className="text-amber-800 leading-relaxed text-[11px]">
-                Notice: <strong>{activeInstCasesCount} active complaints</strong> are currently open against this institution in other AICTE bureaus. Submitting this complaint will automatically generate an inter-bureau coordination alert to prevent fragmented parallel inquiries.
+              <p className="text-amber-900/80 leading-relaxed text-[11px]">
+                Notice: <strong>{activeInstCasesCount} active complaints</strong> are currently open against this institution in other AICTE bureaus. Registering this complaint will trigger an automated inter-bureau coordination candidate to prevent fragmented parallel inquiries.
               </p>
             </div>
           )}
         </div>
 
         {/* Section 2: Administrative Categorization */}
-        <div className="bg-white p-5 rounded-md border border-slate-200 shadow-sm space-y-4">
-          <div className="border-b border-slate-100 pb-2">
+        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div className="border-b border-slate-100 pb-3">
             <h2 className="text-sm font-bold text-slate-900">
-              2. Bureau Categorization & Urgency
+              2. Bureau Categorization & Statutory Urgency
             </h2>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Route to the competent AICTE regulatory cell and specify priority tier.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
-            <div>
-              <label className="font-semibold text-slate-800 block mb-1">
+            <div className="space-y-1.5">
+              <label className="font-bold text-slate-800 block">
                 Receiving Bureau / Cell: <span className="text-rose-600">*</span>
               </label>
               <select
                 {...register("bureau")}
-                className="w-full bg-slate-50 border border-slate-200 rounded p-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-600"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-600"
               >
                 <option value="PGRC">Public Grievance Redressal (PGRC)</option>
                 <option value="REGULATION">Regulation Bureau (RB)</option>
@@ -268,13 +278,13 @@ function ComplaintIntakeContent() {
               </select>
             </div>
 
-            <div>
-              <label className="font-semibold text-slate-800 block mb-1">
+            <div className="space-y-1.5">
+              <label className="font-bold text-slate-800 block">
                 Grievance Category: <span className="text-rose-600">*</span>
               </label>
               <select
                 {...register("category")}
-                className="w-full bg-slate-50 border border-slate-200 rounded p-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-600"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-600"
               >
                 <option value="CERTIFICATE_WITHHOLDING">Certificate / Transcript Withholding</option>
                 <option value="CAPITATION_FEE">Capitation Fee & Unauthorized Surcharges</option>
@@ -286,86 +296,94 @@ function ComplaintIntakeContent() {
               </select>
             </div>
 
-            <div>
-              <label className="font-semibold text-slate-800 block mb-1">
-                Initial Priority Assessment: <span className="text-rose-600">*</span>
+            <div className="space-y-1.5">
+              <label className="font-bold text-slate-800 block">
+                Priority Assessment: <span className="text-rose-600">*</span>
               </label>
               <select
                 {...register("priority")}
-                className="w-full bg-slate-50 border border-slate-200 rounded p-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-600"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-600"
               >
-                <option value="HIGH">High (30 Day SLA)</option>
-                <option value="CRITICAL">Critical (Court Directive / Immediate Safety)</option>
-                <option value="MEDIUM">Medium (Standard Procedural)</option>
-                <option value="LOW">Routine</option>
+                <option value="HIGH">High (30-Day Statutory SLA)</option>
+                <option value="CRITICAL">Critical (Immediate Standing Order / Safety)</option>
+                <option value="MEDIUM">Medium (Standard Procedural Review)</option>
+                <option value="LOW">Routine Administration</option>
               </select>
             </div>
           </div>
         </div>
 
         {/* Section 3: Grievance Narrative */}
-        <div className="bg-white p-5 rounded-md border border-slate-200 shadow-sm space-y-4">
-          <div className="border-b border-slate-100 pb-2">
+        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div className="border-b border-slate-100 pb-3">
             <h2 className="text-sm font-bold text-slate-900">
-              3. Allegation Narrative & Evidence
+              3. Allegation Narrative & Evidentiary Statement
             </h2>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Concise summary and comprehensive narrative for natural justice scrutiny.
+            </p>
           </div>
 
-          <div className="space-y-1 text-xs">
-            <label className="font-semibold text-slate-800">
+          <div className="space-y-1.5 text-xs">
+            <label className="font-bold text-slate-800 block">
               Summary Subject of Complaint: <span className="text-rose-600">*</span>
             </label>
             <input
               type="text"
               placeholder="e.g. Demanding mandatory Rs. 50,000 caution deposit before degree certificate issuance"
               {...register("subject")}
-              className="w-full bg-slate-50 border border-slate-200 rounded p-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-600"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-600 font-sans"
             />
             {errors.subject && (
-              <p className="text-rose-600 text-[11px] font-medium">{errors.subject.message}</p>
+              <p className="text-rose-600 text-[11px] font-semibold mt-1">{errors.subject.message}</p>
             )}
           </div>
 
-          <div className="space-y-1 text-xs">
-            <label className="font-semibold text-slate-800">
+          <div className="space-y-1.5 text-xs">
+            <label className="font-bold text-slate-800 block">
               Detailed Allegations & Fact Narrative: <span className="text-rose-600">*</span>
             </label>
             <textarea
               rows={4}
-              placeholder="State the exact timeline, dates, departments, named officials, and specific violations..."
+              placeholder="State the exact timeline, dates, departments, named officials, and specific regulatory violations..."
               {...register("description")}
-              className="w-full bg-slate-50 border border-slate-200 rounded p-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-600"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 font-sans"
             />
             {errors.description && (
-              <p className="text-rose-600 text-[11px] font-medium">{errors.description.message}</p>
+              <p className="text-rose-600 text-[11px] font-semibold mt-1">{errors.description.message}</p>
             )}
           </div>
         </div>
 
         {/* Section 4: Complainant Details */}
-        <div className="bg-white p-5 rounded-md border border-slate-200 shadow-sm space-y-4">
-          <div className="border-b border-slate-100 pb-2 flex items-center justify-between">
-            <h2 className="text-sm font-bold text-slate-900">
-              4. Complainant Identification
-            </h2>
+        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div className="border-b border-slate-100 pb-3 flex items-center justify-between flex-wrap gap-2">
+            <div>
+              <h2 className="text-sm font-bold text-slate-900">
+                4. Complainant Identification & Statutory Notice Details
+              </h2>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Maintain confidential records or whistleblower protections.
+              </p>
+            </div>
 
-            <label className="inline-flex items-center gap-1.5 cursor-pointer text-xs select-none">
+            <label className="inline-flex items-center gap-2 cursor-pointer text-xs select-none bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200">
               <input
                 type="checkbox"
                 {...register("isAnonymous")}
-                className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 w-3.5 h-3.5"
+                className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 w-4 h-4"
               />
-              <span className="font-medium text-slate-700">Lodge as Confidential Whistleblower</span>
+              <span className="font-bold text-slate-800">Lodge as Confidential Whistleblower</span>
             </label>
           </div>
 
           {!isAnonymous && (
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-              <div>
-                <label className="font-semibold text-slate-800 block mb-1">Complainant Category:</label>
+              <div className="space-y-1">
+                <label className="font-bold text-slate-800 block">Complainant Category:</label>
                 <select
                   {...register("complainantType")}
-                  className="w-full bg-slate-50 border border-slate-200 rounded p-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-600"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 font-sans"
                 >
                   <option value="Student">Enrolled Student</option>
                   <option value="Faculty Member">Faculty / Staff Member</option>
@@ -375,33 +393,33 @@ function ComplaintIntakeContent() {
                 </select>
               </div>
 
-              <div>
-                <label className="font-semibold text-slate-800 block mb-1">Full Name:</label>
+              <div className="space-y-1">
+                <label className="font-bold text-slate-800 block">Full Name:</label>
                 <input
                   type="text"
                   placeholder="Complainant Name"
                   {...register("complainantName")}
-                  className="w-full bg-slate-50 border border-slate-200 rounded p-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-600"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 font-sans"
                 />
               </div>
 
-              <div>
-                <label className="font-semibold text-slate-800 block mb-1">Email (for statutory notices):</label>
+              <div className="space-y-1">
+                <label className="font-bold text-slate-800 block">Email (for official notices):</label>
                 <input
                   type="email"
                   placeholder="complainant@example.com"
                   {...register("complainantEmail")}
-                  className="w-full bg-slate-50 border border-slate-200 rounded p-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-600"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 font-sans"
                 />
               </div>
             </div>
           )}
 
           {isAnonymous && (
-            <div className="p-3 bg-slate-100 rounded text-slate-700 text-xs flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+            <div className="p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-emerald-950 text-xs flex items-center gap-2.5">
+              <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0" />
               <span>
-                Whistleblower Protection active: Identity fields will be masked across all public and institutional notice records.
+                <strong>Whistleblower Protection Active:</strong> Complainant personal details are redacted from public dossiers and institutional notice letters.
               </span>
             </div>
           )}
@@ -412,16 +430,17 @@ function ComplaintIntakeContent() {
           <button
             type="button"
             onClick={() => router.push("/cases")}
-            className="px-4 py-2 text-xs text-slate-700 hover:bg-slate-200 rounded font-medium transition-colors"
+            className="px-5 py-2.5 text-xs text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl font-semibold transition-colors"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-5 py-2 text-xs font-semibold bg-blue-700 hover:bg-blue-800 text-white rounded-md shadow-sm transition-colors"
+            className="px-6 py-2.5 text-xs font-bold bg-blue-700 hover:bg-blue-800 text-white rounded-xl shadow-sm transition-colors flex items-center gap-2"
           >
-            {isSubmitting ? "Submitting..." : "Admit & Register Complaint"}
+            <Send className="w-3.5 h-3.5" />
+            <span>{isSubmitting ? "Registering..." : "Admit & Register Complaint"}</span>
           </button>
         </div>
       </form>
@@ -433,7 +452,7 @@ export default function ComplaintIntakePage() {
   return (
     <Suspense
       fallback={
-        <div className="py-12 text-center text-xs text-slate-500">
+        <div className="py-20 text-center text-xs text-slate-500">
           Loading AICTE complaint intake form...
         </div>
       }
