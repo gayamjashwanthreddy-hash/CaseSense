@@ -17,6 +17,7 @@ const newsreader = Newsreader({
   style: ["normal", "italic"],
   variable: "--font-serif",
   display: "swap",
+  adjustFontFallback: false,
 });
 
 export const metadata: Metadata = {
