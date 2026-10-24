@@ -47,26 +47,40 @@ class OverlapService:
             
             same_bureau = target.bureau_id == other.bureau_id
 
-            # Calculate explainable score
+            # Multi-dimensional explainable candidate matching
             score = 0
+            score_breakdown = {
+                "institution_identity": 0,
+                "category_match": 0,
+                "text_similarity": 0,
+                "cross_bureau_correlation": 0
+            }
+
             if same_inst:
-                score += 50
+                score += 45
+                score_breakdown["institution_identity"] = 45
             if target.category == other.category:
                 score += 25
-            if len(common_words) >= 3:
-                score += min(20, len(common_words) * 3)
+                score_breakdown["category_match"] = 25
+            if len(common_words) >= 2:
+                text_pts = min(25, len(common_words) * 4)
+                score += text_pts
+                score_breakdown["text_similarity"] = text_pts
             if not same_bureau and same_inst:
-                # Inter-bureau bonus
+                # Inter-bureau correlation bonus
                 score += 5
+                score_breakdown["cross_bureau_correlation"] = 5
 
             score = min(98, score)
 
             # If candidate threshold (>= 60) met, check or create candidate relationship
             if score >= 60:
+                # Canonical pair ordering (min(id_a, id_b), max(id_a, id_b)) prevents duplicate reversed relationships
+                first_id, second_id = (target.id, other.id) if target.id < other.id else (other.id, target.id)
                 existing = db.query(ComplaintRelationship).filter(
                     or_(
-                        and_(ComplaintRelationship.case_a_id == target.id, ComplaintRelationship.case_b_id == other.id),
-                        and_(ComplaintRelationship.case_a_id == other.id, ComplaintRelationship.case_b_id == target.id),
+                        and_(ComplaintRelationship.case_a_id == first_id, ComplaintRelationship.case_b_id == second_id),
+                        and_(ComplaintRelationship.case_a_id == second_id, ComplaintRelationship.case_b_id == first_id),
                     )
                 ).first()
 
@@ -79,6 +93,8 @@ class OverlapService:
                         "same_institution": same_inst,
                         "institution_confidence": 100 if same_inst else 0,
                         "semantic_subject_similarity": min(95, len(common_words) * 12 + 40),
+                        "matching_method": "HYBRID_STRUCTURED_AND_LEXICAL",
+                        "score_breakdown": score_breakdown,
                         "entity_matches": [f"PID: {target.institution_id}"] if same_inst else [],
                         "common_keywords": common_words[:6],
                         "regulatory_clauses": ["AICTE Approval Process Handbook 2025-26"],
@@ -87,8 +103,8 @@ class OverlapService:
 
                     new_rel = ComplaintRelationship(
                         id=overlap_id,
-                        case_a_id=target.id,
-                        case_b_id=other.id,
+                        case_a_id=first_id,
+                        case_b_id=second_id,
                         institution_id=target.institution_id,
                         institution_name=target.institution.name if target.institution else "Registered Institution",
                         similarity_score=score,

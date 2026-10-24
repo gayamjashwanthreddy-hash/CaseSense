@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { CaseConnectionLab } from "@/components/landing/CaseConnectionLab";
 import {
   ShieldCheck,
   FilePlus,
@@ -12,6 +11,7 @@ import {
   GitCompare,
   ArrowRight,
   CheckCircle2,
+  XCircle,
   Clock,
   Lock,
   Scale,
@@ -20,7 +20,6 @@ import {
   HelpCircle,
   ExternalLink,
   Layers,
-  Sparkles,
   ChevronRight,
   ArrowUpRight,
   Eye,
@@ -32,794 +31,756 @@ import {
   Activity,
   Workflow,
   Network,
+  Sliders,
+  Sparkles,
 } from "lucide-react";
 
 export default function CinematicLandingPage() {
+  // Scene 00 calibration state (brief, skippable)
+  const [introDismissed, setIntroDismissed] = useState(false);
+
+  // Scene 04 matching demonstration tab
+  const [matchingTab, setMatchingTab] = useState<"duplicate" | "related" | "separate">("related");
+
+  // Scene 05 human review interactive simulation
+  const [reviewDecision, setReviewDecision] = useState<"NONE" | "CONFIRMED" | "DISTINCT" | "DEFERRED">("NONE");
+
   return (
-    <div className="flex flex-col min-h-screen bg-[#080E18] text-[#F4F6FA] selection:bg-[#3678D4] selection:text-white font-sans antialiased">
+    <div className="flex flex-col min-h-screen bg-[#0B1C2D] text-[#F5F3ED] font-sans antialiased selection:bg-[#1769AA] selection:text-white">
       {/* =========================================================================
-          HERO SECTION: Asymmetric Editorial Composition & Live Correlation Flow
+          SCENE 00 — INTRODUCTION: Wordmark Calibration (Brief & Skippable)
          ========================================================================= */}
-      <section className="relative overflow-hidden pt-12 pb-20 sm:pt-20 sm:pb-32 border-b border-slate-800/80 bg-[#080E18] bg-grid-pattern">
-        {/* Subtle Atmospheric Lighting & Optical Lenses */}
-        <div className="absolute top-0 left-1/4 -translate-x-1/2 w-[700px] h-[550px] bg-radial-lens pointer-events-none" />
-        <div className="absolute top-1/3 right-0 w-[600px] h-[550px] bg-radial-lens-teal pointer-events-none" />
+      {!introDismissed && (
+        <aside
+          aria-label="System calibration notice"
+          className="relative bg-[#142C46] border-b border-[#D9E0E7]/20 py-2.5 px-4 text-xs text-[#EAF0F6] flex items-center justify-between"
+        >
+          <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <span className="w-2 h-2 rounded-full bg-[#1769AA] animate-pulse" />
+              <span className="font-mono text-[11px] uppercase tracking-wider text-[#AEBBCD]">
+                CASEBRIDGE AI • CALIBRATED INSTITUTIONAL PLATFORM
+              </span>
+              <span className="hidden sm:inline text-[#657386]">|</span>
+              <span className="hidden sm:inline text-[#AEBBCD] text-[11px]">
+                Smart India Hackathon 2026 (Problem Statement ID: SIH26264)
+              </span>
+            </div>
+            <button
+              onClick={() => setIntroDismissed(true)}
+              className="text-[11px] font-mono text-[#AEBBCD] hover:text-white px-2 py-0.5 rounded border border-[#657386]/30 hover:border-slate-400 transition-colors"
+            >
+              Skip Intro [ESC]
+            </button>
+          </div>
+        </aside>
+      )}
+
+      {/* =========================================================================
+          SCENE 01 — HERO: Deep Navy Architectural Typographic Composition
+         ========================================================================= */}
+      <section className="relative overflow-hidden pt-16 pb-24 sm:pt-24 sm:pb-36 bg-[#0B1C2D] border-b border-[#142C46]">
+        {/* Subtle Architectural Geometry Grid */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#142C46_1px,transparent_1px),linear-gradient(to_bottom,#142C46_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,#000_70%,transparent_100%)] opacity-40 pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-            
-            {/* Left Column: Typographic Editorial Statement */}
-            <div className="lg:col-span-5 space-y-6 text-left">
-              {/* Eyebrow Label */}
-              <div className="inline-flex items-center space-x-2.5 px-3 py-1 rounded-full bg-[#10233D]/90 border border-slate-700/80 text-[11px] text-[#AEBBCD] tracking-wide">
-                <span className="w-2 h-2 rounded-full bg-[#3E9E96] animate-pulse"></span>
-                <span className="font-mono uppercase font-bold text-slate-200">
-                  CASEBRIDGE AI &bull; INSTITUTIONAL CASE COORDINATION
-                </span>
+            {/* Left Column: Typographic Monument */}
+            <div className="lg:col-span-7 space-y-6 text-left">
+              {/* National Institutional Emblems Banner */}
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 bg-[#142C46]/80 border border-[#657386]/30 px-3.5 py-2 rounded-lg backdrop-blur-xs">
+                  <img
+                    src="/branding/gov-india-emblem.png"
+                    alt="Government of India Emblem"
+                    className="h-7 sm:h-8 w-auto object-contain"
+                  />
+                  <div className="h-5 w-px bg-slate-700" />
+                  <div className="w-8 h-8 rounded bg-white p-0.5 flex items-center justify-center shadow-xs">
+                    <img
+                      src="/branding/aicte-logo.png"
+                      alt="AICTE Official Logo"
+                      className="w-7 h-7 object-contain"
+                    />
+                  </div>
+                  <span className="text-[11px] font-mono uppercase tracking-wider text-[#AEBBCD] hidden sm:inline">
+                    Statutory AICTE Intelligence
+                  </span>
+                </div>
               </div>
 
-              {/* Confident Large Headline with Deliberate Breaks */}
-              <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-extrabold tracking-tight text-white leading-[1.1] text-balance">
-                Every Case Connected.{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8DBAFF] via-[#3678D4] to-[#3E9E96]">
-                  Every Decision Accountable.
-                </span>
+              {/* Category Eyebrow */}
+              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#142C46] border border-[#657386]/40 text-[#EAF0F6] text-xs font-mono tracking-wider">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#1769AA]" />
+                <span>AICTE GRIEVANCE & DE-DUPLICATION DIRECTORY</span>
+              </div>
+
+              {/* Oversized Wordmark Composition */}
+              <div className="font-extrabold tracking-tighter uppercase leading-[0.9] text-white">
+                <div className="text-5xl sm:text-7xl lg:text-8xl tracking-tight text-[#FFFFFF]">
+                  CASEBRIDGE
+                </div>
+                <div className="text-4xl sm:text-6xl lg:text-7xl text-[#1769AA] tracking-tight">
+                  AI
+                </div>
+              </div>
+
+              {/* Core Proposition Headline */}
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#F5F3ED] tracking-tight leading-snug">
+                Different records. One institution. Clearer coordination.
               </h1>
 
-              {/* Supporting Copy */}
-              <p className="text-sm sm:text-base text-[#AEBBCD] leading-relaxed max-w-xl font-normal">
-                Bring fragmented institutional complaints into one coordinated workspace. Identify potential overlaps, examine the evidence and record accountable review decisions across administrative bureaus.
+              {/* Exact Mandated Supporting Copy */}
+              <p className="text-base sm:text-lg text-[#AEBBCD] leading-relaxed max-w-2xl font-normal">
+                Bring institution-related complaint records into a more coherent review workflow with explainable matching, human-controlled decisions, and an auditable history.
               </p>
 
-              {/* Primary & Secondary Action Group */}
-              <div className="flex flex-wrap items-center gap-3.5 pt-2">
-                <Link
-                  href="/complaints/register"
-                  className="inline-flex items-center space-x-2 px-6 py-3.5 rounded-md bg-[#3678D4] hover:bg-[#2c65b5] text-white font-semibold text-sm shadow-xl shadow-blue-950/50 transition-all hover:scale-[1.02] active:scale-[0.99]"
-                >
-                  <FilePlus className="w-4 h-4" />
-                  <span>Register a Complaint</span>
-                  <ArrowRight className="w-4 h-4 ml-0.5" />
-                </Link>
-
+              {/* CTA Action Group */}
+              <div className="flex flex-wrap items-center gap-4 pt-2">
                 <a
                   href="#scenes"
-                  className="inline-flex items-center space-x-2 px-5 py-3.5 rounded-md bg-[#10233D] hover:bg-[#152236] text-slate-200 font-semibold text-sm border border-slate-700 hover:border-slate-500 transition-all"
+                  className="inline-flex items-center space-x-2 px-6 py-3.5 rounded bg-[#1769AA] hover:bg-blue-600 text-white font-semibold text-sm shadow-lg shadow-blue-950/40 transition-all hover:scale-[1.01] active:scale-[0.99]"
                 >
-                  <Compass className="w-4 h-4 text-[#8DBAFF]" />
+                  <Compass className="w-4 h-4" />
                   <span>Explore the Platform</span>
+                  <ArrowRight className="w-4 h-4 ml-1" />
                 </a>
+
+                <Link
+                  href="/login"
+                  className="inline-flex items-center space-x-2 px-6 py-3.5 rounded bg-[#142C46] hover:bg-[#1a385a] text-[#F5F3ED] font-semibold text-sm border border-[#657386]/50 hover:border-slate-400 transition-all"
+                >
+                  <Lock className="w-4 h-4 text-[#8DBAFF]" />
+                  <span>Sign In</span>
+                </Link>
               </div>
 
-              {/* Trust Designation Notice */}
-              <div className="pt-2 flex items-center space-x-2 text-[11px] text-slate-500 font-mono">
-                <span className="w-1.5 h-1.5 rounded-full bg-slate-500" />
-                <span>Proposed institutional platform for Smart India Hackathon 2026 (SIH26264)</span>
+              {/* Institutional Notice */}
+              <div className="pt-3 flex items-center space-x-2 text-xs text-[#657386] font-mono">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#657386]" />
+                <span>Prototype designed for Smart India Hackathon 2026 • Problem Statement: SIH26264</span>
               </div>
             </div>
 
-            {/* Right Column: Bespoke Animated Signature Visualization */}
-            <div className="lg:col-span-7 relative">
-              <div className="p-0.5 rounded-xl bg-gradient-to-b from-slate-700/60 via-slate-800/40 to-slate-900/90 shadow-2xl backdrop-blur-md">
-                <div className="bg-[#10233D]/95 rounded-lg border border-slate-800 p-5 sm:p-6 space-y-5">
-                  
-                  {/* Top Bar of Visualization */}
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-3 text-xs">
-                    <div className="flex items-center space-x-2.5">
-                      <Network className="w-4 h-4 text-[#8DBAFF]" />
-                      <span className="font-mono font-bold text-slate-200 text-[11px] tracking-wider uppercase">
-                        Active Correlation Engine &bull; Stream Synthesis
-                      </span>
-                    </div>
-                    <span className="text-[10px] font-mono text-[#3E9E96] bg-teal-950/80 border border-teal-800 px-2 py-0.5 rounded">
-                      ● Live Multi-Bureau Ingestion
+            {/* Right Column: Architectural Signature Convergence Visual */}
+            <div className="lg:col-span-5 relative">
+              <div className="p-0.5 rounded-xl bg-gradient-to-b from-[#142C46] via-[#10233D] to-[#0B1C2D] border border-[#657386]/30 shadow-2xl">
+                <div className="bg-[#10233D] rounded-lg p-6 space-y-5">
+                  <div className="flex items-center justify-between border-b border-[#142C46] pb-3 text-xs font-mono">
+                    <span className="text-[#8DBAFF] font-bold uppercase tracking-wider">
+                      ● Active Cross-Bureau Feeds
+                    </span>
+                    <span className="text-[10px] text-[#AEBBCD] bg-[#142C46] px-2 py-0.5 rounded">
+                      PID: 1-10492811
                     </span>
                   </div>
 
-                  {/* Convergence Diagram */}
-                  <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-                    
-                    {/* Left 3 Records */}
-                    <div className="md:col-span-5 space-y-2.5">
-                      <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                        Disparate Inflow Feeds
+                  {/* Illustrative records flowing in */}
+                  <div className="space-y-2.5">
+                    <div className="p-3 rounded bg-[#0B1C2D] border border-[#1769AA]/40 text-xs space-y-1">
+                      <div className="flex items-center justify-between font-mono text-[10px]">
+                        <span className="text-[#8DBAFF] font-bold">AICTE/PGRC/2026/0892</span>
+                        <span className="text-blue-300 font-semibold">PGRC Desk</span>
                       </div>
-
-                      {/* Record 1: PGRC */}
-                      <div className="p-2.5 rounded bg-[#080E18] border border-blue-900/60 hover:border-blue-700 transition-colors text-xs space-y-1">
-                        <div className="flex items-center justify-between font-mono text-[10px]">
-                          <span className="font-bold text-[#8DBAFF]">AICTE/PGRC/2026/0892</span>
-                          <span className="text-blue-400 font-semibold">PGRC Desk</span>
-                        </div>
-                        <div className="text-white font-medium text-[11px] truncate">
-                          Apex Inst of Tech &bull; Original Degree Withheld
-                        </div>
-                        <div className="text-[10px] text-slate-500 font-mono">
-                          PID: 1-10492811 &bull; Pune Campus
-                        </div>
-                      </div>
-
-                      {/* Record 2: Regulation */}
-                      <div className="p-2.5 rounded bg-[#080E18] border border-purple-900/60 hover:border-purple-700 transition-colors text-xs space-y-1">
-                        <div className="flex items-center justify-between font-mono text-[10px]">
-                          <span className="font-bold text-purple-300">AICTE/REG/2026/0142</span>
-                          <span className="text-purple-400 font-semibold">Regulation</span>
-                        </div>
-                        <div className="text-white font-medium text-[11px] truncate">
-                          Apex Inst of Tech &bull; Ancillary Capitation Fee
-                        </div>
-                        <div className="text-[10px] text-slate-500 font-mono">
-                          PID: 1-10492811 &bull; Pune Campus
-                        </div>
-                      </div>
-
-                      {/* Record 3: Approval */}
-                      <div className="p-2.5 rounded bg-[#080E18] border border-slate-800 hover:border-slate-700 transition-colors text-xs space-y-1">
-                        <div className="flex items-center justify-between font-mono text-[10px]">
-                          <span className="font-bold text-slate-300">AICTE/APP/2026/0078</span>
-                          <span className="text-slate-400 font-semibold">Approval</span>
-                        </div>
-                        <div className="text-slate-300 font-medium text-[11px] truncate">
-                          Apex Inst of Tech &bull; EOA Faculty Cadre Audit
-                        </div>
-                        <div className="text-[10px] text-slate-500 font-mono">
-                          PID: 1-10492811 &bull; Pune Campus
-                        </div>
+                      <div className="text-white font-medium text-xs">
+                        Apex Inst of Tech • Original Degree Withheld
                       </div>
                     </div>
 
-                    {/* Connecting SVG Path Tracing */}
-                    <div className="md:col-span-2 hidden md:flex flex-col items-center justify-center space-y-2">
-                      <div className="w-full relative flex items-center justify-center py-6">
-                        <svg className="w-full h-24 overflow-visible" viewBox="0 0 100 80" fill="none">
-                          <path
-                            d="M 0 15 C 50 15, 50 40, 100 40"
-                            stroke="#3678D4"
-                            strokeWidth="2"
-                            strokeDasharray="4 4"
-                            className="animate-flow-line"
-                          />
-                          <path
-                            d="M 0 40 C 40 40, 60 40, 100 40"
-                            stroke="#8DBAFF"
-                            strokeWidth="2"
-                            strokeDasharray="4 4"
-                            className="animate-flow-line"
-                          />
-                          <path
-                            d="M 0 65 C 50 65, 50 40, 100 40"
-                            stroke="#3E9E96"
-                            strokeWidth="2"
-                            strokeDasharray="4 4"
-                            className="animate-flow-line"
-                          />
-                          <circle cx="100" cy="40" r="4" fill="#8DBAFF" className="animate-pulse" />
-                        </svg>
+                    <div className="p-3 rounded bg-[#0B1C2D] border border-[#657386]/40 text-xs space-y-1">
+                      <div className="flex items-center justify-between font-mono text-[10px]">
+                        <span className="text-amber-300 font-bold">AICTE/REG/2026/0142</span>
+                        <span className="text-amber-400 font-semibold">Regulation Bureau</span>
+                      </div>
+                      <div className="text-white font-medium text-xs">
+                        Apex Inst of Tech • Unapproved Ancillary Capitation Fee
                       </div>
                     </div>
 
-                    {/* Central Overlap Comparison Workspace */}
-                    <div className="md:col-span-5 p-3.5 rounded-lg bg-[#152236] border border-blue-700/80 space-y-2.5">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-1.5 font-mono text-[11px] font-bold text-white">
-                          <GitCompare className="w-3.5 h-3.5 text-[#8DBAFF]" />
-                          <span>OVL-2026-001</span>
-                        </div>
-                        <span className="font-mono text-[10px] font-bold text-[#3E9E96] bg-teal-950 px-2 py-0.5 rounded border border-teal-800">
-                          88% Match
-                        </span>
+                    <div className="p-3 rounded bg-[#0B1C2D] border border-[#657386]/40 text-xs space-y-1">
+                      <div className="flex items-center justify-between font-mono text-[10px]">
+                        <span className="text-slate-300 font-bold">AICTE/APP/2026/0078</span>
+                        <span className="text-slate-400 font-semibold">Approval Cell</span>
                       </div>
+                      <div className="text-white font-medium text-xs">
+                        Apex Inst of Tech • Faculty Cadre Ratio Shortfall
+                      </div>
+                    </div>
+                  </div>
 
-                      {/* Matching attributes highlight */}
-                      <div className="space-y-1 text-[11px] bg-[#080E18] p-2.5 rounded border border-slate-800">
-                        <span className="text-[9px] uppercase font-bold text-[#8DBAFF] tracking-wider block">
-                          Correlated Entity & Regulatory Norms:
-                        </span>
-                        <div className="text-white font-semibold">
-                          Apex Institute of Technology (PID: 1-10492811)
-                        </div>
-                        <div className="text-emerald-400 font-mono text-[10px]">
-                          APH 2025-26 Clause 7.1 (Fee & Certificate Retention)
-                        </div>
-                      </div>
-
-                      {/* Contrasting details */}
-                      <div className="text-[10px] text-[#AEBBCD] flex items-center justify-between pt-1 border-t border-slate-800">
-                        <span>Human Review:</span>
-                        <span className="font-bold text-amber-300">Authorized Official Mandated</span>
-                      </div>
-
-                      <div className="p-1.5 rounded bg-blue-950/50 border border-blue-900 text-[10px] text-[#8DBAFF] text-center font-medium">
-                        Zero Automatic Merges &bull; Sovereign Review Required
-                      </div>
+                  {/* Core Principle Badge */}
+                  <div className="p-3 rounded bg-[#142C46] border border-[#1769AA]/30 text-center text-xs space-y-1">
+                    <div className="font-mono text-[11px] text-[#8DBAFF] font-bold uppercase tracking-wider">
+                      Explainable Correlation Engine
+                    </div>
+                    <div className="text-[11px] text-[#EAF0F6]">
+                      Shared institution flagged for inquiry. Independent records preserved without destructive merge.
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </section>
 
       {/* =========================================================================
-          SCENE 01 — THE FRAGMENTATION PROBLEM
+          SCENE 02 — FRAGMENTED RECORDS: 3 Specific Illustrative Fictional Examples
          ========================================================================= */}
-      <section id="scenes" className="py-24 bg-[#0D1420] border-b border-slate-800/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mb-14">
+      <section id="scenes" className="py-24 bg-[#10233D] border-b border-[#142C46]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="max-w-3xl space-y-3">
             <span className="text-xs uppercase font-bold tracking-wider text-[#8DBAFF] font-mono">
-              SCENE 01 &bull; THE ADMINISTRATIVE FRAGMENTATION PROBLEM
+              SCENE 02 • THE INTAKE FRAGMENTATION DILEMMA
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mt-2 tracking-tight text-balance">
-              The same institution. Different bureaus. Fragmented visibility.
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+              Three distinct complaints. One underlying institutional reality.
             </h2>
-            <p className="text-sm sm:text-base text-[#AEBBCD] mt-3 leading-relaxed">
-              When grievances arrive through disconnected administrative doors, individual desk officers have no systematic visibility into concurrent inquiries targeting the same technical college.
+            <p className="text-sm sm:text-base text-[#AEBBCD] leading-relaxed">
+              Different citizens use distinct wording to describe related grievances. When complaints enter disparate bureaus, lack of cross-cell visibility leads to duplicate hearings, conflicting notices, and administrative blind spots.
             </p>
           </div>
 
-          {/* Three Disconnected Record Panels with Fine Lines */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
-            {/* Panel 1 */}
-            <div className="p-6 rounded-lg bg-[#152236] border border-slate-800 space-y-3 relative hover:border-slate-700 transition-colors">
-              <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 border-b border-slate-800 pb-2">
-                <span className="text-[#8DBAFF] font-bold">AICTE/PGRC/2026/0892</span>
-                <span>PGRC Bureau</span>
-              </div>
-              <h3 className="font-bold text-white text-sm">
-                Student Grievance on Withheld Certificates
-              </h3>
-              <p className="text-xs text-[#AEBBCD] leading-relaxed">
-                Filing by individual candidate alleging college refused return of original 10th/12th mark sheets until placement fees were paid.
-              </p>
-              <div className="pt-2 text-[10px] text-slate-500 font-mono">
-                Assigned: Sh. Rajesh Sharma (PGRC Desk)
-              </div>
-            </div>
-
-            {/* Panel 2 */}
-            <div className="p-6 rounded-lg bg-[#152236] border border-slate-800 space-y-3 relative hover:border-slate-700 transition-colors">
-              <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 border-b border-slate-800 pb-2">
-                <span className="text-purple-300 font-bold">AICTE/REG/2026/0142</span>
-                <span>Regulation Bureau</span>
-              </div>
-              <h3 className="font-bold text-white text-sm">
-                Inquiry into Unauthorized Capitation Fees
-              </h3>
-              <p className="text-xs text-[#AEBBCD] leading-relaxed">
-                Formal complaint by parent association alleging mandatory development levies charged outside the approved fee structure.
-              </p>
-              <div className="pt-2 text-[10px] text-slate-500 font-mono">
-                Assigned: Dr. Meenakshi Sundaram (Regulation)
-              </div>
-            </div>
-
-            {/* Panel 3 */}
-            <div className="p-6 rounded-lg bg-[#152236] border border-slate-800 space-y-3 relative hover:border-slate-700 transition-colors">
-              <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 border-b border-slate-800 pb-2">
-                <span className="text-emerald-300 font-bold">AICTE/APP/2026/0078</span>
-                <span>Approval Bureau</span>
-              </div>
-              <h3 className="font-bold text-white text-sm">
-                Extension of Approval (EOA) Deficit Audit
-              </h3>
-              <p className="text-xs text-[#AEBBCD] leading-relaxed">
-                Routine annual inspection noting student-faculty ratio irregularities and missing laboratory equipment certificates.
-              </p>
-              <div className="pt-2 text-[10px] text-slate-500 font-mono">
-                Assigned: Prof. K. Chandrasekhar (Approval)
-              </div>
-            </div>
-          </div>
-
-          {/* Editorial Callout */}
-          <div className="mt-8 p-4 rounded-md bg-[#080E18] border border-slate-800 text-xs text-[#AEBBCD] flex items-center justify-between gap-4">
-            <div className="flex items-center space-x-2.5">
-              <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
-              <span>
-                <strong>The Resulting Operational Blindspot:</strong> Three parallel notices, separate legal costs for the college, and no consolidated grievance ledger for AICTE leadership.
-              </span>
-            </div>
-            <span className="font-mono text-[11px] text-[#8DBAFF] shrink-0 hidden sm:inline">
-              Resolved by CaseBridge AI
-            </span>
-          </div>
-        </div>
-      </section>
-
-      {/* =========================================================================
-          SCENE 02 — THE TRANSFORMATION
-         ========================================================================= */}
-      <section className="py-24 bg-[#080E18] border-b border-slate-800/80 relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mb-14">
-            <span className="text-xs uppercase font-bold tracking-wider text-[#3E9E96] font-mono">
-              SCENE 02 &bull; THE DATA TRANSFORMATION
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mt-2 tracking-tight text-balance">
-              From isolated records to explainable relationships.
-            </h2>
-            <p className="text-sm sm:text-base text-[#AEBBCD] mt-3 leading-relaxed">
-              CaseBridge AI synthesizes fragmented records using three deterministic anchors: Permanent Institute IDs (PID), Approval Process Handbook clauses, and semantic key phrase correlation.
-            </p>
-          </div>
-
-          {/* Transformation Anchor Cards */}
+          {/* Three Mandated Fictional Examples */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-6 rounded-lg bg-[#10233D] border border-slate-800 space-y-3">
-              <span className="text-xs font-mono font-bold text-[#8DBAFF] block">
-                ANCHOR 01 &bull; ENTITY IDENTIFIER
-              </span>
-              <h3 className="font-bold text-white text-base">Permanent Institute ID (PID)</h3>
-              <p className="text-xs text-[#AEBBCD] leading-relaxed">
-                Deterministic lookup against AICTE&apos;s National Technical Registry maps every case directly to the verified campus, eliminating confusion between colleges in the same educational trust.
-              </p>
-              <div className="pt-2 font-mono text-[11px] text-slate-400">
-                Match Confidence: <span className="text-emerald-400 font-bold">100% Deterministic</span>
-              </div>
-            </div>
-
-            <div className="p-6 rounded-lg bg-[#10233D] border border-slate-800 space-y-3">
-              <span className="text-xs font-mono font-bold text-[#8DBAFF] block">
-                ANCHOR 02 &bull; STATUTORY FRAMEWORK
-              </span>
-              <h3 className="font-bold text-white text-base">Regulatory Clause Mapping</h3>
-              <p className="text-xs text-[#AEBBCD] leading-relaxed">
-                Directly aligns cited violations against the AICTE Approval Process Handbook (APH 2025-26), identifying when separate complaints challenge the same statutory provision.
-              </p>
-              <div className="pt-2 font-mono text-[11px] text-slate-400">
-                Clause Alignment: <span className="text-emerald-400 font-bold">APH Ch. VII Cl. 7.1</span>
-              </div>
-            </div>
-
-            <div className="p-6 rounded-lg bg-[#10233D] border border-slate-800 space-y-3">
-              <span className="text-xs font-mono font-bold text-[#3E9E96] block">
-                ANCHOR 03 &bull; HUMAN ADJUDICATION
-              </span>
-              <h3 className="font-bold text-white text-base">Leads for Human Review</h3>
-              <p className="text-xs text-[#AEBBCD] leading-relaxed">
-                A flagged relationship is treated strictly as an investigation lead. Authorized bureau officers inspect the side-by-side evidence before signing off on any joint coordination.
-              </p>
-              <div className="pt-2 font-mono text-[11px] text-amber-300">
-                Rule: <span className="font-bold">Zero Automatic Merges</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* =========================================================================
-          SCENE 03 — THE CASE CONNECTION LAB (SIGNATURE DEMONSTRATION)
-         ========================================================================= */}
-      <section id="connection-lab" className="py-24 bg-[#0D1420] border-b border-slate-800/80 relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <span className="text-xs uppercase font-bold tracking-wider text-[#8DBAFF] font-mono">
-              SCENE 03 &bull; SIGNATURE INNOVATION &bull; CASE CONNECTION LAB
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mt-2 tracking-tight text-balance">
-              Evidence first. Decisions by authorized reviewers.
-            </h2>
-            <p className="text-sm sm:text-base text-[#AEBBCD] mt-2 leading-relaxed">
-              Explore three synthetic complaint records from separate bureaus, witness candidate overlap screening, and execute working reviewer actions in an interactive demonstration environment.
-            </p>
-          </div>
-
-          {/* Interactive Case Connection Lab Component */}
-          <CaseConnectionLab />
-        </div>
-      </section>
-
-      {/* =========================================================================
-          SCENE 04 — THE COORDINATED WORKFLOW
-         ========================================================================= */}
-      <section className="py-24 bg-[#080E18] border-b border-slate-800/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mb-14">
-            <span className="text-xs uppercase font-bold tracking-wider text-[#6AA7FF] font-mono">
-              SCENE 04 &bull; END-TO-END LIFECYCLE
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mt-2 tracking-tight text-balance">
-              One process. Clear responsibility at every step.
-            </h2>
-            <p className="text-sm sm:text-base text-[#AEBBCD] mt-3 leading-relaxed">
-              From the moment a student lodges a grievance to the final standing committee directive, every stage has defined timelines and verified ownership.
-            </p>
-          </div>
-
-          {/* Horizontally Connected Process Flow */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {/* Step 1 */}
-            <div className="p-5 rounded-lg bg-[#10233D] border border-slate-800 space-y-3 flex flex-col justify-between">
-              <div>
-                <span className="font-mono text-xs font-bold text-[#8DBAFF] bg-blue-950 px-2 py-0.5 rounded border border-blue-900 inline-block mb-2">
-                  01
+            {/* Example 1 */}
+            <div className="p-6 rounded-xl bg-[#0B1C2D] border border-[#D9E0E7]/20 space-y-4 hover:border-[#1769AA] transition-colors">
+              <div className="flex items-center justify-between text-xs font-mono">
+                <span className="px-2 py-0.5 rounded bg-[#142C46] text-[#8DBAFF] border border-[#1769AA]/40">
+                  ILLUSTRATIVE RECORD A
                 </span>
-                <h3 className="font-bold text-white text-sm">Submission</h3>
-                <p className="text-xs text-[#AEBBCD] mt-1 leading-relaxed">
-                  Complainant selects verified AICTE institution, categorizes violation, and attaches documentary evidence.
-                </p>
+                <span className="text-slate-400">PGRC Desk</span>
               </div>
-              <div className="pt-2 border-t border-slate-800 text-[10px] text-slate-500 font-mono">
-                Unique Reference Issued
-              </div>
-            </div>
-
-            {/* Step 2 */}
-            <div className="p-5 rounded-lg bg-[#10233D] border border-slate-800 space-y-3 flex flex-col justify-between">
-              <div>
-                <span className="font-mono text-xs font-bold text-[#8DBAFF] bg-blue-950 px-2 py-0.5 rounded border border-blue-900 inline-block mb-2">
-                  02
-                </span>
-                <h3 className="font-bold text-white text-sm">Validation</h3>
-                <p className="text-xs text-[#AEBBCD] mt-1 leading-relaxed">
-                  Desk officer examines prima-facie jurisdictional competence under APH 2025-26 within 7 working days.
-                </p>
-              </div>
-              <div className="pt-2 border-t border-slate-800 text-[10px] text-slate-500 font-mono">
-                7-Day Scrutiny SLA
-              </div>
-            </div>
-
-            {/* Step 3 */}
-            <div className="p-5 rounded-lg bg-[#10233D] border border-blue-900/60 bg-blue-950/20 space-y-3 flex flex-col justify-between">
-              <div>
-                <span className="font-mono text-xs font-bold text-[#8DBAFF] bg-blue-900 px-2 py-0.5 rounded border border-blue-700 inline-block mb-2">
-                  03
-                </span>
-                <h3 className="font-bold text-white text-sm">Overlap Review</h3>
-                <p className="text-xs text-[#AEBBCD] mt-1 leading-relaxed">
-                  Correlation engine scans open dockets across PGRC, Regulation, and Approval for entity and norm overlaps.
-                </p>
-              </div>
-              <div className="pt-2 border-t border-slate-800 text-[10px] text-[#8DBAFF] font-mono">
-                Candidate Flag Generated
-              </div>
-            </div>
-
-            {/* Step 4 */}
-            <div className="p-5 rounded-lg bg-[#10233D] border border-slate-800 space-y-3 flex flex-col justify-between">
-              <div>
-                <span className="font-mono text-xs font-bold text-[#8DBAFF] bg-blue-950 px-2 py-0.5 rounded border border-blue-900 inline-block mb-2">
-                  04
-                </span>
-                <h3 className="font-bold text-white text-sm">Authorized Decision</h3>
-                <p className="text-xs text-[#AEBBCD] mt-1 leading-relaxed">
-                  Senior reviewer adjudicates linkage or designates lead bureau. College receives formal notice with 14-day reply window.
-                </p>
-              </div>
-              <div className="pt-2 border-t border-slate-800 text-[10px] text-slate-500 font-mono">
-                Institutional Natural Justice
-              </div>
-            </div>
-
-            {/* Step 5 */}
-            <div className="p-5 rounded-lg bg-[#10233D] border border-slate-800 space-y-3 flex flex-col justify-between">
-              <div>
-                <span className="font-mono text-xs font-bold text-[#3E9E96] bg-teal-950 px-2 py-0.5 rounded border border-teal-800 inline-block mb-2">
-                  05
-                </span>
-                <h3 className="font-bold text-white text-sm">Auditable Record</h3>
-                <p className="text-xs text-[#AEBBCD] mt-1 leading-relaxed">
-                  Final standing committee directive and compliance certificates are permanently archived in the governance ledger.
-                </p>
-              </div>
-              <div className="pt-2 border-t border-slate-800 text-[10px] text-emerald-400 font-mono">
-                30-Day Closure Target
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* =========================================================================
-          SCENE 05 — DESIGNED FOR INSTITUTIONAL ACCOUNTABILITY
-         ========================================================================= */}
-      <section className="py-24 bg-[#0D1420] border-b border-slate-800/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mb-14">
-            <span className="text-xs uppercase font-bold tracking-wider text-[#3E9E96] font-mono">
-              SCENE 05 &bull; MULTI-STAKEHOLDER ARCHITECTURE
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mt-2 tracking-tight text-balance">
-              A clearer view for every authorized stakeholder.
-            </h2>
-            <p className="text-sm sm:text-base text-[#AEBBCD] mt-3 leading-relaxed">
-              Three segregated workspaces deliver high operational density for officials, compliance clarity for colleges, and tamper-resistant tracking for citizens.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Complainant Card */}
-            <div className="p-6 rounded-lg bg-[#152236] border border-slate-800 space-y-4 flex flex-col justify-between">
-              <div className="space-y-3">
-                <div className="w-10 h-10 rounded-md bg-blue-950 text-[#8DBAFF] flex items-center justify-center border border-blue-900">
-                  <Users className="w-5 h-5" />
+              <div className="space-y-1.5">
+                <div className="text-lg font-bold text-white">
+                  &ldquo;Insufficient teaching staff&rdquo;
                 </div>
-                <h3 className="font-bold text-white text-base">Public Complainants</h3>
                 <p className="text-xs text-[#AEBBCD] leading-relaxed">
-                  Submit grievances against verified institutions, receive non-guessable reference codes, and track safe milestone events.
+                  Lodged by 3rd-year engineering students reporting canceled core laboratory sessions and absent senior lecturers in Electrical Engineering.
                 </p>
-                <div className="space-y-1.5 text-[11px] text-slate-400 pt-1">
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>Dual-factor authentication prevents tracking enumeration</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>Whistleblower confidentiality protection</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-slate-500" />
-                    <span>Internal officer notes strictly withheld from public view</span>
-                  </div>
-                </div>
               </div>
-
-              <Link
-                href="/complaints/register"
-                className="text-xs font-semibold text-[#8DBAFF] hover:underline inline-flex items-center space-x-1"
-              >
-                <span>File a Grievance</span>
-                <ArrowRight className="w-3 h-3" />
-              </Link>
+              <div className="pt-3 border-t border-[#142C46] flex items-center justify-between text-[11px] font-mono text-slate-400">
+                <span>PID: 1-10492811</span>
+                <span>Ref: PGRC-2026-0892</span>
+              </div>
             </div>
 
-            {/* Institution Card */}
-            <div className="p-6 rounded-lg bg-[#152236] border border-slate-800 space-y-4 flex flex-col justify-between">
-              <div className="space-y-3">
-                <div className="w-10 h-10 rounded-md bg-amber-950 text-amber-400 flex items-center justify-center border border-amber-900">
-                  <Building2 className="w-5 h-5" />
+            {/* Example 2 */}
+            <div className="p-6 rounded-xl bg-[#0B1C2D] border border-[#D9E0E7]/20 space-y-4 hover:border-[#1769AA] transition-colors">
+              <div className="flex items-center justify-between text-xs font-mono">
+                <span className="px-2 py-0.5 rounded bg-[#142C46] text-amber-300 border border-amber-500/40">
+                  ILLUSTRATIVE RECORD B
+                </span>
+                <span className="text-slate-400">Regulation Bureau</span>
+              </div>
+              <div className="space-y-1.5">
+                <div className="text-lg font-bold text-white">
+                  &ldquo;Staff strength below approved norms&rdquo;
                 </div>
-                <h3 className="font-bold text-white text-base">Approved Institutions</h3>
                 <p className="text-xs text-[#AEBBCD] leading-relaxed">
-                  Authorized technical colleges inspect show-cause notices scoped strictly to their PID and submit formal counter-affidavits.
+                  Formal representation by Faculty Association citing cadre ratio violations, delayed gratuities, and unapproved adjunct appointments.
                 </p>
-                <div className="space-y-1.5 text-[11px] text-slate-400 pt-1">
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>14-day statutory reply SLA tracking</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>Complainant personal contact details redacted</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>Direct upload of BOG resolutions and refund ledgers</span>
-                  </div>
-                </div>
               </div>
-
-              <Link
-                href="/institution/login"
-                className="text-xs font-semibold text-amber-400 hover:underline inline-flex items-center space-x-1"
-              >
-                <span>Institution Compliance Desk</span>
-                <ArrowRight className="w-3 h-3" />
-              </Link>
+              <div className="pt-3 border-t border-[#142C46] flex items-center justify-between text-[11px] font-mono text-slate-400">
+                <span>PID: 1-10492811</span>
+                <span>Ref: REG-2026-0142</span>
+              </div>
             </div>
 
-            {/* Bureau Officer Card */}
-            <div className="p-6 rounded-lg bg-[#152236] border border-slate-800 space-y-4 flex flex-col justify-between">
-              <div className="space-y-3">
-                <div className="w-10 h-10 rounded-md bg-teal-950 text-[#3E9E96] flex items-center justify-center border border-teal-900">
-                  <Scale className="w-5 h-5" />
+            {/* Example 3 */}
+            <div className="p-6 rounded-xl bg-[#0B1C2D] border border-[#D9E0E7]/20 space-y-4 hover:border-[#1769AA] transition-colors">
+              <div className="flex items-center justify-between text-xs font-mono">
+                <span className="px-2 py-0.5 rounded bg-[#142C46] text-teal-300 border border-teal-500/40">
+                  ILLUSTRATIVE RECORD C
+                </span>
+                <span className="text-slate-400">Approval Bureau</span>
+              </div>
+              <div className="space-y-1.5">
+                <div className="text-lg font-bold text-white">
+                  &ldquo;Vacant faculty posts&rdquo;
                 </div>
-                <h3 className="font-bold text-white text-base">Bureau Officials & Reviewers</h3>
                 <p className="text-xs text-[#AEBBCD] leading-relaxed">
-                  Executive overview across PGRC, Regulation, Approval, Legal, and CPGRAMS with side-by-side evidence triage tools.
+                  Annual Extension of Approval (EOA) inspection observation reporting 18 unfilled Professor and Associate Professor posts.
                 </p>
-                <div className="space-y-1.5 text-[11px] text-slate-400 pt-1">
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>Cross-bureau overlap candidate queue</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>Sovereign review with mandatory rationale logging</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>Real-time workload distribution Recharts analytics</span>
-                  </div>
-                </div>
               </div>
-
-              <Link
-                href="/dashboard"
-                className="text-xs font-semibold text-[#3E9E96] hover:underline inline-flex items-center space-x-1"
-              >
-                <span>Enter Bureau Console</span>
-                <ArrowRight className="w-3 h-3" />
-              </Link>
+              <div className="pt-3 border-t border-[#142C46] flex items-center justify-between text-[11px] font-mono text-slate-400">
+                <span>PID: 1-10492811</span>
+                <span>Ref: APP-2026-0078</span>
+              </div>
             </div>
+          </div>
+
+          <div className="p-4 rounded-lg bg-[#142C46] border border-[#657386]/30 text-xs text-[#AEBBCD] flex items-center space-x-3">
+            <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0" />
+            <span>
+              <strong>Crucial Safeguard:</strong> Sharing an institution context does NOT automatically merge these complaints. Each complaint retains its independent docket, complainant confidentiality, and legal jurisdiction.
+            </span>
           </div>
         </div>
       </section>
 
       {/* =========================================================================
-          SCENE 06 — TRUST AND GOVERNANCE
+          SCENE 03 — INSTITUTION IDENTITY RESOLUTION
          ========================================================================= */}
-      <section className="py-24 bg-[#080E18] border-b border-slate-800/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mb-14">
+      <section className="py-24 bg-[#0B1C2D] border-b border-[#142C46]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="max-w-3xl space-y-3">
             <span className="text-xs uppercase font-bold tracking-wider text-[#8DBAFF] font-mono">
-              SCENE 06 &bull; GOVERNANCE & INTEGRITY
+              SCENE 03 • INSTITUTION IDENTITY RESOLUTION
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mt-2 tracking-tight text-balance">
-              Connected information. Controlled access. Traceable decisions.
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+              Resolving identity with verified statutory identifiers.
             </h2>
-            <p className="text-sm sm:text-base text-[#AEBBCD] mt-3 leading-relaxed">
-              CaseBridge AI guarantees institutional credibility through strict server-side scoping, zero automated merges, and immutable audit logs.
+            <p className="text-sm sm:text-base text-[#AEBBCD] leading-relaxed">
+              Institutional names often vary in informal submissions (&ldquo;Apex College&rdquo;, &ldquo;Apex Pune&rdquo;, &ldquo;Apex Tech Institute&rdquo;). CaseBridge AI grounds all correlation in the AICTE Permanent Institute ID (PID), while keeping ambiguous matches flagged for human disambiguation.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-xs">
-            <div className="p-5 rounded-lg bg-[#10233D] border border-slate-800 space-y-2">
-              <div className="font-bold text-white text-sm">Role-Based Access Control</div>
-              <p className="text-[#AEBBCD] leading-relaxed">
-                Role tokens verify authorization before rendering case files or permitting procedural state updates.
+          {/* Architecture Resolution Card */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center bg-[#142C46]/60 border border-[#D9E0E7]/20 rounded-xl p-6 sm:p-8">
+            <div className="md:col-span-5 space-y-4">
+              <div className="text-xs font-mono font-bold uppercase text-[#8DBAFF] tracking-wider">
+                Identity Resolution Architecture
+              </div>
+              <h3 className="text-xl font-bold text-white">
+                Never merge institutions on fuzzy name alone.
+              </h3>
+              <p className="text-xs text-[#AEBBCD] leading-relaxed">
+                A common error in naive AI systems is treating similarly named colleges across different states as the same entity. CaseBridge AI enforces verified identity hierarchy:
               </p>
-              <div className="text-[10px] text-emerald-400 font-mono font-semibold">Status: Implemented</div>
+
+              <div className="space-y-2 text-xs">
+                <div className="p-2.5 rounded bg-[#0B1C2D] border border-emerald-500/30 flex items-center justify-between">
+                  <span className="font-semibold text-white">1. Verified Permanent Institute ID</span>
+                  <span className="text-emerald-400 font-mono text-[11px]">100% Certainty</span>
+                </div>
+                <div className="p-2.5 rounded bg-[#0B1C2D] border border-amber-500/30 flex items-center justify-between">
+                  <span className="font-semibold text-white">2. Registered Institutional Alias</span>
+                  <span className="text-amber-300 font-mono text-[11px]">Verified Registry</span>
+                </div>
+                <div className="p-2.5 rounded bg-[#0B1C2D] border border-rose-500/30 flex items-center justify-between">
+                  <span className="font-semibold text-white">3. Ambiguous Text Submission</span>
+                  <span className="text-rose-400 font-mono text-[11px]">Human Review Flagged</span>
+                </div>
+              </div>
             </div>
 
-            <div className="p-5 rounded-lg bg-[#10233D] border border-slate-800 space-y-2">
-              <div className="font-bold text-white text-sm">PID-Scoped Isolation</div>
-              <p className="text-[#AEBBCD] leading-relaxed">
-                Institutions are restricted to dockets filed against their registered AICTE Permanent ID. Cross-institution access triggers 403 denial.
-              </p>
-              <div className="text-[10px] text-emerald-400 font-mono font-semibold">Status: Implemented</div>
-            </div>
+            <div className="md:col-span-7 bg-[#0B1C2D] p-5 rounded-lg border border-[#142C46] space-y-4">
+              <div className="flex items-center justify-between border-b border-[#142C46] pb-2 text-xs font-mono text-slate-400">
+                <span>IDENTITY DISAMBIGUATION SCHEMATIC</span>
+                <span className="text-emerald-400 font-semibold">PID: 1-10492811</span>
+              </div>
 
-            <div className="p-5 rounded-lg bg-[#10233D] border border-slate-800 space-y-2">
-              <div className="font-bold text-white text-sm">Human Adjudication Guarantee</div>
-              <p className="text-[#AEBBCD] leading-relaxed">
-                Overlap flags serve as advisories. No complaints are merged or linked without explicit confirmation by an authorized reviewer.
-              </p>
-              <div className="text-[10px] text-emerald-400 font-mono font-semibold">Status: Implemented</div>
-            </div>
+              <div className="grid grid-cols-2 gap-3 text-xs">
+                <div className="p-3 rounded bg-[#142C46]/40 border border-[#D9E0E7]/10 space-y-1">
+                  <div className="text-[10px] font-mono text-slate-400">Official Registered Name</div>
+                  <div className="font-semibold text-white">Apex Institute of Technology</div>
+                </div>
+                <div className="p-3 rounded bg-[#142C46]/40 border border-[#D9E0E7]/10 space-y-1">
+                  <div className="text-[10px] font-mono text-slate-400">State / Region</div>
+                  <div className="font-semibold text-white">Maharashtra / Western</div>
+                </div>
+                <div className="p-3 rounded bg-[#142C46]/40 border border-[#D9E0E7]/10 space-y-1">
+                  <div className="text-[10px] font-mono text-slate-400">Affiliated University</div>
+                  <div className="font-semibold text-white">Savitribai Phule Pune University</div>
+                </div>
+                <div className="p-3 rounded bg-[#142C46]/40 border border-[#D9E0E7]/10 space-y-1">
+                  <div className="text-[10px] font-mono text-slate-400">Known Citizen Aliases</div>
+                  <div className="font-semibold text-slate-300">Apex Pune, AIT Pune</div>
+                </div>
+              </div>
 
-            <div className="p-5 rounded-lg bg-[#10233D] border border-slate-800 space-y-2">
-              <div className="font-bold text-white text-sm">Immutable Audit Trail</div>
-              <p className="text-[#AEBBCD] leading-relaxed">
-                Status transitions, notes, and reviewer rationales are written with ISO timestamps and officer credentials to an immutable audit ledger.
-              </p>
-              <div className="text-[10px] text-emerald-400 font-mono font-semibold">Status: Implemented</div>
-            </div>
-
-            <div className="p-5 rounded-lg bg-[#10233D] border border-slate-800 space-y-2">
-              <div className="font-bold text-white text-sm">Anti-Enumeration Tracking</div>
-              <p className="text-[#AEBBCD] leading-relaxed">
-                Public complaint tracking enforces dual-factor verification (Reference Number + registered contact token) to block sequential case harvesting.
-              </p>
-              <div className="text-[10px] text-emerald-400 font-mono font-semibold">Status: Implemented</div>
-            </div>
-
-            <div className="p-5 rounded-lg bg-[#10233D] border border-slate-800 space-y-2">
-              <div className="font-bold text-white text-sm">Institutional Natural Justice</div>
-              <p className="text-[#AEBBCD] leading-relaxed">
-                Respondent technical institutions receive electronic notification with an enforceable 14-day window to file counter-affidavits before committee hearings.
-              </p>
-              <div className="text-[10px] text-emerald-400 font-mono font-semibold">Status: Implemented</div>
+              <div className="p-2.5 rounded bg-[#142C46] text-[11px] text-[#AEBBCD] font-mono text-center">
+                Ambiguous records without verified PID trigger immediate officer identity reconciliation.
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* =========================================================================
-          FINAL SCENE — CLOSING STATEMENT & GATEWAYS
+          SCENE 04 — EVIDENCE-BASED MATCHING: Exact Duplicate vs Related vs Separate
          ========================================================================= */}
-      <section className="py-28 bg-[#080E18] relative overflow-hidden">
-        <div className="absolute inset-0 bg-radial-lens pointer-events-none" />
-
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-10 relative z-10">
-          <div className="space-y-3">
+      <section className="py-24 bg-[#10233D] border-b border-[#142C46]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+          <div className="max-w-3xl space-y-3">
             <span className="text-xs uppercase font-bold tracking-wider text-[#8DBAFF] font-mono">
-              CASEBRIDGE AI &bull; SMART INDIA HACKATHON 2026
+              SCENE 04 • EVIDENCE-BASED MATCHING
             </span>
-            <h2 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight text-balance">
-              Better visibility begins with better coordination.
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+              Distinguishing exact duplicates, related cases, and separate complaints.
+            </h2>
+            <p className="text-sm sm:text-base text-[#AEBBCD] leading-relaxed">
+              <strong>A shared institution does not automatically mean a shared case.</strong> CaseBridge AI evaluates multi-dimensional evidence before surfacing any proposed relationship.
+            </p>
+          </div>
+
+          {/* Interactive Scenario Switcher */}
+          <div className="flex border-b border-[#142C46] gap-2">
+            <button
+              onClick={() => setMatchingTab("duplicate")}
+              className={`pb-3 px-4 text-xs font-semibold border-b-2 transition-colors ${
+                matchingTab === "duplicate"
+                  ? "border-[#1769AA] text-white"
+                  : "border-transparent text-slate-400 hover:text-white"
+              }`}
+            >
+              Category 1: Exact Duplicate Candidates (&ge;85% Score)
+            </button>
+            <button
+              onClick={() => setMatchingTab("related")}
+              className={`pb-3 px-4 text-xs font-semibold border-b-2 transition-colors ${
+                matchingTab === "related"
+                  ? "border-[#1769AA] text-white"
+                  : "border-transparent text-slate-400 hover:text-white"
+              }`}
+            >
+              Category 2: Potentially Related Complaints (65–84% Score)
+            </button>
+            <button
+              onClick={() => setMatchingTab("separate")}
+              className={`pb-3 px-4 text-xs font-semibold border-b-2 transition-colors ${
+                matchingTab === "separate"
+                  ? "border-[#1769AA] text-white"
+                  : "border-transparent text-slate-400 hover:text-white"
+              }`}
+            >
+              Category 3: Unrelated Complaints (&lt;65% Score)
+            </button>
+          </div>
+
+          {/* Evidence Details Panel */}
+          <div className="bg-[#0B1C2D] border border-[#D9E0E7]/20 rounded-xl p-6 sm:p-8 space-y-6">
+            {matchingTab === "duplicate" && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="font-mono text-sm font-bold text-white flex items-center space-x-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-rose-500" />
+                    <span>EXACT DUPLICATE CANDIDATE PATTERN</span>
+                  </div>
+                  <span className="px-3 py-1 rounded bg-rose-950/80 border border-rose-800 text-rose-300 font-mono text-xs font-bold">
+                    Score: 92% (High Confidence)
+                  </span>
+                </div>
+                <p className="text-xs text-[#AEBBCD]">
+                  Identical complainant or identical incident text submitted across two different channels (e.g. CPGRAMS central portal and direct PGRC citizen portal) for the same grievance within 48 hours.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                  <div className="p-3 rounded bg-[#142C46]/50 border border-slate-700 space-y-1">
+                    <div className="text-[10px] font-mono text-slate-400">Matching Dimensions</div>
+                    <div className="text-white font-medium">Same PID (100%) + Same Category + High Lexical Jaccard (88%)</div>
+                  </div>
+                  <div className="p-3 rounded bg-[#142C46]/50 border border-slate-700 space-y-1">
+                    <div className="text-[10px] font-mono text-slate-400">Recommended Action</div>
+                    <div className="text-amber-300 font-medium">Designate single Lead Case; cross-reference secondary reference.</div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {matchingTab === "related" && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="font-mono text-sm font-bold text-white flex items-center space-x-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+                    <span>POTENTIALLY RELATED INQUIRY PATTERN</span>
+                  </div>
+                  <span className="px-3 py-1 rounded bg-amber-950/80 border border-amber-800 text-amber-300 font-mono text-xs font-bold">
+                    Score: 78% (Correlation Flagged)
+                  </span>
+                </div>
+                <p className="text-xs text-[#AEBBCD]">
+                  Different complainants targeting the same technical college across different bureaus (e.g. Student grievance on fee retention in PGRC vs Parent Association complaint on capitation dues in Regulation Bureau).
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                  <div className="p-3 rounded bg-[#142C46]/50 border border-slate-700 space-y-1">
+                    <div className="text-[10px] font-mono text-slate-400">Matching Dimensions</div>
+                    <div className="text-white font-medium">Same PID (100%) + Inter-Bureau Overlap + Shared Regulatory Clause 7.1</div>
+                  </div>
+                  <div className="p-3 rounded bg-[#142C46]/50 border border-slate-700 space-y-1">
+                    <div className="text-[10px] font-mono text-slate-400">Recommended Action</div>
+                    <div className="text-blue-300 font-medium">Joint Committee Coordination. Keep both dockets active.</div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {matchingTab === "separate" && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="font-mono text-sm font-bold text-white flex items-center space-x-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+                    <span>SEPARATE & DISTINCT COMPLAINTS</span>
+                  </div>
+                  <span className="px-3 py-1 rounded bg-emerald-950/80 border border-emerald-800 text-emerald-300 font-mono text-xs font-bold">
+                    Score: 42% (Clear / No Overlap)
+                  </span>
+                </div>
+                <p className="text-xs text-[#AEBBCD]">
+                  Complaints involving similar wording (&ldquo;attendance issues&rdquo;) targeting completely different institutions in different states. Zero correlation is inferred.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                  <div className="p-3 rounded bg-[#142C46]/50 border border-slate-700 space-y-1">
+                    <div className="text-[10px] font-mono text-slate-400">Matching Dimensions</div>
+                    <div className="text-white font-medium">Distinct PIDs + Different Jurisdictions + No Institution Match</div>
+                  </div>
+                  <div className="p-3 rounded bg-[#142C46]/50 border border-slate-700 space-y-1">
+                    <div className="text-[10px] font-mono text-slate-400">Recommended Action</div>
+                    <div className="text-emerald-300 font-medium">Process routinely within respective regional bureau.</div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          SCENE 05 — HUMAN REVIEW: Candidate -> Evidence -> Decision -> Audit
+         ========================================================================= */}
+      <section className="py-24 bg-[#0B1C2D] border-b border-[#142C46]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="max-w-3xl space-y-3">
+            <span className="text-xs uppercase font-bold tracking-wider text-[#8DBAFF] font-mono">
+              SCENE 05 • HUMAN REVIEW WORKSPACE
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+              Human reviewers retain absolute decision-making authority.
+            </h2>
+            <p className="text-sm sm:text-base text-[#AEBBCD] leading-relaxed">
+              No machine learning score ever closes a case, dismisses an inquiry, or overrides bureau officers. CaseBridge AI provides structured evidence to accelerate review, not replace human judgment.
+            </p>
+          </div>
+
+          {/* Interactive Human Decision Simulator */}
+          <div className="bg-[#142C46]/70 border border-[#D9E0E7]/20 rounded-xl p-6 sm:p-8 space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#657386]/30 gap-3">
+              <div>
+                <span className="text-xs font-mono uppercase text-[#8DBAFF]">Candidate Review Pair</span>
+                <h3 className="text-lg font-bold text-white">OVL-2026-001 • Apex Institute of Technology</h3>
+              </div>
+              <div className="text-xs font-mono text-slate-300">
+                PGRC (Case 0892) &harr; Regulation Bureau (Case 0142)
+              </div>
+            </div>
+
+            {/* Decision Actions */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <button
+                onClick={() => setReviewDecision("CONFIRMED")}
+                className={`p-4 rounded-lg border text-left transition-all ${
+                  reviewDecision === "CONFIRMED"
+                    ? "bg-[#1769AA]/40 border-[#1769AA] text-white shadow-md"
+                    : "bg-[#0B1C2D] border-[#657386]/40 text-[#AEBBCD] hover:border-slate-300"
+                }`}
+              >
+                <div className="font-bold text-white text-sm mb-1 flex items-center space-x-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  <span>Confirm Joint Link</span>
+                </div>
+                <div className="text-xs leading-relaxed">
+                  Affirm inter-bureau relationship and designate Joint Coordination Desk.
+                </div>
+              </button>
+
+              <button
+                onClick={() => setReviewDecision("DISTINCT")}
+                className={`p-4 rounded-lg border text-left transition-all ${
+                  reviewDecision === "DISTINCT"
+                    ? "bg-rose-950/40 border-rose-600 text-white shadow-md"
+                    : "bg-[#0B1C2D] border-[#657386]/40 text-[#AEBBCD] hover:border-slate-300"
+                }`}
+              >
+                <div className="font-bold text-white text-sm mb-1 flex items-center space-x-2">
+                  <XCircle className="w-4 h-4 text-rose-400" />
+                  <span>Mark as Distinct</span>
+                </div>
+                <div className="text-xs leading-relaxed">
+                  Reject candidate relationship. Separate investigations continue independently.
+                </div>
+              </button>
+
+              <button
+                onClick={() => setReviewDecision("DEFERRED")}
+                className={`p-4 rounded-lg border text-left transition-all ${
+                  reviewDecision === "DEFERRED"
+                    ? "bg-amber-950/40 border-amber-500 text-white shadow-md"
+                    : "bg-[#0B1C2D] border-[#657386]/40 text-[#AEBBCD] hover:border-slate-300"
+                }`}
+              >
+                <div className="font-bold text-white text-sm mb-1 flex items-center space-x-2">
+                  <Clock className="w-4 h-4 text-amber-400" />
+                  <span>Defer Decision</span>
+                </div>
+                <div className="text-xs leading-relaxed">
+                  Await formal institutional response before determining case relationship.
+                </div>
+              </button>
+            </div>
+
+            {/* Audit Persistence Simulator Feedback */}
+            {reviewDecision !== "NONE" && (
+              <div className="p-4 rounded bg-[#0B1C2D] border border-emerald-500/40 text-xs text-emerald-300 font-mono space-y-1">
+                <div className="font-bold text-white flex items-center space-x-2">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                  <span>AUDIT TRANSACTION COMMITTED</span>
+                </div>
+                <div>Action: {reviewDecision} • Reviewer: Authorized Official (PGRC Review Desk)</div>
+                <div className="text-slate-400 text-[10px]">
+                  Logged to permanent immutable audit ledger. Status synced to relational database.
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          SCENE 06 — INSTITUTIONAL COORDINATION: Editorial Warm Ivory Transition
+         ========================================================================= */}
+      <section className="py-24 bg-[#F5F3ED] text-[#0B1C2D] border-b border-[#D9E0E7]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="max-w-3xl space-y-3">
+            <span className="text-xs uppercase font-bold tracking-wider text-[#1769AA] font-mono">
+              SCENE 06 • INSTITUTIONAL COORDINATION
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B1C2D] tracking-tight">
+              A single source of truth across all AICTE administrative desks.
+            </h2>
+            <p className="text-sm sm:text-base text-[#657386] leading-relaxed">
+              When cases are coordinated through CaseBridge AI, each administrative organ gains structured oversight without infringing upon statutory roles.
+            </p>
+          </div>
+
+          {/* Structured Editorial 4-Pillar Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="p-6 rounded-lg bg-white border border-[#D9E0E7] space-y-3 shadow-sm">
+              <div className="w-10 h-10 rounded bg-[#EAF0F6] text-[#1769AA] flex items-center justify-center font-bold">
+                01
+              </div>
+              <h3 className="font-bold text-base text-[#0B1C2D]">Cross-Bureau Visibility</h3>
+              <p className="text-xs text-[#657386] leading-relaxed">
+                PGRC, Regulation, Approval, and Legal desks see active concurrent inquiries targeting the same technical college instantly.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-lg bg-white border border-[#D9E0E7] space-y-3 shadow-sm">
+              <div className="w-10 h-10 rounded bg-[#EAF0F6] text-[#1769AA] flex items-center justify-center font-bold">
+                02
+              </div>
+              <h3 className="font-bold text-base text-[#0B1C2D]">Designated Case Lead</h3>
+              <p className="text-xs text-[#657386] leading-relaxed">
+                When relationships are confirmed, one bureau is designated Lead Coordinator, preventing overlapping or conflicting notices.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-lg bg-white border border-[#D9E0E7] space-y-3 shadow-sm">
+              <div className="w-10 h-10 rounded bg-[#EAF0F6] text-[#1769AA] flex items-center justify-center font-bold">
+                03
+              </div>
+              <h3 className="font-bold text-base text-[#0B1C2D]">Dual-Factor Verification</h3>
+              <p className="text-xs text-[#657386] leading-relaxed">
+                Citizens track progress using non-guessable reference numbers paired with confidential verification codes, protecting privacy.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-lg bg-white border border-[#D9E0E7] space-y-3 shadow-sm">
+              <div className="w-10 h-10 rounded bg-[#EAF0F6] text-[#1769AA] flex items-center justify-center font-bold">
+                04
+              </div>
+              <h3 className="font-bold text-base text-[#0B1C2D]">Sovereign Audit Trail</h3>
+              <p className="text-xs text-[#657386] leading-relaxed">
+                Every login, candidate match, reviewer decision, and status transition is recorded in an immutable chronological audit trail.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          SCENE 07 — CLIMAX: Clarity in Every Connection
+         ========================================================================= */}
+      <section className="py-28 bg-[#0B1C2D] text-center border-b border-[#142C46] relative overflow-hidden">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 relative z-10">
+          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#142C46] text-[#8DBAFF] text-xs font-mono tracking-widest uppercase">
+            <span>Sovereign Administrative Standard</span>
+          </div>
+
+          <div className="space-y-4">
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight uppercase leading-tight">
+              CLARITY IN EVERY CONNECTION.<br />
+              <span className="text-[#1769AA]">ACCOUNTABILITY IN EVERY ACTION.</span>
             </h2>
             <p className="text-sm sm:text-base text-[#AEBBCD] max-w-2xl mx-auto leading-relaxed">
-              Experience the unified multi-bureau grievance coordination prototype engineered for Problem Statement SIH26264.
+              Transforming fragmented institutional grievances into an accountable, transparent, and coordinated national framework.
             </p>
           </div>
 
-          {/* 4 Gateway Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left text-xs max-w-4xl mx-auto">
-            <Link
-              href="/complaints/register"
-              className="p-5 rounded-lg bg-[#10233D] border border-slate-800 hover:border-[#3678D4] transition-all hover:scale-[1.02] flex flex-col justify-between space-y-4 group"
-            >
-              <div>
-                <span className="text-[10px] uppercase font-bold text-[#8DBAFF] tracking-wider block">
-                  Public Citizen
-                </span>
-                <span className="font-bold text-white text-sm group-hover:text-[#8DBAFF] transition-colors mt-0.5 block">
-                  Register Complaint
-                </span>
-                <p className="text-[11px] text-[#AEBBCD] mt-1">
-                  5-step guided intake with live AICTE institution lookup.
-                </p>
-              </div>
-              <span className="text-[11px] font-semibold text-[#8DBAFF] flex items-center space-x-1">
-                <span>Start Filing</span>
-                <ArrowRight className="w-3 h-3" />
-              </span>
-            </Link>
+          <div className="pt-4 flex items-center justify-center">
+            <div className="w-16 h-1 bg-[#1769AA] rounded-full" />
+          </div>
+        </div>
+      </section>
 
-            <Link
-              href="/track-complaint"
-              className="p-5 rounded-lg bg-[#10233D] border border-slate-800 hover:border-slate-600 transition-all hover:scale-[1.02] flex flex-col justify-between space-y-4 group"
-            >
-              <div>
-                <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
-                  Citizen Tracking
-                </span>
-                <span className="font-bold text-white text-sm group-hover:text-slate-200 transition-colors mt-0.5 block">
-                  Track Complaint
-                </span>
-                <p className="text-[11px] text-[#AEBBCD] mt-1">
-                  Dual-factor verified safe milestone timeline.
-                </p>
-              </div>
-              <span className="text-[11px] font-semibold text-slate-300 flex items-center space-x-1">
-                <span>Check Status</span>
-                <ArrowRight className="w-3 h-3" />
-              </span>
-            </Link>
+      {/* =========================================================================
+          SCENE 08 — FINAL CTA: Bring Complaint Intelligence into Focus
+         ========================================================================= */}
+      <section className="py-24 bg-[#142C46] text-[#F5F3ED]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+            Bring complaint intelligence into focus.
+          </h2>
 
-            <Link
-              href="/institution/login"
-              className="p-5 rounded-lg bg-[#10233D] border border-slate-800 hover:border-amber-500 transition-all hover:scale-[1.02] flex flex-col justify-between space-y-4 group"
-            >
-              <div>
-                <span className="text-[10px] uppercase font-bold text-amber-400 tracking-wider block">
-                  Approved College
-                </span>
-                <span className="font-bold text-white text-sm group-hover:text-amber-300 transition-colors mt-0.5 block">
-                  Institution Portal
-                </span>
-                <p className="text-[11px] text-[#AEBBCD] mt-1">
-                  Review show-cause inquiries and file counter-affidavits.
-                </p>
-              </div>
-              <span className="text-[11px] font-semibold text-amber-400 flex items-center space-x-1">
-                <span>Institution Login</span>
-                <ArrowRight className="w-3 h-3" />
-              </span>
-            </Link>
+          <p className="text-sm sm:text-base text-[#AEBBCD] max-w-xl mx-auto leading-relaxed">
+            Explore a more structured approach to institution-level complaint review, explainable matching, and accountable coordination.
+          </p>
 
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
             <Link
               href="/dashboard"
-              className="p-5 rounded-lg bg-[#10233D] border border-slate-800 hover:border-[#3E9E96] transition-all hover:scale-[1.02] flex flex-col justify-between space-y-4 group"
+              className="inline-flex items-center space-x-2 px-6 py-3.5 rounded bg-[#1769AA] hover:bg-blue-600 text-white font-semibold text-sm shadow-xl shadow-blue-950/40 transition-all hover:scale-[1.01]"
             >
-              <div>
-                <span className="text-[10px] uppercase font-bold text-[#3E9E96] tracking-wider block">
-                  Bureau Leadership
-                </span>
-                <span className="font-bold text-white text-sm group-hover:text-teal-300 transition-colors mt-0.5 block">
-                  Bureau Console
-                </span>
-                <p className="text-[11px] text-[#AEBBCD] mt-1">
-                  Multi-bureau triage, overlap queue, and SLA charts.
-                </p>
-              </div>
-              <span className="text-[11px] font-semibold text-[#3E9E96] flex items-center space-x-1">
-                <span>Official Console</span>
-                <ArrowRight className="w-3 h-3" />
-              </span>
+              <LayoutDashboardIcon className="w-4 h-4" />
+              <span>Open CaseBridge AI</span>
+              <ArrowRight className="w-4 h-4 ml-1" />
+            </Link>
+
+            <Link
+              href="/login"
+              className="inline-flex items-center space-x-2 px-6 py-3.5 rounded bg-[#0B1C2D] hover:bg-black text-[#F5F3ED] font-semibold text-sm border border-[#657386]/40 hover:border-slate-300 transition-all"
+            >
+              <Lock className="w-4 h-4 text-[#8DBAFF]" />
+              <span>Sign In</span>
             </Link>
           </div>
 
-          {/* Transparent Simulation Notice */}
-          <div className="pt-8 border-t border-slate-800 text-xs text-slate-500 max-w-xl mx-auto leading-relaxed">
-            CaseBridge AI is a demonstration prototype developed for Smart India Hackathon 2026 (SIH26264). Submitting complaints or responses stores simulated test records in your browser environment and does not transmit data to AICTE or any government ministry.
+          <div className="pt-6 border-t border-[#657386]/30 text-xs text-[#AEBBCD] font-mono">
+            Smart India Hackathon 2026 • Team Code Ninja&apos;s • Problem Statement: SIH26264
           </div>
         </div>
       </section>
     </div>
+  );
+}
+
+function LayoutDashboardIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect width="7" height="9" x="3" y="3" rx="1" />
+      <rect width="7" height="5" x="14" y="3" rx="1" />
+      <rect width="7" height="9" x="14" y="12" rx="1" />
+      <rect width="7" height="5" x="3" y="16" rx="1" />
+    </svg>
   );
 }

@@ -6,6 +6,7 @@
 
 import { CaseBridgeStore } from "./store";
 import { ComplaintCase, OverlapPair, UserProfile } from "./types";
+import { SEED_USERS, SEED_INSTITUTION_ACCOUNTS } from "./seedData";
 
 const BACKEND_URL =
   process.env.NEXT_PUBLIC_FASTAPI_BACKEND_URL || "http://localhost:8000/api/v1";
@@ -175,4 +176,98 @@ export async function submitOverlapDecisionApi(
 
   // Fallback to local store
   return CaseBridgeStore.resolveOverlap(pairId, action as any, reviewerNotes, leadBureau || "REGULATION");
+}
+
+
+export function getStoredAuthToken(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem("casebridge_jwt_token");
+}
+
+export function clearStoredAuth(): void {
+  if (typeof window === "undefined") return;
+  localStorage.removeItem("casebridge_jwt_token");
+  localStorage.removeItem("casebridge_current_user_v1");
+  window.dispatchEvent(new CustomEvent("casebridge_store_updated", { detail: { auth: false } }));
+}
+
+export async function loginOfficialApi(
+  email: string,
+  password: string
+): Promise<{ success: boolean; token?: string; user?: UserProfile; error?: string }> {
+  try {
+    const res = await fetch(`${BACKEND_URL}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: email.trim().toLowerCase(), password }),
+      signal: AbortSignal.timeout(4000),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      const userProfile: UserProfile = {
+        id: data.user_id,
+        name: data.full_name || "Official User",
+        designation: data.role === "ADMIN" ? "Chief Vigilance & Compliance Director" : "Administrative Review Officer",
+        role: data.role as any,
+        bureau: (data.bureau_id || "PGRC") as any,
+        email: email.trim().toLowerCase(),
+        avatarInitials: (data.full_name || "OU").substring(0, 2).toUpperCase(),
+      };
+      if (typeof window !== "undefined") {
+        localStorage.setItem("casebridge_jwt_token", data.access_token);
+        localStorage.setItem("casebridge_current_user_v1", JSON.stringify(userProfile));
+        window.dispatchEvent(new CustomEvent("casebridge_store_updated", { detail: { auth: true } }));
+      }
+      return { success: true, token: data.access_token, user: userProfile };
+    } else {
+      const err = await res.json().catch(() => ({}));
+      return { success: false, error: err.detail || "Authentication failed. Incorrect email or password." };
+    }
+  } catch (e) {
+    // Offline / fallback support
+    const seed = SEED_USERS.find((u) => u.email.toLowerCase() === email.trim().toLowerCase());
+    if (seed) {
+      const mockToken = "mock_jwt_" + seed.id;
+      if (typeof window !== "undefined") {
+        localStorage.setItem("casebridge_jwt_token", mockToken);
+        localStorage.setItem("casebridge_current_user_v1", JSON.stringify(seed));
+        window.dispatchEvent(new CustomEvent("casebridge_store_updated", { detail: { auth: true } }));
+      }
+      return { success: true, token: mockToken, user: seed };
+    }
+    return { success: false, error: "Invalid credentials. Use official password or choose a pre-configured persona." };
+  }
+}
+
+export async function loginInstitutionApi(
+  email: string,
+  accessKey: string,
+  institutionId?: string
+): Promise<{ success: boolean; token?: string; error?: string }> {
+  try {
+    const res = await fetch(`${BACKEND_URL}/auth/institution-login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: email.trim().toLowerCase(),
+        access_key: accessKey,
+        institution_id: institutionId || "1-10492811",
+      }),
+      signal: AbortSignal.timeout(4000),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (typeof window !== "undefined") {
+        localStorage.setItem("casebridge_inst_token", data.access_token);
+      }
+      return { success: true, token: data.access_token };
+    }
+  } catch (e) {
+    console.debug("Backend unavailable, using local store for institution authentication");
+  }
+  const acc = CaseBridgeStore.authenticateInstitution(email, accessKey);
+  if (acc) {
+    return { success: true, token: "mock_inst_token" };
+  }
+  return { success: false, error: "Invalid institutional credentials or unauthorized access key." };
 }

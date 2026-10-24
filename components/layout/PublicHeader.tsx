@@ -35,15 +35,20 @@ export function PublicHeader() {
 
   return (
     <header className="bg-[#080E18]/95 border-b border-slate-800/80 sticky top-0 z-40 backdrop-blur-md shadow-lg shadow-black/20 text-[#F4F6FA]">
-      {/* Top Ministerial / National Bar */}
+      {/* Top Ministerial / National Bar with Authentic Government of India Emblem */}
       <div className="bg-[#050910] text-[#B4C0D0] px-4 py-1.5 text-[11px] font-medium border-b border-slate-800/60">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <span className="font-semibold text-slate-200 tracking-wide">
+            <img
+              src="/branding/gov-india-emblem.png"
+              alt="Government of India Emblem"
+              className="h-5 sm:h-6 w-auto object-contain shrink-0"
+            />
+            <span className="font-semibold text-slate-200 tracking-wide hidden xs:inline">
               GOVERNMENT OF INDIA
             </span>
-            <span className="text-slate-600">|</span>
-            <span className="text-slate-400">
+            <span className="text-slate-600 hidden sm:inline">|</span>
+            <span className="text-slate-400 truncate">
               Ministry of Education &bull; AICTE Grievance & Overlap Monitoring Desk
             </span>
           </div>
@@ -56,13 +61,17 @@ export function PublicHeader() {
         </div>
       </div>
 
-      {/* Main Public Navigation Bar */}
+      {/* Main Public Navigation Bar with Authentic AICTE Logo */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo & Emblem */}
           <Link href="/" className="flex items-center space-x-3 group">
-            <div className="w-10 h-10 rounded-md bg-[#121B2A] flex items-center justify-center text-white font-bold shadow-xs border border-blue-900/60 group-hover:border-[#6AA7FF] transition-colors">
-              <ShieldCheck className="w-6 h-6 text-[#6AA7FF]" />
+            <div className="w-10 h-10 rounded-md bg-white p-1 flex items-center justify-center shadow-xs border border-slate-700 group-hover:border-[#6AA7FF] transition-colors shrink-0">
+              <img
+                src="/branding/aicte-logo.png"
+                alt="AICTE Official Logo"
+                className="w-8 h-8 object-contain"
+              />
             </div>
             <div className="flex flex-col">
               <div className="flex items-center space-x-1.5">
@@ -73,8 +82,8 @@ export function PublicHeader() {
                   AICTE
                 </span>
               </div>
-              <span className="text-[11px] text-[#B4C0D0] font-medium">
-                Unified Multi-Bureau Grievance & De-Duplication System
+              <span className="text-[11px] text-[#B4C0D0] font-medium hidden xs:inline">
+                Unified Multi-Bureau Grievance & Overlap Monitoring System
               </span>
             </div>
           </Link>

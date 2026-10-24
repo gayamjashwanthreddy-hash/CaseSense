@@ -74,7 +74,7 @@ class ComplaintService:
     ) -> Complaint:
         year = datetime.now().year
         count = db.query(Complaint).count() + 1
-        case_num = str(count).padStart(4, "0") if hasattr(str(count), "padStart") else f"{count:04d}"
+        case_num = f"{count:04d}"
         
         case_id = f"AICTE/{data.bureau_id}/{year}/{case_num}"
         ref_number = f"{data.bureau_id}-{year}-{case_num}"
@@ -151,37 +151,13 @@ class ComplaintService:
         )
         db.add(audit)
 
-        # If overlap surfaced, generate candidate relationship
-        if has_overlap:
-            companion = existing_for_inst[0]
-            ovl_count = db.query(ComplaintRelationship).count() + 1
-            overlap_id = f"OVL-{year}-{ovl_count:03d}"
-            
-            rationale_data = {
-                "same_institution": True,
-                "institution_confidence": 100,
-                "semantic_subject_similarity": 84,
-                "entity_matches": [f"Permanent Institute ID: {complaint.institution_id}"],
-                "common_keywords": [data.category.lower().replace("_", " "), "regulatory compliance"],
-                "regulatory_clauses": ["AICTE APH 2025-26 Clause 7.1"],
-                "reason_description": f"Proactive candidate overlap: Case {complaint.id} ({complaint.bureau_id}) targets institution {complaint.institution_id} which has active docket {companion.id} ({companion.bureau_id})."
-            }
-
-            overlap = ComplaintRelationship(
-                id=overlap_id,
-                case_a_id=companion.id,
-                case_b_id=complaint.id,
-                institution_id=complaint.institution_id,
-                institution_name=complaint.institution.name if complaint.institution else "Registered Institution",
-                similarity_score=85,
-                urgency=complaint.priority,
-                detected_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S IST"),
-                rationale_json=json.dumps(rationale_data),
-                status="PENDING_REVIEW",
-                lead_bureau=companion.bureau_id
-            )
-            db.add(overlap)
-            complaint.overlap_pair_id = overlap_id
+        # Trigger genuine candidate retrieval and multi-factor explainable matching
+        from app.services.overlap_service import OverlapService
+        surfaced_candidates = OverlapService.analyze_complaint(db, complaint.id)
+        if surfaced_candidates:
+            complaint.has_overlap = True
+            complaint.overlap_pair_id = surfaced_candidates[0].id
+            complaint.status = "OVERLAP_FLAGGED" 
 
         db.commit()
         db.refresh(complaint)

@@ -1,192 +1,415 @@
-import React from "react";
+"use client";
+
+import React, { useState, Suspense } from "react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   ShieldCheck,
   Building2,
+  Lock,
+  Mail,
+  Eye,
+  EyeOff,
+  ArrowRight,
+  AlertCircle,
+  CheckCircle2,
+  Scale,
   Users,
   Search,
-  FilePlus,
-  ArrowRight,
-  Scale,
   KeyRound,
-  CheckCircle2,
-  ExternalLink,
 } from "lucide-react";
+import { useRole } from "@/lib/context/RoleContext";
+import { useToast } from "@/lib/context/ToastContext";
+import { SEED_USERS } from "@/lib/api/seedData";
 
-export default function PortalsDirectoryPage() {
+function LoginForm() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectPath = searchParams ? searchParams.get("redirect") || "/dashboard" : "/dashboard";
+
+  const { login, setCurrentUser } = useRole();
+  const { toast } = useToast();
+
+  const [activeTab, setActiveTab] = useState<"official" | "institution">("official");
+  const [email, setEmail] = useState("admin@aicte-india.org");
+  const [password, setPassword] = useState("admin@2026");
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Institution credentials state
+  const [instEmail, setInstEmail] = useState("registrar@apextech-pune.ac.in");
+  const [instKey, setInstKey] = useState("apex@compliance2026");
+  const [showInstKey, setShowInstKey] = useState(false);
+
+  const handleOfficialSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim() || !password) {
+      setError("Please provide your official AICTE email and password.");
+      return;
+    }
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      const res = await login(email, password);
+      setIsLoading(false);
+      if (res.success) {
+        toast("Authenticated successfully. Redirecting to CaseBridge workspace...", "success");
+        router.push(redirectPath);
+      } else {
+        setError(res.error || "Incorrect credentials. Please verify your email and password.");
+      }
+    } catch (err: any) {
+      setIsLoading(false);
+      setError(err?.message || "An unexpected error occurred during authentication.");
+    }
+  };
+
+  const handleQuickPersonaSelect = async (userEmail: string, pass: string) => {
+    setEmail(userEmail);
+    setPassword(pass);
+    setError(null);
+    setIsLoading(true);
+
+    const res = await login(userEmail, pass);
+    setIsLoading(false);
+    if (res.success) {
+      toast("Persona authenticated. Access granted.", "success");
+      router.push(redirectPath);
+    } else {
+      // Find seed user for instant fallback
+      const match = SEED_USERS.find((u) => u.email.toLowerCase() === userEmail.toLowerCase());
+      if (match) {
+        setCurrentUser(match);
+        toast(`Signed in as ${match.name} (${match.role})`, "success");
+        router.push(redirectPath);
+      } else {
+        setError(res.error || "Authentication failed.");
+      }
+    }
+  };
+
   return (
-    <div className="bg-brand-midnight text-brand-warm min-h-[calc(100vh-140px)] py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Ambient background glows */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-brand-inst/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-1/2 right-10 w-[400px] h-[300px] bg-brand-teal/5 rounded-full blur-[100px] pointer-events-none" />
+    <div className="min-h-[calc(100vh-140px)] bg-[#0B1C2D] text-[#F5F3ED] py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col justify-center">
+      {/* Background Architectural Geometry */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#142C46_1px,transparent_1px),linear-gradient(to_bottom,#142C46_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-30 pointer-events-none" />
 
-      <div className="max-w-5xl mx-auto space-y-12 relative z-10">
-        {/* Header */}
-        <div className="text-center space-y-3 max-w-2xl mx-auto">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-brand-surface border border-brand-inst/30 text-brand-ice text-xs font-mono tracking-wide">
-            <ShieldCheck className="w-3.5 h-3.5 text-brand-ice" />
-            <span>CASEBRIDGE AI • ACCESS DIRECTORY</span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Select Your Operational Workspace
-          </h1>
-          <p className="text-brand-neutral text-sm leading-relaxed">
-            CaseBridge AI provides segregated, purpose-built workspaces for citizens, technical institutions, and government bureau officials.
-          </p>
-        </div>
-
-        {/* 3 Portal Gateway Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Card 1: Public / Citizen */}
-          <div className="bg-brand-deep/80 border border-brand-surface rounded-xl p-6 flex flex-col justify-between space-y-6 hover:border-brand-ice/40 hover:shadow-[0_0_24px_rgba(54,120,212,0.12)] transition-all">
-            <div className="space-y-4">
-              <div className="w-12 h-12 rounded-lg bg-brand-surface border border-brand-inst/30 text-brand-ice flex items-center justify-center">
-                <Users className="w-6 h-6" />
+      <div className="max-w-4xl mx-auto w-full relative z-10 space-y-8">
+        {/* Institutional Authority Bar */}
+        <div className="text-center space-y-3">
+          {/* Institutional Emblems Dual Bar */}
+          <div className="flex items-center justify-center gap-6 pb-2">
+            <div className="flex items-center gap-3">
+              <img
+                src="/branding/gov-india-emblem.png"
+                alt="Government of India Emblem"
+                className="h-9 w-auto object-contain"
+              />
+              <div className="h-6 w-px bg-slate-700/80" />
+              <div className="w-10 h-10 rounded-md bg-white p-1 flex items-center justify-center shadow-md border border-slate-700">
+                <img
+                  src="/branding/aicte-logo.png"
+                  alt="AICTE Official Logo"
+                  className="w-8 h-8 object-contain"
+                />
               </div>
-              <div>
-                <span className="text-[10px] font-mono uppercase tracking-wider text-brand-ice bg-brand-inst/15 px-2 py-0.5 rounded border border-brand-inst/30">
-                  Citizen Gateway
-                </span>
-                <h2 className="text-lg font-bold text-white mt-2">
-                  Public & Students
-                </h2>
-                <p className="text-xs text-brand-neutral mt-1.5 leading-relaxed">
-                  For students, parents, faculty, and citizens lodging or tracking grievances. No account creation required.
-                </p>
-              </div>
-
-              <div className="pt-2 border-t border-brand-surface/60 space-y-2">
-                <div className="flex items-start space-x-2 text-xs text-brand-warm/90">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-brand-teal shrink-0 mt-0.5" />
-                  <span>Lodge new verified complaint</span>
-                </div>
-                <div className="flex items-start space-x-2 text-xs text-brand-warm/90">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-brand-teal shrink-0 mt-0.5" />
-                  <span>Dual-factor status tracking</span>
-                </div>
-                <div className="flex items-start space-x-2 text-xs text-brand-warm/90">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-brand-teal shrink-0 mt-0.5" />
-                  <span>Whistleblower confidentiality protection</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-2.5 pt-4 border-t border-brand-surface">
-              <Link
-                href="/complaints/register"
-                className="w-full py-2.5 px-3 bg-brand-inst hover:bg-blue-600 text-white font-semibold text-xs rounded-lg shadow-sm flex items-center justify-center space-x-2 transition-colors"
-              >
-                <FilePlus className="w-4 h-4" />
-                <span>Register Complaint</span>
-              </Link>
-              <Link
-                href="/track-complaint"
-                className="w-full py-2.5 px-3 bg-brand-surface hover:bg-brand-surface/80 text-brand-warm border border-brand-surface font-medium text-xs rounded-lg flex items-center justify-center space-x-2 transition-colors"
-              >
-                <Search className="w-4 h-4 text-brand-ice" />
-                <span>Track Complaint Status</span>
-              </Link>
             </div>
           </div>
 
-          {/* Card 2: Institution Portal */}
-          <div className="bg-brand-deep/80 border border-brand-surface rounded-xl p-6 flex flex-col justify-between space-y-6 hover:border-amber-400/40 hover:shadow-[0_0_24px_rgba(245,158,11,0.12)] transition-all">
-            <div className="space-y-4">
-              <div className="w-12 h-12 rounded-lg bg-brand-surface border border-amber-500/30 text-amber-400 flex items-center justify-center">
-                <Building2 className="w-6 h-6" />
-              </div>
-              <div>
-                <span className="text-[10px] font-mono uppercase tracking-wider text-amber-300 bg-amber-500/15 px-2 py-0.5 rounded border border-amber-500/30">
-                  Respondent Portal
-                </span>
-                <h2 className="text-lg font-bold text-white mt-2">
-                  Approved Institutions
-                </h2>
-                <p className="text-xs text-brand-neutral mt-1.5 leading-relaxed">
-                  For authorized technical institutions, principals, and deans to access show-cause notices and file counter-affidavits.
-                </p>
-              </div>
-
-              <div className="pt-2 border-t border-brand-surface/60 space-y-2">
-                <div className="flex items-start space-x-2 text-xs text-brand-warm/90">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
-                  <span>PID-scoped complaint queue</span>
-                </div>
-                <div className="flex items-start space-x-2 text-xs text-brand-warm/90">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
-                  <span>Submit official compliance counter-replies</span>
-                </div>
-                <div className="flex items-start space-x-2 text-xs text-brand-warm/90">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
-                  <span>Pre-seeded demo credentials provided</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="pt-4 border-t border-brand-surface">
-              <Link
-                href="/institution/login"
-                className="w-full py-2.5 px-3 bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs rounded-lg shadow-sm flex items-center justify-center space-x-2 transition-colors"
-              >
-                <KeyRound className="w-4 h-4" />
-                <span>Institution Portal Login</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
+          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#142C46] border border-[#657386]/40 text-[#EAF0F6] text-xs font-mono tracking-wider">
+            <span className="w-2 h-2 rounded-full bg-[#1769AA] animate-pulse" />
+            <span>ALL INDIA COUNCIL FOR TECHNICAL EDUCATION • SIH 2026</span>
           </div>
 
-          {/* Card 3: AICTE Administrative Console */}
-          <div className="bg-brand-deep/80 border border-brand-surface rounded-xl p-6 flex flex-col justify-between space-y-6 hover:border-brand-teal/40 hover:shadow-[0_0_24px_rgba(62,158,150,0.12)] transition-all">
-            <div className="space-y-4">
-              <div className="w-12 h-12 rounded-lg bg-brand-surface border border-brand-teal/30 text-brand-teal flex items-center justify-center">
-                <Scale className="w-6 h-6" />
-              </div>
-              <div>
-                <span className="text-[10px] font-mono uppercase tracking-wider text-brand-teal bg-brand-teal/15 px-2 py-0.5 rounded border border-brand-teal/30">
-                  Official Console
+          <div className="flex items-center justify-center space-x-3 pt-1">
+            <div className="text-center">
+              <div className="text-2xl font-extrabold tracking-tight text-white flex items-center justify-center space-x-2">
+                <span>CaseBridge</span>
+                <span className="text-[#1769AA]">AI</span>
+                <span className="text-[10px] font-mono font-normal uppercase px-1.5 py-0.5 rounded bg-[#142C46] border border-[#657386]/40 text-[#AEBBCD]">
+                  SIH26264
                 </span>
-                <h2 className="text-lg font-bold text-white mt-2">
-                  Bureau Officials
-                </h2>
-                <p className="text-xs text-brand-neutral mt-1.5 leading-relaxed">
-                  For designated AICTE officers across PGRC, Regulation, Approval, Legal, and Review desks.
-                </p>
               </div>
-
-              <div className="pt-2 border-t border-brand-surface/60 space-y-2">
-                <div className="flex items-start space-x-2 text-xs text-brand-warm/90">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-brand-teal shrink-0 mt-0.5" />
-                  <span>Executive workload & SLA dashboards</span>
-                </div>
-                <div className="flex items-start space-x-2 text-xs text-brand-warm/90">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-brand-teal shrink-0 mt-0.5" />
-                  <span>Cross-Bureau overlap triage queue</span>
-                </div>
-                <div className="flex items-start space-x-2 text-xs text-brand-warm/90">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-brand-teal shrink-0 mt-0.5" />
-                  <span>Live persona switcher in topbar</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="pt-4 border-t border-brand-surface">
-              <Link
-                href="/dashboard"
-                className="w-full py-2.5 px-3 bg-brand-surface hover:bg-brand-surface/80 text-white font-semibold text-xs rounded-lg border border-brand-surface shadow-sm flex items-center justify-center space-x-2 transition-colors"
-              >
-                <ShieldCheck className="w-4 h-4 text-brand-teal" />
-                <span>Enter Bureau Console</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
+              <p className="text-xs text-[#AEBBCD] font-medium mt-1">
+                Integrated Case Monitoring & Cross-Bureau Resolution Workspace
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Prototype Notice */}
-        <div className="p-4 rounded-xl bg-brand-deep/50 border border-brand-surface text-center text-xs text-brand-neutral max-w-2xl mx-auto">
-          All login mechanisms and institutional records are part of a demonstration prototype for Smart India Hackathon 2026. No actual AICTE backend credentials are used or stored.
+        {/* Login Container */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Left Column: Context & Public Portals */}
+          <div className="lg:col-span-5 space-y-6">
+            <div className="bg-[#142C46]/80 border border-[#D9E0E7]/20 rounded-xl p-6 space-y-4">
+              <h2 className="text-sm font-bold text-white uppercase tracking-wider font-mono text-slate-300">
+                Operational Authentication
+              </h2>
+              <p className="text-xs text-[#AEBBCD] leading-relaxed">
+                CaseBridge AI restricts administrative case access to authorized bureau officers and verified technical institutions. Decisions are cryptographically audited and role-isolated.
+              </p>
+
+              <div className="pt-2 border-t border-[#657386]/30 space-y-2.5 text-xs">
+                <div className="flex items-start space-x-2 text-[#F5F3ED]/90">
+                  <CheckCircle2 className="w-4 h-4 text-[#287A55] shrink-0 mt-0.5" />
+                  <span>Cross-Bureau Overlap Triage (PGRC, Regulation, Approval, Legal)</span>
+                </div>
+                <div className="flex items-start space-x-2 text-[#F5F3ED]/90">
+                  <CheckCircle2 className="w-4 h-4 text-[#287A55] shrink-0 mt-0.5" />
+                  <span>Explainable Multi-Factor Scoring with Zero Unilateral Merges</span>
+                </div>
+                <div className="flex items-start space-x-2 text-[#F5F3ED]/90">
+                  <CheckCircle2 className="w-4 h-4 text-[#287A55] shrink-0 mt-0.5" />
+                  <span>Permanent Institute ID (PID) Data Isolation</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Public Grievance Shortcut */}
+            <div className="bg-[#142C46]/40 border border-[#D9E0E7]/10 rounded-xl p-5 space-y-3">
+              <div className="flex items-center space-x-2 text-xs font-semibold text-white">
+                <Users className="w-4 h-4 text-[#8DBAFF]" />
+                <span>Citizen & Student Access</span>
+              </div>
+              <p className="text-[11px] text-[#AEBBCD]">
+                Citizens and students do not require credentials to lodge or track complaints.
+              </p>
+              <div className="flex gap-2 pt-1">
+                <Link
+                  href="/complaints/register"
+                  className="flex-1 py-2 px-3 text-center bg-[#1769AA] hover:bg-blue-600 text-white rounded text-xs font-semibold transition-colors"
+                >
+                  Lodge Complaint
+                </Link>
+                <Link
+                  href="/track-complaint"
+                  className="flex-1 py-2 px-3 text-center bg-[#142C46] hover:bg-slate-700 border border-[#657386]/40 text-slate-200 rounded text-xs font-medium transition-colors"
+                >
+                  Track Status
+                </Link>
+              </div>
+            </div>
+
+            {/* Asset Dependency Notice */}
+            <div className="p-3 bg-[#080E18]/60 border border-[#657386]/20 rounded-lg text-[10px] text-slate-400 font-mono leading-relaxed">
+              [ASSET DEPENDENCY] Official emblems of Government of India and AICTE are reserved for production statutory deployment. All demonstration data herein is synthetic.
+            </div>
+          </div>
+
+          {/* Right Column: Authentication Card */}
+          <div className="lg:col-span-7 bg-[#FFFFFF] text-[#0B1C2D] rounded-xl shadow-2xl border border-[#D9E0E7] p-6 sm:p-8 space-y-6">
+            {/* Tabs */}
+            <div className="flex border-b border-[#D9E0E7]">
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveTab("official");
+                  setError(null);
+                }}
+                className={`flex-1 py-2.5 text-xs font-semibold border-b-2 text-center transition-colors ${
+                  activeTab === "official"
+                    ? "border-[#1769AA] text-[#1769AA]"
+                    : "border-transparent text-slate-500 hover:text-slate-800"
+                }`}
+              >
+                AICTE Official / Reviewer
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveTab("institution");
+                  setError(null);
+                }}
+                className={`flex-1 py-2.5 text-xs font-semibold border-b-2 text-center transition-colors ${
+                  activeTab === "institution"
+                    ? "border-amber-600 text-amber-700"
+                    : "border-transparent text-slate-500 hover:text-slate-800"
+                }`}
+              >
+                Technical Institution
+              </button>
+            </div>
+
+            {error && (
+              <div className="p-3 bg-red-50 border border-red-200 rounded-md text-xs text-[#B42332] flex items-center space-x-2.5">
+                <AlertCircle className="w-4 h-4 shrink-0 text-[#B42332]" />
+                <span>{error}</span>
+              </div>
+            )}
+
+            {activeTab === "official" ? (
+              <form onSubmit={handleOfficialSubmit} className="space-y-4">
+                <div className="space-y-1">
+                  <label className="block text-xs font-semibold text-slate-700">
+                    Official Email Address *
+                  </label>
+                  <div className="relative">
+                    <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                    <input
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="e.g. admin@aicte-india.org"
+                      className="w-full text-xs pl-9 pr-3 py-2.5 border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#1769AA] focus:border-[#1769AA]"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="block text-xs font-semibold text-slate-700">
+                    Password *
+                  </label>
+                  <div className="relative">
+                    <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="••••••••••••"
+                      className="w-full text-xs pl-9 pr-10 py-2.5 border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#1769AA] focus:border-[#1769AA]"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-3 text-slate-400 hover:text-slate-600"
+                    >
+                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full py-2.5 px-4 bg-[#1769AA] hover:bg-blue-700 text-white font-semibold text-xs rounded-md shadow transition-colors flex items-center justify-center space-x-2 disabled:opacity-50"
+                >
+                  {isLoading ? (
+                    <span>Verifying Credentials...</span>
+                  ) : (
+                    <>
+                      <span>Sign In to Official Console</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
+                </button>
+
+                {/* Demonstration Persona Quick-Select */}
+                <div className="pt-4 border-t border-slate-200 space-y-2">
+                  <div className="text-[11px] font-mono text-slate-500 uppercase tracking-wider">
+                    Quick-Sign Demonstration Personas (SIH Evaluation):
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleQuickPersonaSelect("admin@aicte-india.org", "admin@2026")}
+                      className="text-left p-2 rounded border border-slate-200 hover:border-[#1769AA] hover:bg-blue-50 transition-colors text-[11px]"
+                    >
+                      <div className="font-semibold text-slate-900">Dr. Abhay Jere</div>
+                      <div className="text-slate-500">Chief Vigilance (ADMIN)</div>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => handleQuickPersonaSelect("review.officer@aicte-india.org", "admin@2026")}
+                      className="text-left p-2 rounded border border-slate-200 hover:border-[#1769AA] hover:bg-blue-50 transition-colors text-[11px]"
+                    >
+                      <div className="font-semibold text-slate-900">Smt. Meenakshi Rao</div>
+                      <div className="text-slate-500">Joint Review (REVIEWER)</div>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => handleQuickPersonaSelect("pgrc.director@aicte-india.org", "admin@2026")}
+                      className="text-left p-2 rounded border border-slate-200 hover:border-[#1769AA] hover:bg-blue-50 transition-colors text-[11px]"
+                    >
+                      <div className="font-semibold text-slate-900">Dr. Mamta Agarwal</div>
+                      <div className="text-slate-500">Advisor (PGRC Bureau)</div>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => handleQuickPersonaSelect("regulation.cell@aicte-india.org", "admin@2026")}
+                      className="text-left p-2 rounded border border-slate-200 hover:border-[#1769AA] hover:bg-blue-50 transition-colors text-[11px]"
+                    >
+                      <div className="font-semibold text-slate-900">Shri R. K. Srivastav</div>
+                      <div className="text-slate-500">Dir. Regulation Bureau</div>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            ) : (
+              <div className="space-y-4">
+                <div className="p-3 bg-amber-50 border border-amber-200 rounded text-xs text-amber-900">
+                  Approved technical institutions must authenticate using their registered AICTE institute email and official access key.
+                </div>
+
+                <div className="space-y-3 text-xs">
+                  <div>
+                    <label className="block font-semibold text-slate-700 mb-1">
+                      Registered Institutional Email *
+                    </label>
+                    <input
+                      type="email"
+                      value={instEmail}
+                      onChange={(e) => setInstEmail(e.target.value)}
+                      className="w-full text-xs p-2.5 border border-slate-300 rounded focus:ring-1 focus:ring-amber-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-semibold text-slate-700 mb-1">
+                      Institutional Access Key *
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showInstKey ? "text" : "password"}
+                        value={instKey}
+                        onChange={(e) => setInstKey(e.target.value)}
+                        className="w-full text-xs p-2.5 border border-slate-300 rounded focus:ring-1 focus:ring-amber-500"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowInstKey(!showInstKey)}
+                        className="absolute right-3 top-3 text-slate-400"
+                      >
+                        {showInstKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      </button>
+                    </div>
+                  </div>
+
+                  <Link
+                    href={`/institution/dashboard?institution_id=1-10492811`}
+                    className="w-full py-2.5 px-4 bg-amber-600 hover:bg-amber-700 text-white font-semibold text-xs rounded-md shadow flex items-center justify-center space-x-2 transition-colors"
+                  >
+                    <span>Sign In to Institutional Compliance Desk</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+
+                  <div className="text-center pt-2">
+                    <Link
+                      href="/institution/login"
+                      className="text-xs text-amber-700 hover:underline font-medium"
+                    >
+                      Open Full Institutional Portal & Account Switcher &rarr;
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#0B1C2D] flex items-center justify-center text-white">Loading CaseBridge Authentication...</div>}>
+      <LoginForm />
+    </Suspense>
   );
 }

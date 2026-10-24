@@ -11,13 +11,14 @@ import {
   Building2,
   FileText,
   AlertTriangle,
+  LogOut,
 } from "lucide-react";
 import { useRole } from "@/lib/context/RoleContext";
 import { UserRole } from "@/lib/api/types";
 
 export function Topbar() {
   const router = useRouter();
-  const { currentUser, setCurrentUser, availableUsers } = useRole();
+  const { currentUser, setCurrentUser, availableUsers, logout } = useRole();
   const [searchQuery, setSearchQuery] = useState("");
   const [showRoleMenu, setShowRoleMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -46,11 +47,15 @@ export function Topbar() {
 
   return (
     <header className="h-14 bg-white border-b border-slate-200 px-4 flex items-center justify-between sticky top-0 z-40">
-      {/* Left: Branding */}
+      {/* Left: Branding with Authentic AICTE Logo */}
       <div className="flex items-center gap-3">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded bg-navy-900 flex items-center justify-center text-white font-bold text-xs tracking-wider shadow-sm border border-slate-700">
-            AICTE
+          <div className="w-8 h-8 rounded bg-white flex items-center justify-center shadow-xs border border-slate-200 shrink-0 p-0.5">
+            <img
+              src="/branding/aicte-logo.png"
+              alt="AICTE Official Logo"
+              className="w-7 h-7 object-contain"
+            />
           </div>
           <div>
             <div className="text-sm font-semibold tracking-tight text-slate-900 flex items-center gap-1.5">
@@ -100,19 +105,18 @@ export function Topbar() {
           </a>
         </div>
 
-        {/* Notifications */}
+        {/* Notifications Dropdown */}
         <div className="relative">
           <button
             onClick={() => {
               setShowNotifications(!showNotifications);
               setShowRoleMenu(false);
             }}
-            className="p-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded border border-transparent hover:border-slate-200 relative transition-colors"
-            title="Notifications & Alerts"
-            aria-label="Notifications"
+            className="p-1.5 rounded-full text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors relative"
+            aria-label="System notifications"
           >
             <Bell className="w-4 h-4" />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-amber-500 rounded-full ring-2 ring-white"></span>
+            <span className="w-2 h-2 rounded-full bg-rose-600 absolute top-1 right-1 ring-2 ring-white"></span>
           </button>
 
           {showNotifications && (
@@ -215,6 +219,20 @@ export function Topbar() {
                     </div>
                   </button>
                 ))}
+              </div>
+              <div className="pt-1 mt-1 border-t border-slate-100 px-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    logout();
+                    setShowRoleMenu(false);
+                    router.push("/login");
+                  }}
+                  className="w-full text-left px-2 py-1.5 rounded text-xs text-red-700 hover:bg-red-50 flex items-center space-x-2 font-medium"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  <span>Sign Out of Console</span>
+                </button>
               </div>
             </div>
           )}
