@@ -1,48 +1,55 @@
 import React from "react";
 import { BureauType } from "@/lib/api/types";
 
-export function BureauBadge({ bureau }: { bureau: BureauType }) {
+export function BureauBadge({
+  bureau,
+  size = "md",
+}: {
+  bureau: BureauType;
+  size?: "sm" | "md";
+}) {
+  const sizeClasses = size === "sm" ? "text-[10px] px-1.5 py-0.5" : "text-[11px] px-2 py-0.5";
+
   switch (bureau) {
     case "REGULATION":
       return (
-        <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-blue-900/10 text-blue-900 border border-blue-900/20">
-          <span className="w-1.5 h-1.5 rounded-full bg-blue-800" />
-          <span>RB • Regulation</span>
+        <span
+          className={`inline-flex items-center font-semibold rounded bg-[#E8EEE7] text-[#344B3B] border border-[#D0DDD0] font-mono tracking-tight ${sizeClasses}`}
+        >
+          RB &bull; Regulation
         </span>
       );
     case "PGRC":
       return (
-        <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-indigo-900/10 text-indigo-900 border border-indigo-900/20">
-          <span className="w-1.5 h-1.5 rounded-full bg-indigo-700" />
-          <span>PGRC Desk</span>
+        <span
+          className={`inline-flex items-center font-semibold rounded bg-[#EAF0F6] text-[#496785] border border-[#C5D5E4] font-mono tracking-tight ${sizeClasses}`}
+        >
+          PGRC Desk
         </span>
       );
     case "APPROVAL":
       return (
-        <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-teal-900/10 text-teal-900 border border-teal-900/20">
-          <span className="w-1.5 h-1.5 rounded-full bg-teal-700" />
-          <span>AB • Approval</span>
+        <span
+          className={`inline-flex items-center font-semibold rounded bg-[#F7F7F4] text-[#20231F] border border-[#E3E5DE] font-mono tracking-tight ${sizeClasses}`}
+        >
+          AB &bull; Approval
         </span>
       );
     case "LEGAL":
       return (
-        <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-slate-900/10 text-slate-800 border border-slate-900/20">
-          <span className="w-1.5 h-1.5 rounded-full bg-slate-600" />
-          <span>Legal Cell</span>
+        <span
+          className={`inline-flex items-center font-semibold rounded bg-[#FBF1DB] text-[#925C0B] border border-[#F0DCB0] font-mono tracking-tight ${sizeClasses}`}
+        >
+          Legal Cell
         </span>
       );
     case "CPGRAMS":
-      return (
-        <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-amber-900/10 text-amber-900 border border-amber-900/20">
-          <span className="w-1.5 h-1.5 rounded-full bg-amber-700" />
-          <span>CPGRAMS • MoE</span>
-        </span>
-      );
     default:
       return (
-        <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-medium px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
-          <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
-          <span>{bureau}</span>
+        <span
+          className={`inline-flex items-center font-semibold rounded bg-[#F0F1ED] text-[#62665F] border border-[#E3E5DE] font-mono tracking-tight ${sizeClasses}`}
+        >
+          CPGRAMS Desk
         </span>
       );
   }

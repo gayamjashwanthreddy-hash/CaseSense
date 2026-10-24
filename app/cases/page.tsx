@@ -14,10 +14,10 @@ import {
   Eye,
   Building2,
   X,
-  FileSpreadsheet,
-  Layers,
-  ArrowRight,
   RotateCcw,
+  ShieldAlert,
+  ArrowRight,
+  FileSpreadsheet,
 } from "lucide-react";
 import { ComplaintCase, BureauType, CaseStatus, PriorityLevel } from "@/lib/api/types";
 import { CaseBridgeStore } from "@/lib/api/store";
@@ -49,7 +49,7 @@ function CasesExplorerContent() {
   const [sortField, setSortField] = useState<"date" | "days">("days");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
+  const pageSize = 12;
 
   const loadData = () => {
     SupabaseDataService.getCases().then((data) => {
@@ -118,15 +118,19 @@ function CasesExplorerContent() {
       if (sortField === "days") {
         return sortOrder === "asc" ? a.daysOpen - b.daysOpen : b.daysOpen - a.daysOpen;
       } else {
-        const dateA = new Date(a.receivedDate).getTime();
-        const dateB = new Date(b.receivedDate).getTime();
-        return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
+        const timeA = new Date(a.receivedDate).getTime();
+        const timeB = new Date(b.receivedDate).getTime();
+        return sortOrder === "asc" ? timeA - timeB : timeB - timeA;
       }
     });
   }, [filteredCases, sortField, sortOrder]);
 
-  const totalPages = Math.ceil(sortedCases.length / pageSize) || 1;
-  const paginatedCases = sortedCases.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+  // Pagination Logic
+  const totalPages = Math.max(1, Math.ceil(sortedCases.length / pageSize));
+  const paginatedCases = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return sortedCases.slice(start, start + pageSize);
+  }, [sortedCases, currentPage, pageSize]);
 
   const clearFilters = () => {
     setSearch("");
@@ -140,8 +144,8 @@ function CasesExplorerContent() {
   const handleExportCSV = () => {
     const headers = [
       "Case ID",
-      "Ref Number",
-      "Institution ID",
+      "Reference Number",
+      "PID",
       "Institution Name",
       "Bureau",
       "Subject",
@@ -168,7 +172,9 @@ function CasesExplorerContent() {
       c.hasOverlap ? "YES" : "NO",
     ]);
 
-    const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map((e) => e.join(","))].join("\n");
+    const csvContent =
+      "data:text/csv;charset=utf-8," +
+      [headers.join(","), ...rows.map((e) => e.join(","))].join("\n");
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
@@ -181,28 +187,28 @@ function CasesExplorerContent() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-slate-200/90">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-5 border-b border-[#E3E5DE]">
         <div>
-          <Breadcrumbs items={[{ label: "Complaint Explorer" }]} />
-          <h1 className="text-xl sm:text-2xl font-extrabold text-[#08121E] tracking-tight font-sans mt-0.5">
-            AICTE Cross-Bureau Case Register
+          <Breadcrumbs items={[{ label: "Complaint Register" }]} />
+          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-[#20231F] tracking-tight mt-1">
+            Administrative Complaint Register
           </h1>
-          <p className="text-xs text-slate-500 font-mono mt-1">
-            Search, filter, inspect, and track proceedings across technical institutions nationwide.
+          <p className="text-xs text-[#62665F] font-mono mt-1">
+            Multi-bureau grievance logs, SLA monitoring, and cross-cell jurisdiction tracking across AICTE technical institutions.
           </p>
         </div>
 
         <div className="flex items-center gap-2.5">
           <button
             onClick={handleExportCSV}
-            className="inline-flex items-center gap-1.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 text-xs font-semibold px-3 py-2 rounded-lg shadow-xs transition-colors font-sans"
+            className="inline-flex items-center gap-1.5 bg-white hover:bg-[#F7F7F4] text-[#20231F] border border-[#E3E5DE] text-xs font-medium px-3.5 py-2 rounded-md shadow-xs transition-colors"
           >
-            <Download className="w-3.5 h-3.5 text-slate-500" />
+            <Download className="w-3.5 h-3.5 text-[#62665F]" />
             <span>Export CSV</span>
           </button>
           <Link
             href="/intake"
-            className="inline-flex items-center gap-1.5 bg-[#0A1626] hover:bg-[#162D4A] text-white text-xs font-semibold px-3.5 py-2 rounded-lg shadow-xs transition-colors font-sans"
+            className="inline-flex items-center gap-1.5 bg-[#344B3B] hover:bg-[#293D30] text-white text-xs font-semibold px-4 py-2 rounded-md shadow-xs transition-colors"
           >
             <span>+ Register Complaint</span>
           </Link>
@@ -210,25 +216,25 @@ function CasesExplorerContent() {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-white p-4 rounded-xl border border-slate-200/90 shadow-xs space-y-3.5">
+      <div className="bg-white p-4 rounded-xl border border-[#E3E5DE] shadow-xs space-y-3.5">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
           {/* Global Search */}
           <div className="lg:col-span-2 relative">
-            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-3" />
+            <Search className="w-3.5 h-3.5 text-[#85877F] absolute left-3 top-3" />
             <input
               type="text"
-              placeholder="Search by ID, PID, College, or Keywords..."
+              placeholder="Search by Case ID, PID, College Name, or Allegation..."
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value);
                 setCurrentPage(1);
               }}
-              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg pl-8 pr-8 py-2 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-[#1769AA] focus:border-[#1769AA] focus:bg-white font-sans transition-all"
+              className="w-full text-xs bg-[#F7F7F4] border border-[#E3E5DE] rounded-md pl-8 pr-8 py-2 text-[#20231F] placeholder-[#85877F] focus:outline-none focus:ring-1 focus:ring-[#526B57] focus:border-[#526B57] focus:bg-white font-sans transition-all"
             />
             {search && (
               <button
                 onClick={() => setSearch("")}
-                className="absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-600 p-0.5"
+                className="absolute right-2.5 top-2.5 text-[#85877F] hover:text-[#20231F] p-0.5"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -243,7 +249,7 @@ function CasesExplorerContent() {
                 setBureauFilter(e.target.value);
                 setCurrentPage(1);
               }}
-              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#1769AA] font-sans"
+              className="w-full text-xs bg-[#F7F7F4] border border-[#E3E5DE] rounded-md px-3 py-2 text-[#20231F] focus:outline-none focus:ring-1 focus:ring-[#526B57] font-sans"
             >
               <option value="ALL">All Bureaus / Cells</option>
               <option value="PGRC">Public Grievance Redressal (PGRC)</option>
@@ -262,7 +268,7 @@ function CasesExplorerContent() {
                 setStatusFilter(e.target.value);
                 setCurrentPage(1);
               }}
-              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#1769AA] font-sans"
+              className="w-full text-xs bg-[#F7F7F4] border border-[#E3E5DE] rounded-md px-3 py-2 text-[#20231F] focus:outline-none focus:ring-1 focus:ring-[#526B57] font-sans"
             >
               <option value="ALL">All Statuses</option>
               <option value="OVERDUE">Overdue / SLA Breach</option>
@@ -285,7 +291,7 @@ function CasesExplorerContent() {
                 setPriorityFilter(e.target.value);
                 setCurrentPage(1);
               }}
-              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#1769AA] font-sans"
+              className="w-full text-xs bg-[#F7F7F4] border border-[#E3E5DE] rounded-md px-3 py-2 text-[#20231F] focus:outline-none focus:ring-1 focus:ring-[#526B57] font-sans"
             >
               <option value="ALL">All Priorities</option>
               <option value="CRITICAL">Critical Urgency</option>
@@ -297,7 +303,7 @@ function CasesExplorerContent() {
         </div>
 
         {/* Second Row: Toggle and Stats */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pt-2 border-t border-slate-100 text-xs">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pt-2.5 border-t border-[#E3E5DE] text-xs">
           <div className="flex items-center gap-4">
             <label className="inline-flex items-center gap-2 cursor-pointer select-none">
               <input
@@ -307,9 +313,9 @@ function CasesExplorerContent() {
                   setOverlapOnly(e.target.checked);
                   setCurrentPage(1);
                 }}
-                className="rounded border-slate-300 text-[#1769AA] focus:ring-[#1769AA] w-3.5 h-3.5"
+                className="rounded border-[#E3E5DE] text-[#344B3B] focus:ring-[#526B57] w-3.5 h-3.5 accent-[#344B3B]"
               />
-              <span className="text-slate-700 font-medium font-sans">
+              <span className="text-[#20231F] font-medium font-sans">
                 Show Only Overlapping / Multi-Bureau Inquiries
               </span>
             </label>
@@ -321,7 +327,7 @@ function CasesExplorerContent() {
               overlapOnly) && (
               <button
                 onClick={clearFilters}
-                className="text-[#1769AA] hover:text-blue-900 text-xs font-semibold inline-flex items-center gap-1 font-mono"
+                className="text-[#344B3B] hover:text-[#202F25] text-xs font-semibold inline-flex items-center gap-1 font-mono"
               >
                 <RotateCcw className="w-3 h-3" />
                 <span>Reset Filters</span>
@@ -329,20 +335,20 @@ function CasesExplorerContent() {
             )}
           </div>
 
-          <div className="text-slate-500 font-mono text-xs">
-            Showing <strong className="text-slate-900">{filteredCases.length}</strong> matching records
+          <div className="text-[#62665F] font-mono text-xs">
+            Showing <strong className="text-[#20231F]">{filteredCases.length}</strong> matching records
           </div>
         </div>
       </div>
 
       {/* Main Administrative Data Table */}
-      <div className="bg-white rounded-xl border border-slate-200/90 shadow-xs overflow-hidden">
+      <div className="bg-white rounded-xl border border-[#E3E5DE] shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs font-sans">
             <thead>
-              <tr className="bg-slate-100/70 border-b border-slate-200/80 text-slate-600 font-mono text-[11px] select-none">
+              <tr className="bg-[#F7F7F4] border-b border-[#E3E5DE] text-[#62665F] font-mono text-[11px] select-none">
                 <th className="py-3 px-4 font-semibold">Case Reference</th>
-                <th className="py-3 px-4 font-semibold">Institution Name & PID</th>
+                <th className="py-3 px-4 font-semibold">Institution Name &amp; PID</th>
                 <th className="py-3 px-4 font-semibold">Bureau</th>
                 <th className="py-3 px-4 font-semibold">Subject Matter</th>
                 <th className="py-3 px-4 font-semibold">
@@ -355,24 +361,24 @@ function CasesExplorerContent() {
                         setSortOrder("desc");
                       }
                     }}
-                    className="flex items-center gap-1 hover:text-slate-900 font-semibold"
+                    className="flex items-center gap-1 hover:text-[#20231F] font-semibold"
                   >
                     <span>Days Open</span>
-                    <ArrowUpDown className="w-3 h-3 text-slate-400" />
+                    <ArrowUpDown className="w-3 h-3 text-[#85877F]" />
                   </button>
                 </th>
                 <th className="py-3 px-4 font-semibold">Status</th>
-                <th className="py-3 px-4 font-semibold">Overlap</th>
+                <th className="py-3 px-4 font-semibold">Overlap Status</th>
                 <th className="py-3 px-4 font-semibold text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 font-sans">
+            <tbody className="divide-y divide-[#E3E5DE] font-sans">
               {paginatedCases.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="py-12 text-center text-slate-500 font-mono text-xs">
+                  <td colSpan={8} className="py-12 text-center text-[#62665F] font-mono text-xs">
                     <div className="max-w-xs mx-auto space-y-1">
-                      <div className="font-semibold text-slate-700">No matching cases found</div>
-                      <div className="text-[11px] text-slate-400">
+                      <div className="font-semibold text-[#20231F]">No matching cases found</div>
+                      <div className="text-[11px] text-[#85877F]">
                         Try adjusting your keywords or clearing the active filters.
                       </div>
                     </div>
@@ -382,25 +388,25 @@ function CasesExplorerContent() {
                 paginatedCases.map((c) => (
                   <tr
                     key={c.id}
-                    className="hover:bg-slate-50/80 transition-colors group cursor-pointer"
+                    className="hover:bg-[#F7F7F4] transition-colors group cursor-pointer"
                     onClick={() => setSelectedCaseForDrawer(c)}
                   >
                     {/* Case ID */}
-                    <td className="py-3 px-4 font-mono font-bold text-slate-900">
-                      <div className="text-[#1769AA] group-hover:underline flex items-center gap-1">
+                    <td className="py-3 px-4 font-mono font-bold text-[#20231F]">
+                      <div className="text-[#344B3B] group-hover:underline flex items-center gap-1">
                         <span>{c.id}</span>
                       </div>
-                      <div className="text-[10px] text-slate-400 font-mono mt-0.5">
+                      <div className="text-[10px] text-[#85877F] font-mono mt-0.5">
                         {formatDate(c.receivedDate)}
                       </div>
                     </td>
 
                     {/* Institution */}
                     <td className="py-3 px-4 max-w-xs">
-                      <div className="font-semibold text-slate-900 truncate" title={c.institutionName}>
+                      <div className="font-semibold text-[#20231F] truncate" title={c.institutionName}>
                         {c.institutionName}
                       </div>
-                      <div className="text-[10px] text-slate-500 font-mono flex items-center gap-2 mt-0.5">
+                      <div className="text-[10px] text-[#62665F] font-mono flex items-center gap-2 mt-0.5">
                         <span>PID: {c.institutionId}</span>
                         <span>&bull;</span>
                         <span>{c.institutionState}</span>
@@ -414,20 +420,20 @@ function CasesExplorerContent() {
 
                     {/* Subject */}
                     <td className="py-3 px-4 max-w-sm">
-                      <div className="text-slate-800 line-clamp-1 font-medium" title={c.subject}>
+                      <div className="text-[#20231F] line-clamp-1 font-medium" title={c.subject}>
                         {c.subject}
                       </div>
-                      <div className="text-[10px] text-slate-400 mt-0.5 truncate font-mono">
+                      <div className="text-[10px] text-[#85877F] mt-0.5 truncate font-mono">
                         By {c.complainantName} ({c.complainantType})
                       </div>
                     </td>
 
                     {/* Days Open / SLA */}
                     <td className="py-3 px-4 font-mono">
-                      <div className={`font-bold ${c.daysOpen > 30 ? "text-rose-700" : "text-slate-700"}`}>
+                      <div className={`font-bold ${c.daysOpen > 30 ? "text-[#B42332]" : "text-[#20231F]"}`}>
                         {c.daysOpen} days
                       </div>
-                      <div className="text-[10px] text-slate-400">Due {formatDate(c.slaDeadline)}</div>
+                      <div className="text-[10px] text-[#85877F]">Due {formatDate(c.slaDeadline)}</div>
                     </td>
 
                     {/* Status */}
@@ -440,14 +446,16 @@ function CasesExplorerContent() {
                       {c.hasOverlap && c.overlapPairId ? (
                         <Link
                           href={`/overlap-review/${c.overlapPairId}`}
-                          className="inline-flex items-center gap-1.5 text-[10px] font-mono font-semibold text-amber-900 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 px-2 py-0.5 rounded-md transition-colors"
+                          className="inline-flex items-center gap-1.5 text-[10px] font-mono font-semibold text-[#925C0B] bg-[#FBF1DB] hover:bg-[#f6e6c2] border border-[#925C0B]/25 px-2 py-0.5 rounded-md transition-colors"
                           title="Open Cross-Bureau Overlap Review Workspace"
                         >
-                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#925C0B] animate-pulse" />
                           <span>Flagged</span>
                         </Link>
                       ) : (
-                        <span className="text-[10px] text-slate-400 font-mono">Isolated</span>
+                        <span className="inline-flex items-center text-[10px] text-[#62665F] bg-[#F0F1ED] px-2 py-0.5 rounded font-mono">
+                          Isolated
+                        </span>
                       )}
                     </td>
 
@@ -455,7 +463,7 @@ function CasesExplorerContent() {
                     <td className="py-3 px-4 text-right space-x-1.5" onClick={(e) => e.stopPropagation()}>
                       <button
                         onClick={() => setSelectedCaseForDrawer(c)}
-                        className="p-1 rounded-md text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors"
+                        className="p-1 rounded-md text-[#85877F] hover:text-[#20231F] hover:bg-[#E8EEE7] transition-colors"
                         title="Quick Preview Drawer"
                       >
                         <Eye className="w-3.5 h-3.5" />
@@ -463,7 +471,7 @@ function CasesExplorerContent() {
 
                       <Link
                         href={`/cases/${encodeURIComponent(c.id)}`}
-                        className="inline-flex items-center text-[11px] font-semibold text-[#1769AA] hover:text-blue-900 px-2 py-0.5 bg-blue-50 hover:bg-blue-100 rounded-md transition-colors font-mono"
+                        className="inline-flex items-center text-[11px] font-semibold text-[#344B3B] hover:text-[#202F25] px-2 py-0.5 bg-[#E8EEE7] hover:bg-[#d8e3d6] rounded-md transition-colors font-mono"
                       >
                         Full Dossier
                       </Link>
@@ -476,24 +484,24 @@ function CasesExplorerContent() {
         </div>
 
         {/* Pagination Controls */}
-        <div className="p-3.5 bg-slate-50 border-t border-slate-200/90 flex items-center justify-between text-xs text-slate-600 font-mono select-none">
+        <div className="p-3.5 bg-[#F7F7F4] border-t border-[#E3E5DE] flex items-center justify-between text-xs text-[#62665F] font-mono select-none">
           <div>
             Showing{" "}
-            <strong className="text-slate-900">
+            <strong className="text-[#20231F]">
               {filteredCases.length === 0 ? 0 : (currentPage - 1) * pageSize + 1}
             </strong>{" "}
             to{" "}
-            <strong className="text-slate-900">
+            <strong className="text-[#20231F]">
               {Math.min(currentPage * pageSize, filteredCases.length)}
             </strong>{" "}
-            of <strong className="text-slate-900">{filteredCases.length}</strong> cases
+            of <strong className="text-[#20231F]">{filteredCases.length}</strong> cases
           </div>
 
           <div className="flex items-center gap-2">
             <button
               onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
               disabled={currentPage === 1}
-              className="p-1.5 rounded-md border border-slate-200 bg-white hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="p-1.5 rounded-md border border-[#E3E5DE] bg-white hover:bg-[#F7F7F4] disabled:opacity-40 disabled:cursor-not-allowed text-[#20231F]"
             >
               <ChevronLeft className="w-3.5 h-3.5" />
             </button>
@@ -503,7 +511,7 @@ function CasesExplorerContent() {
             <button
               onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
               disabled={currentPage === totalPages}
-              className="p-1.5 rounded-md border border-slate-200 bg-white hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="p-1.5 rounded-md border border-[#E3E5DE] bg-white hover:bg-[#F7F7F4] disabled:opacity-40 disabled:cursor-not-allowed text-[#20231F]"
             >
               <ChevronRight className="w-3.5 h-3.5" />
             </button>
@@ -524,7 +532,7 @@ export default function CasesExplorerPage() {
   return (
     <Suspense
       fallback={
-        <div className="py-20 text-center font-mono text-xs text-slate-500">
+        <div className="py-20 text-center font-mono text-xs text-[#62665F]">
           Loading AICTE case register...
         </div>
       }

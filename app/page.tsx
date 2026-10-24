@@ -4,32 +4,25 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import {
-  ShieldCheck,
   Building2,
   GitCompare,
   ArrowRight,
   CheckCircle2,
   XCircle,
   Clock,
-  Lock,
   Scale,
   FileText,
   AlertTriangle,
-  Layers,
   ChevronRight,
-  Eye,
   Check,
-  X,
   History,
   Activity,
-  Sparkles,
-  ExternalLink,
-  Database,
-  ShieldAlert,
   Sliders,
-  Users,
   FilePlus,
   ArrowUpRight,
+  ShieldCheck,
+  Search,
+  Sparkles,
 } from "lucide-react";
 
 export default function CinematicLandingPage() {
@@ -49,7 +42,7 @@ export default function CinematicLandingPage() {
       title: "Inter-Bureau Fee Dispute Overlap",
       confidence: 88,
       status: "HIGH CONFIDENCE MATCH",
-      statusColor: "text-amber-400 bg-amber-500/10 border-amber-500/30",
+      statusColor: "text-[#925C0B] bg-[#FBF1DB] border-[#F0DCB0]",
       institution: "Apex Institute of Technology, Pune",
       pid: "1-10492811",
       caseA: {
@@ -67,7 +60,7 @@ export default function CinematicLandingPage() {
       factors: [
         { name: "Permanent Institute ID (PID)", weight: 40, score: 40, detail: "Exact Match (1-10492811)" },
         { name: "Category Classification", weight: 25, score: 25, detail: "Fee Ceiling Violation" },
-        { name: "Narrative Lexical Jaccard", weight: 25, score: 18, detail: "Keyword Similarity 72%" },
+        { name: "Narrative Lexical Match", weight: 25, score: 18, detail: "Keyword Similarity 72%" },
         { name: "Cross-Bureau Bonus", weight: 10, score: 10, detail: "PGRC ↔ Regulation Bureau" },
       ],
       recommendation: "Joint Inquiry Recommended. Lead Bureau: Regulation Bureau (RB).",
@@ -76,7 +69,7 @@ export default function CinematicLandingPage() {
       title: "Hostel Facility & Approval Discrepancy",
       confidence: 76,
       status: "MODERATE CORRELATION",
-      statusColor: "text-blue-400 bg-blue-500/10 border-blue-500/30",
+      statusColor: "text-[#496785] bg-[#EAF0F6] border-[#C5D5E4]",
       institution: "Bharatiya Engineering Academy, Bengaluru",
       pid: "1-20948172",
       caseA: {
@@ -94,7 +87,7 @@ export default function CinematicLandingPage() {
       factors: [
         { name: "Permanent Institute ID (PID)", weight: 40, score: 40, detail: "Exact Match (1-20948172)" },
         { name: "Category Classification", weight: 25, score: 18, detail: "Infrastructure / Safety" },
-        { name: "Narrative Lexical Jaccard", weight: 25, score: 11, detail: "Keyword Similarity 44%" },
+        { name: "Narrative Lexical Match", weight: 25, score: 11, detail: "Keyword Similarity 44%" },
         { name: "Cross-Bureau Bonus", weight: 10, score: 7, detail: "PGRC ↔ Approval Bureau" },
       ],
       recommendation: "Cross-Bureau Tagging Required. Cases remain distinct with linked dossiers.",
@@ -103,7 +96,7 @@ export default function CinematicLandingPage() {
       title: "Distinct Institutional Complaints",
       confidence: 18,
       status: "NO OVERLAP (DISTINCT)",
-      statusColor: "text-slate-400 bg-slate-500/10 border-slate-500/30",
+      statusColor: "text-[#62665F] bg-[#F0F1ED] border-[#E3E5DE]",
       institution: "Multi-Campus Comparison",
       pid: "Independent PIDs",
       caseA: {
@@ -121,7 +114,7 @@ export default function CinematicLandingPage() {
       factors: [
         { name: "Permanent Institute ID (PID)", weight: 40, score: 0, detail: "Mismatch (Distinct Colleges)" },
         { name: "Category Classification", weight: 25, score: 8, detail: "General Academic Affairs" },
-        { name: "Narrative Lexical Jaccard", weight: 25, score: 5, detail: "Minimal Keyword Match 12%" },
+        { name: "Narrative Lexical Match", weight: 25, score: 5, detail: "Minimal Keyword Match 12%" },
         { name: "Cross-Bureau Bonus", weight: 10, score: 5, detail: "Independent Cell Processing" },
       ],
       recommendation: "Standard Independent Queue. No inter-bureau intervention needed.",
@@ -131,219 +124,167 @@ export default function CinematicLandingPage() {
   const currentScenario = scenarios[selectedScenario];
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#08121E] text-[#F5F3ED] font-sans antialiased selection:bg-[#1769AA] selection:text-white">
+    <div className="flex flex-col min-h-screen bg-white text-[#20231F] font-sans antialiased selection:bg-[#E8EEE7] selection:text-[#344B3B]">
       {/* =========================================================================
-          SECTION 1 — HERO: Editorial Asymmetric Composition with Live Intelligence
+          SECTION 1 — HERO: Editorial Asymmetric Composition (White / Olive)
          ========================================================================= */}
-      <section className="relative overflow-hidden pt-12 pb-20 sm:pt-20 sm:pb-32 border-b border-[#162942]">
-        {/* Subtle Architectural Geometry Grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#162942_1px,transparent_1px),linear-gradient(to_bottom,#162942_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,#000_70%,transparent_100%)] opacity-30 pointer-events-none" />
-
+      <section className="relative overflow-hidden pt-12 pb-20 sm:pt-20 sm:pb-28 border-b border-[#E3E5DE] bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-            {/* Left Column: Typographic Monument */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
+            {/* Left Column: Editorial Headline & Actions */}
             <motion.div
               initial={shouldReduceMotion ? {} : { opacity: 0, y: 16 }}
               animate={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="lg:col-span-7 space-y-6 text-left"
             >
-              {/* National Institutional Emblems Banner */}
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-3 bg-[#0F2035]/90 border border-[#203D63] px-3.5 py-2 rounded-lg backdrop-blur-xs shadow-xs">
-                  <img
-                    src="/branding/gov-india-emblem.png"
-                    alt="Government of India Emblem"
-                    className="h-8 w-auto object-contain rounded-xs"
-                  />
-                  <div className="h-5 w-px bg-slate-700/80" />
-                  <div className="w-8 h-8 rounded bg-white p-0.5 flex items-center justify-center shadow-xs">
-                    <img
-                      src="/branding/aicte-logo.png"
-                      alt="AICTE Official Logo"
-                      className="w-7 h-7 object-contain"
-                    />
-                  </div>
-                  <div className="hidden sm:block">
-                    <div className="text-[10px] font-mono uppercase tracking-wider text-white font-semibold">
-                      AICTE Statutory Oversight
-                    </div>
-                    <div className="text-[9px] font-mono text-[#8DA0B8]">
-                      SIH 2026 Problem Statement ID: SIH26264
-                    </div>
-                  </div>
-                </div>
-              </div>
-
               {/* Category Eyebrow */}
-              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#0F2035] border border-[#203D63] text-[#EAF0F6] text-xs font-mono tracking-wider">
-                <span className="w-2 h-2 rounded-full bg-[#1769AA] animate-pulse" />
-                <span>INTER-BUREAU COMPLAINT INTELLIGENCE</span>
+              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#F0F3ED] border border-[#D4D8CF] text-[#344B3B] text-xs font-mono tracking-wider">
+                <span className="w-2 h-2 rounded-full bg-[#344B3B] animate-pulse" />
+                <span>AICTE GRIEVANCE INTELLIGENCE SYSTEM</span>
               </div>
 
-              {/* Main Headline */}
-              <div className="space-y-2">
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.08] font-sans">
-                  Different records. <br />
-                  <span className="text-[#58A6FF]">One institution.</span> <br />
-                  Clearer coordination.
+              {/* Main Editorial Headline */}
+              <div className="space-y-4">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-serif text-[#20231F] leading-[1.12] tracking-tight">
+                  Grievances should lead to action.
                 </h1>
-                <p className="text-base sm:text-lg text-[#94A3B8] max-w-2xl font-normal leading-relaxed pt-2">
-                  CaseBridge AI triangulates student, faculty, and public grievances across AICTE bureaus—identifying hidden institutional overlaps between regulatory notices, approval queries, and cell petitions with explainable scoring and zero unilateral merges.
+                <p className="text-base sm:text-lg text-[#62665F] max-w-2xl font-normal leading-relaxed">
+                  CaseSense enables transparent oversight, cross-bureau coordination, and accountable resolution across institutional grievance workflows.
                 </p>
               </div>
 
               {/* Primary Call to Action */}
               <div className="pt-2 flex flex-wrap items-center gap-3.5">
                 <Link
-                  href="/dashboard"
-                  className="inline-flex items-center space-x-2 bg-[#1769AA] hover:bg-[#1C7DD1] text-white px-6 py-3 rounded-lg text-sm font-semibold transition-all shadow-md shadow-blue-950/40 hover:shadow-blue-900/60"
-                >
-                  <span>Launch Official Workspace</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-
-                <Link
                   href="/complaints/register"
-                  className="inline-flex items-center space-x-2 bg-[#0F2035] hover:bg-[#162D4A] border border-[#203D63] hover:border-[#335C91] text-[#EAF0F6] px-5 py-3 rounded-lg text-sm font-medium transition-all"
+                  className="inline-flex items-center space-x-2 bg-[#344B3B] hover:bg-[#293D30] text-white px-6 py-3 rounded-lg text-sm font-semibold transition-all shadow-xs"
                 >
-                  <FilePlus className="w-4 h-4 text-[#58A6FF]" />
-                  <span>Lodge Grievance</span>
+                  <FilePlus className="w-4 h-4" />
+                  <span>Register a Complaint</span>
+                  <ArrowRight className="w-4 h-4 ml-1" />
                 </Link>
 
                 <Link
                   href="/track-complaint"
-                  className="inline-flex items-center space-x-1.5 text-xs text-[#8DA0B8] hover:text-white px-3 py-2 font-mono transition-colors"
+                  className="inline-flex items-center space-x-2 bg-[#F0F3ED] hover:bg-[#E8EEE7] border border-[#D4D8CF] text-[#344B3B] px-5 py-3 rounded-lg text-sm font-semibold transition-all"
                 >
+                  <Search className="w-4 h-4 text-[#344B3B]" />
                   <span>Track Status</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </Link>
+
+                <Link
+                  href="/login"
+                  className="inline-flex items-center space-x-1.5 text-xs text-[#62665F] hover:text-[#20231F] px-3 py-2 font-medium transition-colors"
+                >
+                  <span>Reviewer Workspace &rarr;</span>
                 </Link>
               </div>
 
               {/* Institutional Metrics Pill Bar */}
-              <div className="pt-4 border-t border-[#162942] grid grid-cols-3 gap-4 text-left">
+              <div className="pt-6 border-t border-[#E3E5DE] grid grid-cols-3 gap-6 text-left">
                 <div>
-                  <div className="text-xl sm:text-2xl font-bold font-mono text-white">14,280+</div>
-                  <div className="text-[11px] text-[#8DA0B8] font-mono">Technical Institutes</div>
+                  <div className="text-2xl font-bold font-mono text-[#20231F]">14,280+</div>
+                  <div className="text-[11px] text-[#85877F] mt-0.5">Enrolled Technical Colleges</div>
                 </div>
                 <div>
-                  <div className="text-xl sm:text-2xl font-bold font-mono text-[#58A6FF]">5 Bureaus</div>
-                  <div className="text-[11px] text-[#8DA0B8] font-mono">Synchronized Cells</div>
+                  <div className="text-2xl font-bold font-mono text-[#344B3B]">5 Bureaus</div>
+                  <div className="text-[11px] text-[#85877F] mt-0.5">Unified AICTE Cells</div>
                 </div>
                 <div>
-                  <div className="text-xl sm:text-2xl font-bold font-mono text-emerald-400">100%</div>
-                  <div className="text-[11px] text-[#8DA0B8] font-mono">Audited Decisions</div>
+                  <div className="text-2xl font-bold font-mono text-[#23734D]">100%</div>
+                  <div className="text-[11px] text-[#85877F] mt-0.5">Audited Human Decisions</div>
                 </div>
               </div>
             </motion.div>
 
-            {/* Right Column: Live Operational Intelligence Preview */}
+            {/* Right Column: High-Quality Product Intelligence Card */}
             <motion.div
-              initial={shouldReduceMotion ? {} : { opacity: 0, scale: 0.96 }}
+              initial={shouldReduceMotion ? {} : { opacity: 0, scale: 0.98 }}
               animate={shouldReduceMotion ? {} : { opacity: 1, scale: 1 }}
               transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
               className="lg:col-span-5"
             >
-              <div className="bg-[#0D1C2E] border border-[#1E375B] rounded-xl overflow-hidden shadow-2xl shadow-black/60 text-left">
+              <div className="bg-[#FFFFFF] border border-[#E3E5DE] rounded-xl overflow-hidden shadow-lg shadow-black/5 text-left">
                 {/* Console Window Header */}
-                <div className="bg-[#08121E] px-4 py-2.5 border-b border-[#1E375B] flex items-center justify-between text-xs font-mono text-[#8DA0B8]">
+                <div className="bg-[#F7F7F4] px-4 py-3 border-b border-[#E3E5DE] flex items-center justify-between text-xs text-[#62665F]">
                   <div className="flex items-center space-x-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
-                    <span className="text-[#8DA0B8] pl-2">RADAR: OVL-2026-001</span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#D4D8CF]" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#D4D8CF]" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#344B3B]" />
+                    <span className="font-mono text-[#20231F] font-semibold pl-1.5">RADAR: OVL-2026-001</span>
                   </div>
-                  <span className="text-[10px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/30">
-                    88% CONFIDENCE
+                  <span className="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-[#FBF1DB] text-[#925C0B] border border-[#F0DCB0]">
+                    88% SIMILARITY
                   </span>
                 </div>
 
                 {/* Overlap Summary Card */}
                 <div className="p-5 space-y-4">
                   <div>
-                    <div className="text-[11px] font-mono text-[#8DA0B8] uppercase tracking-wider">
+                    <div className="text-[10px] font-mono font-bold text-[#85877F] uppercase tracking-wider">
                       Target Entity Resolution
                     </div>
-                    <div className="text-base font-bold text-white mt-0.5 flex items-center gap-2">
-                      <Building2 className="w-4 h-4 text-[#58A6FF]" />
+                    <div className="text-sm font-bold text-[#20231F] mt-0.5 flex items-center gap-2">
+                      <Building2 className="w-4 h-4 text-[#344B3B]" />
                       <span>Apex Institute of Technology, Pune</span>
                     </div>
-                    <div className="text-xs font-mono text-slate-400 mt-0.5">
-                      AICTE Permanent Institute ID: <span className="text-[#58A6FF] font-semibold">1-10492811</span>
+                    <div className="text-xs font-mono text-[#62665F] mt-0.5">
+                      Permanent Institute ID: <span className="text-[#344B3B] font-semibold">1-10492811</span>
                     </div>
                   </div>
 
                   {/* Comparative Two-Cell Snapshot */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
-                    <div className="p-3 rounded-lg bg-[#112338] border border-[#203D63] space-y-1.5">
+                    <div className="p-3 rounded-lg bg-[#F7F7F4] border border-[#E3E5DE] space-y-1.5">
                       <div className="flex items-center justify-between text-[10px] font-mono">
-                        <span className="px-1.5 py-0.2 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-                          PGRC CELL
+                        <span className="px-1.5 py-0.5 rounded bg-[#EAF0F6] text-[#496785] border border-[#C5D5E4] font-semibold">
+                          PGRC Desk
                         </span>
-                        <span className="text-[#8DA0B8]">PGRC-2026-0811</span>
+                        <span className="text-[#85877F]">Case A</span>
                       </div>
-                      <div className="text-xs font-medium text-slate-200 line-clamp-2">
-                        Unapproved fee escalation & withheld original marksheets
+                      <div className="font-mono text-[11px] font-bold text-[#20231F]">
+                        AICTE/PGRC/2026/0811
                       </div>
+                      <p className="text-[11px] text-[#62665F] line-clamp-2 leading-relaxed">
+                        Arbitrary fee escalation and withholding student caution money.
+                      </p>
                     </div>
 
-                    <div className="p-3 rounded-lg bg-[#112338] border border-[#203D63] space-y-1.5">
+                    <div className="p-3 rounded-lg bg-[#F7F7F4] border border-[#E3E5DE] space-y-1.5">
                       <div className="flex items-center justify-between text-[10px] font-mono">
-                        <span className="px-1.5 py-0.2 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">
-                          REGULATION
+                        <span className="px-1.5 py-0.5 rounded bg-[#E8EEE7] text-[#344B3B] border border-[#D0DDD0] font-semibold">
+                          Regulation Bureau
                         </span>
-                        <span className="text-[#8DA0B8]">RB-2026-1190</span>
+                        <span className="text-[#85877F]">Case B</span>
                       </div>
-                      <div className="text-xs font-medium text-slate-200 line-clamp-2">
-                        Institutional audit flag: Non-compliance with fee ceiling
+                      <div className="font-mono text-[11px] font-bold text-[#20231F]">
+                        AICTE/RB/2026/1190
                       </div>
+                      <p className="text-[11px] text-[#62665F] line-clamp-2 leading-relaxed">
+                        Audit alert: Violation of statutory state fee regulatory committee ceilings.
+                      </p>
                     </div>
                   </div>
 
-                  {/* Multi-Factor Rationale Bars */}
-                  <div className="space-y-2 pt-2 border-t border-[#1E375B]/60 text-xs">
-                    <div className="text-[10px] font-mono uppercase text-[#8DA0B8] tracking-wider">
-                      Explainable Scoring Breakdown
+                  {/* Similarity Metrics Progress */}
+                  <div className="pt-2 border-t border-[#E3E5DE] space-y-2">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-[#62665F]">Multi-Factor Match Score:</span>
+                      <span className="font-mono font-bold text-[#344B3B]">88 / 100</span>
                     </div>
-                    <div className="space-y-1.5 text-[11px] font-mono">
-                      <div className="flex justify-between items-center text-slate-300">
-                        <span>PID Exact Verification</span>
-                        <span className="text-emerald-400 font-bold">40 / 40 pts</span>
-                      </div>
-                      <div className="w-full bg-[#162D4A] rounded-full h-1.5">
-                        <div className="bg-emerald-400 h-1.5 rounded-full w-full" />
-                      </div>
-
-                      <div className="flex justify-between items-center text-slate-300 pt-1">
-                        <span>Category Semantic Match (Fee Dispute)</span>
-                        <span className="text-[#58A6FF] font-bold">25 / 25 pts</span>
-                      </div>
-                      <div className="w-full bg-[#162D4A] rounded-full h-1.5">
-                        <div className="bg-[#58A6FF] h-1.5 rounded-full w-full" />
-                      </div>
-
-                      <div className="flex justify-between items-center text-slate-300 pt-1">
-                        <span>Lexical Token Jaccard Overlap</span>
-                        <span className="text-amber-400 font-bold">18 / 25 pts</span>
-                      </div>
-                      <div className="w-full bg-[#162D4A] rounded-full h-1.5">
-                        <div className="bg-amber-400 h-1.5 rounded-full w-[72%]" />
-                      </div>
+                    <div className="w-full bg-[#F0F1EB] rounded-full h-1.5 overflow-hidden">
+                      <div className="bg-[#344B3B] h-1.5 rounded-full" style={{ width: "88%" }} />
                     </div>
                   </div>
 
-                  {/* Adjudication Interaction */}
-                  <div className="pt-2 border-t border-[#1E375B]/60 flex items-center justify-between text-xs">
-                    <span className="text-[11px] text-[#8DA0B8] font-mono">
-                      Prerogative: <span className="text-white font-medium">Reviewer Decision</span>
+                  {/* Sovereign Human Oversight Tag */}
+                  <div className="p-2.5 rounded-lg bg-[#E8EEE7] border border-[#D0DDD0] flex items-center justify-between text-[11px] text-[#344B3B]">
+                    <span className="flex items-center gap-1.5 font-medium">
+                      <Scale className="w-3.5 h-3.5 text-[#344B3B]" />
+                      Zero Unilateral Merges Policy
                     </span>
-                    <Link
-                      href="/overlap-review/OVL-2026-001"
-                      className="text-xs font-medium text-[#58A6FF] hover:text-blue-300 transition-colors flex items-center gap-1 font-mono"
-                    >
-                      <span>Triage in Console</span>
-                      <ArrowRight className="w-3 h-3" />
-                    </Link>
+                    <span className="text-[10px] font-mono font-semibold">HUMAN SOVEREIGN</span>
                   </div>
                 </div>
               </div>
@@ -353,198 +294,242 @@ export default function CinematicLandingPage() {
       </section>
 
       {/* =========================================================================
-          SECTION 2 — THE AICTE GRIEVANCE LIFECYCLE (Interactive 4-Phase Sequence)
+          SECTION 2 — THE 5-STAGE PROGRESSIVE GRIEVANCE LIFECYCLE
          ========================================================================= */}
-      <section className="py-20 sm:py-28 bg-[#0A1626] border-b border-[#162942]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto space-y-3">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#0F2035] border border-[#203D63] text-xs font-mono text-[#58A6FF]">
-              <Layers className="w-3.5 h-3.5" />
-              <span>THE OPERATIONAL PIPELINE</span>
+      <section className="py-20 border-b border-[#E3E5DE] bg-[#F7F7F4]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          {/* Section Header */}
+          <div className="max-w-2xl space-y-3">
+            <div className="inline-flex items-center space-x-1.5 text-xs font-mono font-semibold text-[#344B3B]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#344B3B]" />
+              <span>END-TO-END WORKFLOW</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-              From Intake to Audited Resolution
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-[#20231F] tracking-tight">
+              From grievance filing to auditable resolution.
             </h2>
-            <p className="text-sm sm:text-base text-[#94A3B8]">
-              Inspect how CaseBridge AI structures incoming cases, uncovers multi-cell overlaps, computes transparent scores, and empowers authorized human reviewers.
+            <p className="text-sm text-[#62665F] leading-relaxed">
+              Every complaint moves through five clear, accountable stages—ensuring institutional transparency, inter-bureau coordination, and zero lost files.
             </p>
           </div>
 
-          {/* Phase Tabs */}
-          <div className="mt-12 flex flex-wrap justify-center gap-2">
+          {/* 5-Stage Interactive Tabs */}
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 border-b border-[#E3E5DE] pb-2">
             {[
-              { id: 1, title: "01. Intake & Identity Resolution" },
-              { id: 2, title: "02. Cross-Bureau Triangulation" },
-              { id: 3, title: "03. Explainable Scoring Matrix" },
-              { id: 4, title: "04. Audited Human Resolution" },
+              { id: 1, title: "1. Intake & Scrubbing", sub: "Citizens & Whistleblowers" },
+              { id: 2, title: "2. Identity Resolution", sub: "Permanent PID Linking" },
+              { id: 3, title: "3. Cross-Bureau Match", sub: "Multi-Vector Analysis" },
+              { id: 4, title: "4. Human Review", sub: "Sovereign Adjudication" },
+              { id: 5, title: "5. Audited Action", sub: "Joint Inquiries & Notice" },
             ].map((phase) => (
               <button
                 key={phase.id}
                 onClick={() => setActivePhase(phase.id)}
-                className={`px-4 py-2.5 rounded-lg text-xs font-mono font-medium transition-all ${
+                className={`p-3 text-left rounded-lg transition-all ${
                   activePhase === phase.id
-                    ? "bg-[#1769AA] text-white shadow-md border border-blue-400/40"
-                    : "bg-[#0D1C2E] text-[#8DA0B8] border border-[#1E375B] hover:text-white hover:bg-[#132740]"
+                    ? "bg-white border border-[#E3E5DE] shadow-xs"
+                    : "hover:bg-white/60 text-[#62665F]"
                 }`}
               >
-                {phase.title}
+                <div
+                  className={`text-xs font-bold ${
+                    activePhase === phase.id ? "text-[#344B3B]" : "text-[#20231F]"
+                  }`}
+                >
+                  {phase.title}
+                </div>
+                <div className="text-[10px] text-[#85877F] mt-0.5 truncate">{phase.sub}</div>
               </button>
             ))}
           </div>
 
-          {/* Active Phase Content Display */}
-          <div className="mt-8 bg-[#0D1C2E] border border-[#1E375B] rounded-xl p-6 sm:p-10 max-w-4xl mx-auto text-left shadow-xl">
+          {/* Active Phase Deep Dive Card */}
+          <div className="bg-white border border-[#E3E5DE] rounded-xl p-8 shadow-xs">
             {activePhase === 1 && (
-              <div className="space-y-6">
-                <div className="flex items-center justify-between border-b border-[#1E375B] pb-4">
-                  <div>
-                    <span className="text-[11px] font-mono text-[#58A6FF] uppercase">Phase 01</span>
-                    <h3 className="text-xl font-bold text-white mt-0.5">
-                      Permanent Institute ID (PID) Normalization
-                    </h3>
-                  </div>
-                  <span className="text-xs font-mono px-2.5 py-1 rounded bg-blue-500/10 text-blue-300 border border-blue-500/30">
-                    Input & Sanitization
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div className="space-y-4">
+                  <span className="text-xs font-mono font-bold text-[#344B3B] bg-[#E8EEE7] px-2.5 py-1 rounded">
+                    STAGE 01 &bull; GRIEVANCE INTAKE
                   </span>
+                  <h3 className="text-2xl font-bold font-serif text-[#20231F]">
+                    Multi-channel grievance admission with whistleblower identity protection.
+                  </h3>
+                  <p className="text-xs text-[#62665F] leading-relaxed">
+                    Complaints enter CaseSense through web lodgment, CPGRAMS ingestion, or direct bureau referral. Sensitive complainant identities are cryptographically redacted before institutional notices are dispatched.
+                  </p>
+                  <ul className="space-y-2 text-xs text-[#20231F]">
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-[#23734D]" />
+                      <span>Dual-factor tracking codes (Ref Number + Secret Key)</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-[#23734D]" />
+                      <span>Automatic categorization across 7 regulatory complaint types</span>
+                    </li>
+                  </ul>
                 </div>
-                <p className="text-sm text-slate-300 leading-relaxed">
-                  Complaints arrive through various channels—student grievance portals, regional inspection notes, RTI applications, or ministry directives. Each record is parsed, validated against the official AICTE Institution Directory of 14,000+ approved technical colleges, and mapped to a unique Permanent Institute ID (PID).
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-xs">
-                  <div className="p-3 rounded-lg bg-[#112338] border border-[#203D63]">
-                    <div className="text-[#8DA0B8] text-[10px]">RAW INPUT</div>
-                    <div className="text-white font-semibold mt-1">Apex College Pune</div>
-                    <div className="text-[10px] text-amber-400 mt-1">Unstructured Name</div>
+                <div className="bg-[#F7F7F4] border border-[#E3E5DE] rounded-xl p-6 space-y-3 font-mono text-xs">
+                  <div className="text-[11px] text-[#85877F] uppercase tracking-wider">Lodged Grievance Snapshot</div>
+                  <div className="p-3 bg-white rounded border border-[#E3E5DE]">
+                    <span className="text-[#85877F] block text-[10px]">Reference:</span>
+                    <strong className="text-[#20231F]">REF-2026-98124</strong>
                   </div>
-                  <div className="p-3 rounded-lg bg-[#112338] border border-[#203D63]">
-                    <div className="text-[#8DA0B8] text-[10px]">DIRECTORY MATCH</div>
-                    <div className="text-emerald-400 font-semibold mt-1">Apex Institute of Tech</div>
-                    <div className="text-[10px] text-emerald-300 mt-1">Verified AICTE Record</div>
-                  </div>
-                  <div className="p-3 rounded-lg bg-[#112338] border border-[#203D63]">
-                    <div className="text-[#8DA0B8] text-[10px]">RESOLVED PID</div>
-                    <div className="text-[#58A6FF] font-semibold mt-1">PID: 1-10492811</div>
-                    <div className="text-[10px] text-blue-300 mt-1">Canonical Key</div>
+                  <div className="p-3 bg-white rounded border border-[#E3E5DE]">
+                    <span className="text-[#85877F] block text-[10px]">Status:</span>
+                    <strong className="text-[#23734D]">Admitted & Under Scrutiny</strong>
                   </div>
                 </div>
               </div>
             )}
 
             {activePhase === 2 && (
-              <div className="space-y-6">
-                <div className="flex items-center justify-between border-b border-[#1E375B] pb-4">
-                  <div>
-                    <span className="text-[11px] font-mono text-[#58A6FF] uppercase">Phase 02</span>
-                    <h3 className="text-xl font-bold text-white mt-0.5">
-                      Cross-Bureau Overlap Candidate Retrieval
-                    </h3>
-                  </div>
-                  <span className="text-xs font-mono px-2.5 py-1 rounded bg-amber-500/10 text-amber-300 border border-amber-500/30">
-                    Dual Canonical Pairing
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div className="space-y-4">
+                  <span className="text-xs font-mono font-bold text-[#344B3B] bg-[#E8EEE7] px-2.5 py-1 rounded">
+                    STAGE 02 &bull; ENTITY RESOLUTION
                   </span>
+                  <h3 className="text-2xl font-bold font-serif text-[#20231F]">
+                    Permanent Institute ID (PID) deterministic matching.
+                  </h3>
+                  <p className="text-xs text-[#62665F] leading-relaxed">
+                    Institutions frequently appear under colloquial aliases or regional abbreviations. CaseSense resolves colleges against the central AICTE database using Permanent Institute IDs, accreditation status, and state coordinates.
+                  </p>
+                  <ul className="space-y-2 text-xs text-[#20231F]">
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-[#23734D]" />
+                      <span>Resolves colloquial names to verified AICTE PIDs</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-[#23734D]" />
+                      <span>Isolates institutions with strict multi-tenant boundaries</span>
+                    </li>
+                  </ul>
                 </div>
-                <p className="text-sm text-slate-300 leading-relaxed">
-                  Instead of siloed complaint registries where the Regulation Bureau and the Public Grievance Redressal Cell work in isolation, CaseBridge AI automatically evaluates candidate pairs across cells. Cases sharing identical institute PIDs or matching high-severity categories are grouped into pairs with canonical ordering <code className="text-xs font-mono bg-[#162D4A] px-1.5 py-0.5 rounded text-blue-300">min(id1, id2), max(id1, id2)</code> to prevent reverse duplicate flags.
-                </p>
-                <div className="p-4 rounded-lg bg-[#112338] border border-[#203D63] text-xs font-mono space-y-2">
-                  <div className="text-slate-400">DATABASE INTEGRITY ASSURANCE:</div>
-                  <div className="text-emerald-400">
-                    ✓ Unique Constraint <span className="text-white">uq_case_pair</span> Enforced
-                  </div>
-                  <div className="text-emerald-400">
-                    ✓ Zero Unilateral Record Merges (Both cases retain statutory identity)
-                  </div>
-                  <div className="text-emerald-400">
-                    ✓ Preserves Inter-Bureau Privacy & Role-Based Access Controls
+                <div className="bg-[#F7F7F4] border border-[#E3E5DE] rounded-xl p-6 space-y-3 text-xs">
+                  <div className="text-[11px] font-mono text-[#85877F] uppercase tracking-wider">Entity Verification Card</div>
+                  <div className="p-3 bg-white rounded border border-[#E3E5DE]">
+                    <span className="text-[#85877F] block text-[10px]">Resolved Institution:</span>
+                    <strong className="text-[#20231F]">Apex Institute of Technology, Pune</strong>
+                    <div className="font-mono text-[11px] text-[#344B3B] mt-0.5">PID: 1-10492811 &bull; Approved (2025-2026)</div>
                   </div>
                 </div>
               </div>
             )}
 
             {activePhase === 3 && (
-              <div className="space-y-6">
-                <div className="flex items-center justify-between border-b border-[#1E375B] pb-4">
-                  <div>
-                    <span className="text-[11px] font-mono text-[#58A6FF] uppercase">Phase 03</span>
-                    <h3 className="text-xl font-bold text-white mt-0.5">
-                      Multi-Factor Explainable Scoring Algorithm
-                    </h3>
-                  </div>
-                  <span className="text-xs font-mono px-2.5 py-1 rounded bg-indigo-500/10 text-indigo-300 border border-indigo-500/30">
-                    Mathematical Rigor
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div className="space-y-4">
+                  <span className="text-xs font-mono font-bold text-[#344B3B] bg-[#E8EEE7] px-2.5 py-1 rounded">
+                    STAGE 03 &bull; CROSS-BUREAU CORRELATION
                   </span>
+                  <h3 className="text-2xl font-bold font-serif text-[#20231F]">
+                    Multi-vector similarity analysis without data destruction.
+                  </h3>
+                  <p className="text-xs text-[#62665F] leading-relaxed">
+                    CaseSense computes similarity across structured attributes (PID match, regulatory category) and unstructured allegation text (lexical overlap, handbooks cited) to flag hidden concurrent proceedings.
+                  </p>
+                  <ul className="space-y-2 text-xs text-[#20231F]">
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-[#23734D]" />
+                      <span>Transparent scoring: 40% Entity + 25% Category + 25% Text + 10% Cell</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-[#23734D]" />
+                      <span>Shared PID alone never causes automated case consolidation</span>
+                    </li>
+                  </ul>
                 </div>
-                <p className="text-sm text-slate-300 leading-relaxed">
-                  Every proposed relationship is grounded in an explainable mathematical formula rather than opaque black-box AI prompts. The overall correlation score combines four distinct dimensions:
-                </p>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
-                  <div className="p-3 bg-[#112338] border border-[#203D63] rounded-lg">
-                    <div className="text-[#58A6FF] font-bold text-lg">40%</div>
-                    <div className="text-slate-200 mt-1 font-semibold">PID Match</div>
-                    <div className="text-[10px] text-[#8DA0B8] mt-0.5">Institutional identity match</div>
-                  </div>
-                  <div className="p-3 bg-[#112338] border border-[#203D63] rounded-lg">
-                    <div className="text-amber-400 font-bold text-lg">25%</div>
-                    <div className="text-slate-200 mt-1 font-semibold">Category</div>
-                    <div className="text-[10px] text-[#8DA0B8] mt-0.5">Subject classification</div>
-                  </div>
-                  <div className="p-3 bg-[#112338] border border-[#203D63] rounded-lg">
-                    <div className="text-emerald-400 font-bold text-lg">25%</div>
-                    <div className="text-slate-200 mt-1 font-semibold">Text Jaccard</div>
-                    <div className="text-[10px] text-[#8DA0B8] mt-0.5">Lexical narrative tokens</div>
-                  </div>
-                  <div className="p-3 bg-[#112338] border border-[#203D63] rounded-lg">
-                    <div className="text-purple-400 font-bold text-lg">10%</div>
-                    <div className="text-slate-200 mt-1 font-semibold">Cell Bonus</div>
-                    <div className="text-[10px] text-[#8DA0B8] mt-0.5">Inter-bureau synergy</div>
+                <div className="bg-[#F7F7F4] border border-[#E3E5DE] rounded-xl p-6 space-y-3 text-xs">
+                  <div className="text-[11px] font-mono text-[#85877F] uppercase tracking-wider">Multi-Factor Score Weights</div>
+                  <div className="space-y-2 bg-white p-3 rounded border border-[#E3E5DE]">
+                    <div className="flex justify-between text-[11px]">
+                      <span>Entity PID Exact Match:</span>
+                      <strong className="font-mono text-[#344B3B]">40 / 40</strong>
+                    </div>
+                    <div className="flex justify-between text-[11px]">
+                      <span>Category Classification:</span>
+                      <strong className="font-mono text-[#344B3B]">25 / 25</strong>
+                    </div>
+                    <div className="flex justify-between text-[11px]">
+                      <span>Narrative Keyword Match:</span>
+                      <strong className="font-mono text-[#344B3B]">18 / 25</strong>
+                    </div>
                   </div>
                 </div>
               </div>
             )}
 
             {activePhase === 4 && (
-              <div className="space-y-6">
-                <div className="flex items-center justify-between border-b border-[#1E375B] pb-4">
-                  <div>
-                    <span className="text-[11px] font-mono text-[#58A6FF] uppercase">Phase 04</span>
-                    <h3 className="text-xl font-bold text-white mt-0.5">
-                      Human Reviewer Adjudication & Cryptographic Audit
-                    </h3>
-                  </div>
-                  <span className="text-xs font-mono px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">
-                    Human Prerogative
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div className="space-y-4">
+                  <span className="text-xs font-mono font-bold text-[#344B3B] bg-[#E8EEE7] px-2.5 py-1 rounded">
+                    STAGE 04 &bull; HUMAN ADJUDICATION
                   </span>
+                  <h3 className="text-2xl font-bold font-serif text-[#20231F]">
+                    Authorized bureau officers retain sovereign decision authority.
+                  </h3>
+                  <p className="text-xs text-[#62665F] leading-relaxed">
+                    No algorithm unilaterally closes or merges complaint files. Reviewers inspect side-by-side allegations and choose between four authorized determinations: Confirm & Link, Designate Lead & Merge, Mark as Distinct, or Defer for Evidence.
+                  </p>
+                  <ul className="space-y-2 text-xs text-[#20231F]">
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-[#23734D]" />
+                      <span>Mandatory administrative justification recorded for every determination</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-[#23734D]" />
+                      <span>False positive dismissals actively train localized confidence thresholds</span>
+                    </li>
+                  </ul>
                 </div>
-                <p className="text-sm text-slate-300 leading-relaxed">
-                  Software highlights the evidence; authorized AICTE officials make the decisions. The reviewing bureau officer inspects the side-by-side dossier and chooses an audited action. Every decision appends an immutable entry to the audit log.
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
-                  <div className="p-3 bg-blue-950/40 border border-blue-800/40 rounded-lg">
-                    <div className="text-[#58A6FF] font-semibold flex items-center gap-1.5">
-                      <CheckCircle2 className="w-4 h-4" />
-                      <span>Confirm & Link</span>
+                <div className="bg-[#F7F7F4] border border-[#E3E5DE] rounded-xl p-6 space-y-2 text-xs">
+                  <div className="text-[11px] font-mono text-[#85877F] uppercase tracking-wider">Four Sovereign Choices</div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="p-2.5 bg-white rounded border border-[#D0DDD0] text-[#344B3B] font-semibold text-[11px]">
+                      1. Link Bureaus
                     </div>
-                    <div className="text-slate-300 text-[11px] mt-1.5">
-                      Flags cases as linked and designates a lead inquiry bureau without altering case IDs.
+                    <div className="p-2.5 bg-white rounded border border-[#E3E5DE] text-[#20231F] font-semibold text-[11px]">
+                      2. Consolidate Lead
                     </div>
-                  </div>
-                  <div className="p-3 bg-slate-900/60 border border-slate-700/60 rounded-lg">
-                    <div className="text-slate-300 font-semibold flex items-center gap-1.5">
-                      <XCircle className="w-4 h-4" />
-                      <span>Mark Distinct</span>
+                    <div className="p-2.5 bg-white rounded border border-[#E3E5DE] text-[#62665F] font-semibold text-[11px]">
+                      3. Mark Distinct
                     </div>
-                    <div className="text-slate-400 text-[11px] mt-1.5">
-                      Declares complaints unrelated despite common institute. Independent queues maintained.
+                    <div className="p-2.5 bg-white rounded border border-[#F0DCB0] text-[#925C0B] font-semibold text-[11px]">
+                      4. Defer for Notice
                     </div>
                   </div>
-                  <div className="p-3 bg-amber-950/40 border border-amber-800/40 rounded-lg">
-                    <div className="text-amber-400 font-semibold flex items-center gap-1.5">
-                      <Clock className="w-4 h-4" />
-                      <span>Defer for Inquiry</span>
-                    </div>
-                    <div className="text-slate-300 text-[11px] mt-1.5">
-                      Requests additional documentation from college compliance desk before concluding.
-                    </div>
+                </div>
+              </div>
+            )}
+
+            {activePhase === 5 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div className="space-y-4">
+                  <span className="text-xs font-mono font-bold text-[#344B3B] bg-[#E8EEE7] px-2.5 py-1 rounded">
+                    STAGE 05 &bull; AUDITABLE ACTION
+                  </span>
+                  <h3 className="text-2xl font-bold font-serif text-[#20231F]">
+                    Joint inter-bureau inquiries and permanent accountability.
+                  </h3>
+                  <p className="text-xs text-[#62665F] leading-relaxed">
+                    Once an overlap is confirmed, CaseSense forms a joint coordination desk, dispatches natural justice notices to the college registrar, and logs an immutable audit trail entry stamped with reviewer identity, bureau, and timestamp.
+                  </p>
+                  <ul className="space-y-2 text-xs text-[#20231F]">
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-[#23734D]" />
+                      <span>Statutory 30-day SLA countdown monitoring</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-[#23734D]" />
+                      <span>College counter-affidavits visible directly to the investigating officer</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="bg-[#F7F7F4] border border-[#E3E5DE] rounded-xl p-6 space-y-3 font-mono text-xs">
+                  <div className="text-[11px] text-[#85877F] uppercase tracking-wider">Audit Log Receipt</div>
+                  <div className="p-3 bg-white rounded border border-[#E3E5DE] space-y-1">
+                    <div className="text-[#85877F] text-[10px]">AUDIT REFERENCE: AUD-1729851</div>
+                    <div className="font-bold text-[#20231F]">Joint Inquiry Committee Constituted</div>
+                    <div className="text-[#62665F] text-[10px]">Actor: S. R. Kulkarni (Director, RB)</div>
                   </div>
                 </div>
               </div>
@@ -554,221 +539,232 @@ export default function CinematicLandingPage() {
       </section>
 
       {/* =========================================================================
-          SECTION 3 — INTERACTIVE SCENARIO LAB: Live Multi-Factor Matching Lab
+          SECTION 3 — INTERACTIVE CASE CORRELATION LAB (WHITE PALETTE)
          ========================================================================= */}
-      <section className="py-20 sm:py-28 bg-[#08121E] border-b border-[#162942]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center space-y-3">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#0F2035] border border-[#203D63] text-xs font-mono text-amber-400">
-              <Sliders className="w-3.5 h-3.5" />
-              <span>TEST ALGORITHM DIRECTLY</span>
+      <section className="py-20 border-b border-[#E3E5DE] bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+            <div className="max-w-2xl space-y-2">
+              <span className="text-xs font-mono font-bold text-[#344B3B] bg-[#E8EEE7] px-2.5 py-1 rounded">
+                SIMULATION LAB
+              </span>
+              <h2 className="text-3xl font-bold font-serif text-[#20231F]">
+                Inspect cross-bureau overlap scenarios in real time.
+              </h2>
+              <p className="text-xs text-[#62665F]">
+                Select a test scenario to evaluate how CaseSense calculates confidence, highlights evidence, and presents decisions to human reviewers.
+              </p>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-              Interactive Case Correlation Lab
-            </h2>
-            <p className="text-sm sm:text-base text-[#94A3B8]">
-              Select real synthetic case scenarios below to evaluate how the explainable scoring engine behaves under different complaint criteria.
-            </p>
-          </div>
 
-          {/* Scenario Selector Pills */}
-          <div className="mt-10 flex flex-wrap justify-center gap-3">
-            {[
-              { id: "scenario1", label: "Scenario A: High Confidence Fee Overlap (88%)" },
-              { id: "scenario2", label: "Scenario B: Hostel Deficit Correlation (76%)" },
-              { id: "scenario3", label: "Scenario C: Distinct Unrelated Matters (18%)" },
-            ].map((sc) => (
+            {/* Scenario Selector Buttons */}
+            <div className="flex items-center gap-2 bg-[#F7F7F4] p-1.5 rounded-xl border border-[#E3E5DE]">
               <button
-                key={sc.id}
                 onClick={() => {
-                  setSelectedScenario(sc.id as any);
+                  setSelectedScenario("scenario1");
                   setAdjudicationChoice("NONE");
                 }}
-                className={`px-4 py-2.5 rounded-lg text-xs font-mono font-medium transition-all ${
-                  selectedScenario === sc.id
-                    ? "bg-[#162D4A] text-white border border-[#58A6FF] shadow-md"
-                    : "bg-[#0D1C2E] text-[#8DA0B8] border border-[#1E375B] hover:text-white"
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  selectedScenario === "scenario1"
+                    ? "bg-white text-[#344B3B] shadow-xs"
+                    : "text-[#62665F] hover:text-[#20231F]"
                 }`}
               >
-                {sc.label}
+                Fee Dispute (88%)
               </button>
-            ))}
+              <button
+                onClick={() => {
+                  setSelectedScenario("scenario2");
+                  setAdjudicationChoice("NONE");
+                }}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  selectedScenario === "scenario2"
+                    ? "bg-white text-[#344B3B] shadow-xs"
+                    : "text-[#62665F] hover:text-[#20231F]"
+                }`}
+              >
+                Hostel Intake (76%)
+              </button>
+              <button
+                onClick={() => {
+                  setSelectedScenario("scenario3");
+                  setAdjudicationChoice("NONE");
+                }}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  selectedScenario === "scenario3"
+                    ? "bg-white text-[#344B3B] shadow-xs"
+                    : "text-[#62665F] hover:text-[#20231F]"
+                }`}
+              >
+                Distinct (18%)
+              </button>
+            </div>
           </div>
 
-          {/* Scenario Detailed Card */}
-          <div className="mt-8 max-w-5xl mx-auto bg-[#0D1C2E] border border-[#1E375B] rounded-xl p-6 sm:p-8 text-left shadow-2xl">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-[#1E375B] pb-4">
+          {/* Scenario Details Box */}
+          <div className="bg-[#F7F7F4] border border-[#E3E5DE] rounded-2xl p-6 sm:p-8 space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#E3E5DE] gap-3">
               <div>
-                <span className="text-[11px] font-mono text-[#8DA0B8]">ACTIVE TEST CASE</span>
-                <h3 className="text-lg sm:text-xl font-bold text-white mt-0.5">
-                  {currentScenario.title}
-                </h3>
-                <div className="text-xs font-mono text-slate-400 mt-0.5 flex items-center gap-2">
-                  <span>{currentScenario.institution}</span>
-                  <span>&bull;</span>
-                  <span className="text-[#58A6FF]">PID: {currentScenario.pid}</span>
+                <span className="text-[11px] font-mono font-bold text-[#85877F] uppercase tracking-wider">
+                  Test Case Pair: {currentScenario.title}
+                </span>
+                <div className="text-base font-bold text-[#20231F] mt-0.5">
+                  {currentScenario.institution} ({currentScenario.pid})
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="text-right">
-                  <div className="text-2xl font-bold font-mono text-white">
-                    {currentScenario.confidence}%
-                  </div>
-                  <div className="text-[10px] font-mono text-[#8DA0B8]">CORRELATION</div>
-                </div>
                 <span
-                  className={`text-xs font-mono px-2.5 py-1 rounded border font-semibold ${currentScenario.statusColor}`}
+                  className={`text-xs px-3 py-1 rounded-full font-mono font-bold border ${currentScenario.statusColor}`}
                 >
-                  {currentScenario.status}
+                  {currentScenario.status}: {currentScenario.confidence}%
                 </span>
               </div>
             </div>
 
-            {/* Side-by-Side Comparison of Cases */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-              {/* Case A */}
-              <div className="bg-[#112338] border border-[#203D63] rounded-lg p-4 space-y-2">
+            {/* Two Side-by-Side Inquiries */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="bg-white p-5 rounded-xl border border-[#E3E5DE] space-y-2 shadow-xs">
                 <div className="flex items-center justify-between text-xs font-mono">
-                  <span className="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-semibold">
+                  <span className="px-2 py-0.5 rounded bg-[#EAF0F6] text-[#496785] font-semibold border border-[#C5D5E4]">
                     {currentScenario.caseA.bureau}
                   </span>
-                  <span className="text-slate-400">{currentScenario.caseA.id}</span>
+                  <span className="text-[#85877F]">{currentScenario.caseA.id}</span>
                 </div>
-                <div className="text-sm font-semibold text-white">
+                <div className="text-xs font-bold text-[#20231F] pt-1">
                   {currentScenario.caseA.subject}
                 </div>
-                <div className="text-[11px] text-slate-400 font-mono">
-                  Originator: {currentScenario.caseA.complainant}
+                <div className="text-[11px] text-[#62665F]">
+                  Complainant: <strong>{currentScenario.caseA.complainant}</strong>
                 </div>
               </div>
 
-              {/* Case B */}
-              <div className="bg-[#112338] border border-[#203D63] rounded-lg p-4 space-y-2">
+              <div className="bg-white p-5 rounded-xl border border-[#E3E5DE] space-y-2 shadow-xs">
                 <div className="flex items-center justify-between text-xs font-mono">
-                  <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30 font-semibold">
+                  <span className="px-2 py-0.5 rounded bg-[#E8EEE7] text-[#344B3B] font-semibold border border-[#D0DDD0]">
                     {currentScenario.caseB.bureau}
                   </span>
-                  <span className="text-slate-400">{currentScenario.caseB.id}</span>
+                  <span className="text-[#85877F]">{currentScenario.caseB.id}</span>
                 </div>
-                <div className="text-sm font-semibold text-white">
+                <div className="text-xs font-bold text-[#20231F] pt-1">
                   {currentScenario.caseB.subject}
                 </div>
-                <div className="text-[11px] text-slate-400 font-mono">
-                  Originator: {currentScenario.caseB.complainant}
+                <div className="text-[11px] text-[#62665F]">
+                  Complainant: <strong>{currentScenario.caseB.complainant}</strong>
                 </div>
               </div>
             </div>
 
-            {/* Explainable Factor Breakdown Table */}
-            <div className="mt-6 pt-5 border-t border-[#1E375B]">
-              <div className="text-xs font-mono uppercase text-[#8DA0B8] mb-3 tracking-wider">
-                Explainable Score Contributors
+            {/* Score Factor Breakdown */}
+            <div className="bg-white p-5 rounded-xl border border-[#E3E5DE] space-y-3">
+              <div className="text-xs font-bold text-[#20231F] uppercase tracking-wider font-mono">
+                Multi-Vector Feature Contributions
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
-                {currentScenario.factors.map((f, i) => (
-                  <div key={i} className="p-3 bg-[#08121E] border border-[#162942] rounded-lg">
-                    <div className="flex justify-between items-center text-slate-300">
-                      <span>{f.name}</span>
-                      <span className="font-bold text-[#58A6FF]">
-                        {f.score} / {f.weight} pts
-                      </span>
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+                {currentScenario.factors.map((f, idx) => (
+                  <div key={idx} className="p-3 bg-[#F7F7F4] rounded-lg border border-[#E3E5DE] space-y-1">
+                    <div className="text-[10px] text-[#85877F] font-semibold truncate">{f.name}</div>
+                    <div className="font-mono font-bold text-[#20231F] text-sm">
+                      {f.score} / {f.weight} pts
                     </div>
-                    <div className="text-[10px] text-[#8DA0B8] mt-1">{f.detail}</div>
+                    <div className="text-[10px] text-[#62665F] truncate">{f.detail}</div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Recommendation & Human Action Station */}
-            <div className="mt-6 pt-5 border-t border-[#1E375B] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div className="text-xs">
-                <span className="text-[#8DA0B8] font-mono">SYSTEM ADVICE:</span>
-                <p className="text-slate-200 font-medium mt-0.5">{currentScenario.recommendation}</p>
+            {/* Sovereign Reviewer Interactive Action Bar */}
+            <div className="pt-2 border-t border-[#E3E5DE] space-y-3">
+              <div className="text-xs font-bold text-[#20231F]">
+                Simulate Reviewer Sovereign Determination:
               </div>
-
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap gap-2.5">
                 <button
                   onClick={() => setAdjudicationChoice("CONFIRMED")}
-                  className={`px-3 py-1.5 rounded text-xs font-mono transition-colors ${
+                  className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all ${
                     adjudicationChoice === "CONFIRMED"
-                      ? "bg-blue-600 text-white"
-                      : "bg-[#162D4A] text-slate-200 hover:bg-[#1E3E66]"
+                      ? "bg-[#344B3B] text-white shadow-xs"
+                      : "bg-white hover:bg-[#E8EEE7] text-[#344B3B] border border-[#D0DDD0]"
                   }`}
                 >
-                  Confirm Linked
+                  Confirm Overlap & Link Bureaus
                 </button>
                 <button
                   onClick={() => setAdjudicationChoice("DISTINCT")}
-                  className={`px-3 py-1.5 rounded text-xs font-mono transition-colors ${
+                  className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all ${
                     adjudicationChoice === "DISTINCT"
-                      ? "bg-slate-700 text-white"
-                      : "bg-[#162D4A] text-slate-200 hover:bg-[#1E3E66]"
+                      ? "bg-[#20231F] text-white shadow-xs"
+                      : "bg-white hover:bg-[#F7F7F4] text-[#62665F] border border-[#E3E5DE]"
                   }`}
                 >
-                  Mark Distinct
+                  Mark as Distinct (False Positive)
+                </button>
+                <button
+                  onClick={() => setAdjudicationChoice("DEFERRED")}
+                  className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all ${
+                    adjudicationChoice === "DEFERRED"
+                      ? "bg-[#925C0B] text-white shadow-xs"
+                      : "bg-white hover:bg-[#FBF1DB] text-[#925C0B] border border-[#F0DCB0]"
+                  }`}
+                >
+                  Defer for Institutional Affidavit
                 </button>
               </div>
-            </div>
 
-            {adjudicationChoice !== "NONE" && (
-              <div className="mt-3 p-3 bg-emerald-500/10 border border-emerald-500/30 rounded-lg text-xs font-mono text-emerald-300 flex items-center gap-2 animate-in fade-in">
-                <CheckCircle2 className="w-4 h-4 shrink-0" />
-                <span>
-                  Simulated Action Recorded: Case pair status set to{" "}
-                  <strong>{adjudicationChoice}</strong> with cryptographic audit entry.
-                </span>
-              </div>
-            )}
+              {adjudicationChoice !== "NONE" && (
+                <div className="p-3.5 bg-[#E8EEE7] rounded-xl text-xs text-[#344B3B] border border-[#D0DDD0]">
+                  <strong>Action Recorded:</strong> Determination marked as{" "}
+                  <span className="font-mono font-bold">{adjudicationChoice}</span>. Stamped under official reviewer credentials and appended to the AICTE Governance Audit Trail.
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </section>
 
       {/* =========================================================================
-          SECTION 4 — ARCHITECTURE & STATUTORY GOVERNANCE
+          SECTION 4 — STATUTORY ACCOUNTABILITY & REVIEWS
          ========================================================================= */}
-      <section className="py-20 sm:py-28 bg-[#0A1626] border-b border-[#162942]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center space-y-3">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#0F2035] border border-[#203D63] text-xs font-mono text-emerald-400">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>SECURITY & TRUST ARCHITECTURE</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-              Engineered for Institutional Accountability
+      <section className="py-20 border-b border-[#E3E5DE] bg-[#F7F7F4]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="max-w-2xl space-y-3">
+            <span className="text-xs font-mono font-bold text-[#344B3B] bg-[#E8EEE7] px-2.5 py-1 rounded">
+              GOVERNANCE PRINCIPLES
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-[#20231F] tracking-tight">
+              Designed for institutional integrity and due process.
             </h2>
-            <p className="text-sm sm:text-base text-[#94A3B8]">
-              Built strictly to public sector standards with Row-Level Security, multi-tenant college isolation, and zero unilateral case merging.
+            <p className="text-sm text-[#62665F] leading-relaxed">
+              CaseSense complies with natural justice guidelines and AICTE administrative frameworks.
             </p>
           </div>
 
-          <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
-            <div className="bg-[#0D1C2E] border border-[#1E375B] rounded-xl p-6 space-y-3">
-              <div className="w-10 h-10 rounded-lg bg-[#162D4A] border border-[#203D63] flex items-center justify-center text-[#58A6FF]">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-white border border-[#E3E5DE] rounded-xl p-6 space-y-3 shadow-xs">
+              <div className="w-10 h-10 rounded-lg bg-[#E8EEE7] text-[#344B3B] flex items-center justify-center font-bold">
                 <Scale className="w-5 h-5" />
               </div>
-              <h3 className="text-base font-bold text-white">Zero Unilateral Merges</h3>
-              <p className="text-xs text-[#94A3B8] leading-relaxed">
-                Cases originating from different bureaus retain their independent case IDs, jurisdiction, and timelines. Matching establishes auditable bidirectional linkages rather than destructive database overwrites.
+              <h3 className="text-base font-bold text-[#20231F]">Zero Unilateral Merges</h3>
+              <p className="text-xs text-[#62665F] leading-relaxed">
+                Cases sharing an institution ID are never merged automatically. Legal independence of distinct grievances is preserved until authorized reviewers verify commonality.
               </p>
             </div>
 
-            <div className="bg-[#0D1C2E] border border-[#1E375B] rounded-xl p-6 space-y-3">
-              <div className="w-10 h-10 rounded-lg bg-[#162D4A] border border-[#203D63] flex items-center justify-center text-emerald-400">
-                <Database className="w-5 h-5" />
+            <div className="bg-white border border-[#E3E5DE] rounded-xl p-6 space-y-3 shadow-xs">
+              <div className="w-10 h-10 rounded-lg bg-[#EAF0F6] text-[#496785] flex items-center justify-center font-bold">
+                <ShieldCheck className="w-5 h-5" />
               </div>
-              <h3 className="text-base font-bold text-white">Row Level Security (RLS)</h3>
-              <p className="text-xs text-[#94A3B8] leading-relaxed">
-                Technical institutions can access only grievances filed against their own Permanent Institute ID (PID). Bureau officials are granted role-scoped access enforced directly at the PostgreSQL layer.
+              <h3 className="text-base font-bold text-[#20231F]">Natural Justice Protocol</h3>
+              <p className="text-xs text-[#62665F] leading-relaxed">
+                Colleges receive time-bound notices and submit formal counter-affidavits before joint inspections or disciplinary directives can be issued.
               </p>
             </div>
 
-            <div className="bg-[#0D1C2E] border border-[#1E375B] rounded-xl p-6 space-y-3">
-              <div className="w-10 h-10 rounded-lg bg-[#162D4A] border border-[#203D63] flex items-center justify-center text-amber-400">
+            <div className="bg-white border border-[#E3E5DE] rounded-xl p-6 space-y-3 shadow-xs">
+              <div className="w-10 h-10 rounded-lg bg-[#FBF1DB] text-[#925C0B] flex items-center justify-center font-bold">
                 <History className="w-5 h-5" />
               </div>
-              <h3 className="text-base font-bold text-white">Immutable Audit Trail</h3>
-              <p className="text-xs text-[#94A3B8] leading-relaxed">
-                Every overlap confirmation, status change, and notice issued generates an immutable audit record containing the reviewer's ID, bureau cell, timestamp, and justification notes.
+              <h3 className="text-base font-bold text-[#20231F]">Immutable Audit Trail</h3>
+              <p className="text-xs text-[#62665F] leading-relaxed">
+                Every overlap confirmation, status change, and notice issued generates an immutable audit record containing the reviewer&apos;s ID, bureau cell, timestamp, and justification notes.
               </p>
             </div>
           </div>
@@ -778,33 +774,35 @@ export default function CinematicLandingPage() {
       {/* =========================================================================
           SECTION 5 — FINAL CALL TO ACTION
          ========================================================================= */}
-      <section className="py-20 sm:py-24 bg-[#08121E]">
+      <section className="py-20 bg-white">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Ready to Explore the CaseBridge Workspace?
+          <h2 className="text-3xl sm:text-4xl font-bold font-serif text-[#20231F] tracking-tight">
+            Ready to track an institution or inspect an active case?
           </h2>
-          <p className="text-sm sm:text-base text-[#94A3B8] max-w-2xl mx-auto">
-            Experience the unified operational dashboard designed for AICTE officers, committee reviewers, and technical institute compliance desks.
+          <p className="text-sm text-[#62665F] max-w-xl mx-auto leading-relaxed">
+            CaseSense coordinates grievances across all AICTE cells. Choose your portal below to lodge complaints, track status, or begin official inquiry review.
           </p>
-
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
             <Link
-              href="/dashboard"
-              className="inline-flex items-center space-x-2 bg-[#1769AA] hover:bg-[#1C7DD1] text-white px-6 py-3 rounded-lg text-sm font-semibold transition-all shadow-md"
+              href="/complaints/register"
+              className="px-6 py-3 bg-[#344B3B] hover:bg-[#293D30] text-white text-xs font-semibold rounded-lg shadow-xs transition-colors flex items-center gap-2"
             >
-              <span>Access Executive Overview</span>
-              <ArrowRight className="w-4 h-4" />
+              <FilePlus className="w-4 h-4" />
+              <span>Register Complaint</span>
+            </Link>
+            <Link
+              href="/track-complaint"
+              className="px-6 py-3 bg-[#F0F3ED] hover:bg-[#E8EEE7] text-[#344B3B] text-xs font-semibold rounded-lg border border-[#D4D8CF] transition-colors flex items-center gap-2"
+            >
+              <Search className="w-4 h-4" />
+              <span>Citizen Tracking Desk</span>
             </Link>
             <Link
               href="/login"
-              className="inline-flex items-center space-x-2 bg-[#0F2035] hover:bg-[#162D4A] border border-[#203D63] text-white px-6 py-3 rounded-lg text-sm font-medium transition-all"
+              className="px-6 py-3 bg-white hover:bg-[#F7F7F4] text-[#20231F] text-xs font-medium rounded-lg border border-[#E3E5DE] transition-colors"
             >
-              <span>Official Login Portal</span>
+              Official Reviewer Workspace &rarr;
             </Link>
-          </div>
-
-          <div className="pt-8 text-xs font-mono text-[#8DA0B8]">
-            AICTE Problem Statement ID: SIH26264 &bull; Smart India Hackathon 2026 &bull; Team Code Ninja&apos;s
           </div>
         </div>
       </section>

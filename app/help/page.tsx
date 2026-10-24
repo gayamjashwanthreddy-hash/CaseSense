@@ -85,47 +85,43 @@ export default function HelpAndFaqsPage() {
   });
 
   return (
-    <div className="bg-brand-midnight text-brand-warm min-h-[calc(100vh-140px)] py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Ambient background glows */}
-      <div className="absolute top-1/4 right-1/4 w-[600px] h-[300px] bg-brand-inst/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-1/4 left-10 w-[500px] h-[300px] bg-brand-teal/8 rounded-full blur-[120px] pointer-events-none" />
-
-      <div className="max-w-5xl mx-auto space-y-12 relative z-10">
+    <div className="bg-surface-primary text-charcoal-primary min-h-[calc(100vh-140px)] py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-5xl mx-auto space-y-12">
         {/* Header */}
         <div className="space-y-4 max-w-3xl">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 bg-brand-surface border border-brand-inst/30 rounded-full text-brand-ice text-xs font-mono tracking-wide">
+          <div className="inline-flex items-center space-x-2 px-3 py-1 bg-olive-50 border border-olive-200 rounded-full text-olive-800 text-xs font-mono tracking-wide">
             <span>REGULATORY ASSISTANCE</span>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+          <h1 className="font-serif text-3xl sm:text-5xl font-medium text-charcoal-primary tracking-tight leading-tight">
             Help, Guidelines & FAQs
           </h1>
-          <p className="text-brand-neutral text-base sm:text-lg leading-relaxed">
+          <p className="text-charcoal-secondary text-base sm:text-lg leading-relaxed">
             Procedural rules, grievance classification standards, and operational guidelines for complainants, technical institutions, and administrative bureau officials.
           </p>
 
           {/* Search */}
           <div className="mt-4 max-w-md relative">
-            <Search className="w-4 h-4 text-brand-neutral absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-charcoal-muted absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search FAQs by keyword (e.g. refund, SLA, notice)..."
-              className="w-full pl-10 pr-4 py-2.5 text-xs border border-brand-surface rounded-xl bg-brand-deep text-brand-warm placeholder:text-brand-neutral/60 focus:outline-hidden focus:border-brand-ice"
+              className="w-full pl-10 pr-4 py-2.5 text-xs border border-charcoal-200 rounded-xl bg-white text-charcoal-primary placeholder:text-charcoal-muted focus:outline-hidden focus:border-olive-500 focus:ring-1 focus:ring-olive-500 shadow-xs"
             />
           </div>
         </div>
 
         {/* Category Tabs */}
-        <div className="flex flex-wrap gap-2 border-b border-brand-surface pb-3">
+        <div className="flex flex-wrap gap-2 border-b border-charcoal-200 pb-3">
           {categories.map((c) => (
             <button
               key={c.id}
               onClick={() => setActiveCategory(c.id)}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                 activeCategory === c.id
-                  ? "bg-brand-inst text-white font-semibold"
-                  : "bg-brand-surface text-brand-neutral hover:text-white hover:bg-brand-surface/80"
+                  ? "bg-olive-800 text-white font-semibold shadow-xs"
+                  : "bg-surface-secondary text-charcoal-secondary hover:text-charcoal-primary hover:bg-surface-tertiary border border-charcoal-200"
               }`}
             >
               {c.label}
@@ -136,7 +132,7 @@ export default function HelpAndFaqsPage() {
         {/* Accordion FAQs */}
         <div className="space-y-3">
           {filteredFaqs.length === 0 ? (
-            <div className="p-8 text-center text-brand-neutral bg-brand-deep/80 rounded-xl border border-brand-surface text-xs">
+            <div className="p-8 text-center text-charcoal-muted bg-white rounded-xl border border-charcoal-200 text-xs shadow-xs">
               No FAQs matching &quot;{searchQuery}&quot;. Try a different search term.
             </div>
           ) : (
@@ -145,23 +141,23 @@ export default function HelpAndFaqsPage() {
               return (
                 <div
                   key={index}
-                  className="bg-brand-deep/80 rounded-xl border border-brand-surface overflow-hidden hover:border-brand-ice/30 transition-all"
+                  className="bg-white rounded-xl border border-charcoal-200 overflow-hidden hover:border-olive-300 transition-all shadow-xs"
                 >
                   <button
                     onClick={() => setExpandedIndex(isExpanded ? null : index)}
-                    className="w-full p-5 text-left flex items-center justify-between hover:bg-brand-surface/30 transition-colors"
+                    className="w-full p-5 text-left flex items-center justify-between hover:bg-surface-secondary/50 transition-colors"
                   >
-                    <span className="font-semibold text-white text-sm pr-4">
+                    <span className="font-semibold text-charcoal-primary text-sm pr-4">
                       {faq.q}
                     </span>
                     {isExpanded ? (
-                      <ChevronUp className="w-4 h-4 text-brand-ice shrink-0" />
+                      <ChevronUp className="w-4 h-4 text-olive-700 shrink-0" />
                     ) : (
-                      <ChevronDown className="w-4 h-4 text-brand-neutral shrink-0" />
+                      <ChevronDown className="w-4 h-4 text-charcoal-muted shrink-0" />
                     )}
                   </button>
                   {isExpanded && (
-                    <div className="px-5 pb-5 pt-1 text-xs text-brand-neutral leading-relaxed border-t border-brand-surface/60 bg-brand-midnight/40">
+                    <div className="px-5 pb-5 pt-1 text-xs text-charcoal-secondary leading-relaxed border-t border-charcoal-200 bg-surface-secondary/30">
                       {faq.a}
                     </div>
                   )}
@@ -174,10 +170,10 @@ export default function HelpAndFaqsPage() {
         {/* Recognized AICTE Grievance Categories Guide */}
         <section id="categories" className="space-y-5 pt-4">
           <div>
-            <h2 className="text-2xl font-bold text-white tracking-tight">
+            <h2 className="font-serif text-2xl font-bold text-charcoal-primary tracking-tight">
               Recognized Grievance Categories
             </h2>
-            <p className="text-brand-neutral text-xs mt-1">
+            <p className="text-charcoal-secondary text-xs mt-1">
               Standardized statutory classification under the AICTE Approval Process Handbook (APH 2025-26).
             </p>
           </div>
@@ -186,29 +182,18 @@ export default function HelpAndFaqsPage() {
             {grievanceCategories.map((g) => (
               <div
                 key={g.code}
-                className="p-5 bg-brand-deep/80 rounded-xl border border-brand-surface space-y-2"
+                className="p-5 bg-white rounded-xl border border-charcoal-200 space-y-2 shadow-xs hover:border-olive-300 transition-all"
               >
                 <div className="flex items-center justify-between">
-                  <h3 className="font-semibold text-white text-xs">{g.title}</h3>
-                  <span className="font-mono text-[9px] bg-brand-surface text-brand-ice px-2 py-0.5 rounded border border-brand-surface font-medium">
+                  <h3 className="font-semibold text-charcoal-primary text-xs">{g.title}</h3>
+                  <span className="font-mono text-[9px] bg-olive-50 text-olive-800 px-2 py-0.5 rounded border border-olive-200 font-medium">
                     {g.code}
                   </span>
                 </div>
-                <p className="text-xs text-brand-neutral leading-relaxed">{g.desc}</p>
+                <p className="text-xs text-charcoal-secondary leading-relaxed">{g.desc}</p>
               </div>
             ))}
           </div>
-        </section>
-
-        {/* Whistleblower Protection Notice */}
-        <section className="p-6 rounded-2xl bg-brand-surface/50 border border-brand-inst/30 space-y-3">
-          <h3 className="text-sm font-bold text-white flex items-center space-x-2">
-            <ShieldAlert className="w-4 h-4 text-brand-ice" />
-            <span>Whistleblower & Confidentiality Disclosure</span>
-          </h3>
-          <p className="text-xs text-brand-neutral leading-relaxed">
-            CaseBridge AI enforces strict separation between public complainant metadata and institutional notice records. If you elect confidential reporting, your name and contact details are stored in an encrypted administrative enclave and never shared with the respondent college.
-          </p>
         </section>
       </div>
     </div>

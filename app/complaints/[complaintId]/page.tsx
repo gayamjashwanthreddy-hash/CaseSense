@@ -56,7 +56,7 @@ export default function SingleComplaintPublicPage() {
       <div>
         <Link
           href="/track-complaint"
-          className="inline-flex items-center space-x-1.5 text-xs font-semibold text-slate-600 hover:text-blue-700 transition-colors"
+          className="inline-flex items-center space-x-1.5 text-xs font-semibold text-[#62665F] hover:text-[#20231F] transition-colors font-mono"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Grievance Tracking Gateway</span>
@@ -65,31 +65,31 @@ export default function SingleComplaintPublicPage() {
 
       {/* If Not Verified: Enforce Dual Factor Ownership Challenge */}
       {!isVerified ? (
-        <div className="bg-white p-8 rounded-lg border border-slate-200 shadow-sm max-w-lg mx-auto space-y-6">
+        <div className="bg-white p-8 rounded-xl border border-[#E3E5DE] shadow-xs max-w-lg mx-auto space-y-6">
           <div className="text-center space-y-2">
-            <div className="w-12 h-12 bg-blue-50 text-blue-700 rounded-full flex items-center justify-center mx-auto border border-blue-200">
+            <div className="w-12 h-12 bg-[#E8EEE7] text-[#344B3B] rounded-full flex items-center justify-center mx-auto border border-[#344B3B]/20">
               <Lock className="w-6 h-6" />
             </div>
-            <h1 className="text-lg font-bold text-slate-900">
+            <h1 className="text-xl font-bold font-serif text-[#20231F]">
               Identity Verification Required
             </h1>
-            <p className="text-xs text-slate-500 leading-relaxed">
+            <p className="text-xs text-[#62665F] leading-relaxed font-mono">
               To protect complainant confidentiality and prevent sequential enumeration attacks, enter the registered email or tracking code associated with reference:
             </p>
-            <div className="font-mono text-sm font-bold text-blue-900 bg-slate-50 py-1.5 px-3 rounded border border-slate-200 inline-block">
+            <div className="font-mono text-sm font-bold text-[#344B3B] bg-[#F7F7F4] py-1.5 px-3 rounded border border-[#E3E5DE] inline-block">
               {decodedId}
             </div>
           </div>
 
           {error && (
-            <div className="p-3 bg-red-50 border border-red-200 rounded text-xs text-red-800">
+            <div className="p-3 bg-[#FBEAEC] border border-[#B42332]/25 rounded-md text-xs text-[#B42332] font-mono">
               {error}
             </div>
           )}
 
           <div className="space-y-3">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
+              <label className="block text-xs font-semibold text-[#20231F] mb-1">
                 Complainant Email / Phone / Security Token *
               </label>
               <input
@@ -97,26 +97,26 @@ export default function SingleComplaintPublicPage() {
                 value={verificationInput}
                 onChange={(e) => setVerificationInput(e.target.value)}
                 placeholder="e.g. rohit.verma@example.com or TRK-882194"
-                className="w-full px-3 py-2 text-xs border border-slate-300 rounded-md bg-white focus:outline-hidden focus:ring-1 focus:ring-blue-600"
+                className="w-full px-3 py-2 text-xs border border-[#E3E5DE] rounded-md bg-[#F7F7F4] focus:outline-none focus:ring-1 focus:ring-[#526B57] focus:bg-white text-[#20231F]"
               />
             </div>
 
             <button
               type="button"
               onClick={() => handleVerify()}
-              className="w-full py-2 bg-blue-700 hover:bg-blue-800 text-white font-semibold text-xs rounded-md shadow-xs transition-colors flex items-center justify-center space-x-1.5"
+              className="w-full py-2 bg-[#344B3B] hover:bg-[#293D30] text-white font-semibold text-xs rounded-md shadow-xs transition-colors flex items-center justify-center space-x-1.5 font-mono"
             >
               <KeyRound className="w-3.5 h-3.5" />
-              <span>Verify & Unlock Case Timeline</span>
+              <span>Verify &amp; Unlock Case Timeline</span>
             </button>
           </div>
 
           {/* Quick Demo Bypass for Hackathon Reviewers */}
-          <div className="pt-3 border-t border-slate-100 text-center">
+          <div className="pt-3 border-t border-[#E3E5DE] text-center">
             <button
               type="button"
               onClick={() => handleVerify("demo")}
-              className="text-xs text-blue-700 hover:underline font-medium"
+              className="text-xs text-[#344B3B] hover:underline font-medium font-mono"
             >
               (Demo Reviewer 1-Click Verification)
             </button>
@@ -125,18 +125,18 @@ export default function SingleComplaintPublicPage() {
       ) : (
         /* Verified Safe Timeline View */
         trackingData && (
-          <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-6 space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-200 gap-3">
+          <div className="bg-white rounded-xl border border-[#E3E5DE] shadow-xs p-6 space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#E3E5DE] gap-3">
               <div>
                 <div className="flex items-center space-x-2">
-                  <span className="font-mono text-lg font-bold text-slate-900">
+                  <span className="font-mono text-lg font-bold text-[#20231F]">
                     {trackingData.refNumber}
                   </span>
-                  <span className="text-xs text-slate-500 font-mono">
+                  <span className="text-xs text-[#85877F] font-mono">
                     ({trackingData.caseId})
                   </span>
                 </div>
-                <h2 className="text-sm font-semibold text-slate-800 mt-0.5">
+                <h2 className="text-sm font-semibold text-[#20231F] mt-0.5">
                   {trackingData.subject}
                 </h2>
               </div>
@@ -147,32 +147,32 @@ export default function SingleComplaintPublicPage() {
             </div>
 
             {/* Institution & SLA strip */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 rounded-md bg-slate-50 border border-slate-200 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 rounded-lg bg-[#F7F7F4] border border-[#E3E5DE] text-xs">
               <div>
-                <span className="text-[10px] uppercase font-semibold text-slate-400 block">
+                <span className="text-[10px] uppercase font-semibold text-[#85877F] block font-mono">
                   Institution Under Scrutiny
                 </span>
-                <span className="font-bold text-slate-800 block mt-0.5">
+                <span className="font-bold text-[#20231F] block mt-0.5">
                   {trackingData.institutionName}
                 </span>
-                <span className="text-[11px] text-slate-500">{trackingData.institutionState}</span>
+                <span className="text-[11px] text-[#62665F]">{trackingData.institutionState}</span>
               </div>
               <div>
-                <span className="text-[10px] uppercase font-semibold text-slate-400 block">
-                  Lodged Date & Target
+                <span className="text-[10px] uppercase font-semibold text-[#85877F] block font-mono">
+                  Lodged Date &amp; Target
                 </span>
-                <span className="font-semibold text-slate-800 block mt-0.5">
+                <span className="font-semibold text-[#20231F] block mt-0.5 font-mono">
                   Received: {formatDate(trackingData.receivedDate)}
                 </span>
-                <span className="text-[11px] text-blue-700">
+                <span className="text-[11px] text-[#344B3B] font-medium font-mono">
                   SLA Target: {formatDate(trackingData.slaDeadline)}
                 </span>
               </div>
               <div>
-                <span className="text-[10px] uppercase font-semibold text-slate-400 block">
+                <span className="text-[10px] uppercase font-semibold text-[#85877F] block font-mono">
                   Institutional Reply
                 </span>
-                <span className="font-semibold inline-block mt-0.5 text-slate-800">
+                <span className="font-semibold inline-block mt-0.5 text-[#20231F] font-mono">
                   {trackingData.institutionResponseStatus === "RECEIVED" ? "Counter-Affidavit Filed" : "Response Pending (14d SLA)"}
                 </span>
               </div>
@@ -180,27 +180,27 @@ export default function SingleComplaintPublicPage() {
 
             {/* Safe Timeline */}
             <div className="space-y-4 pt-2">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#20231F] font-mono">
                 Procedural Milestone Timeline
               </h3>
-              <div className="relative border-l-2 border-slate-200 ml-3.5 space-y-6 py-1">
+              <div className="relative border-l-2 border-[#E3E5DE] ml-3.5 space-y-6 py-1">
                 {trackingData.publicTimeline.map((item, idx) => (
                   <div key={idx} className="relative pl-6">
                     <div
                       className={`absolute -left-[9px] top-0.5 w-4 h-4 rounded-full border-2 bg-white flex items-center justify-center ${
-                        item.isCompleted ? "border-emerald-600" : "border-slate-300"
+                        item.isCompleted ? "border-[#23734D]" : "border-[#D4D8CF]"
                       }`}
                     >
-                      {item.isCompleted && <div className="w-1.5 h-1.5 rounded-full bg-emerald-600" />}
+                      {item.isCompleted && <div className="w-1.5 h-1.5 rounded-full bg-[#23734D]" />}
                     </div>
                     <div>
                       <div className="flex items-center space-x-2">
-                        <h4 className="text-xs font-bold text-slate-900">{item.stage}</h4>
-                        <span className="text-[10px] text-slate-400 font-mono">
+                        <h4 className="text-xs font-bold text-[#20231F]">{item.stage}</h4>
+                        <span className="text-[10px] text-[#85877F] font-mono">
                           {item.date ? formatDate(item.date) : "Pending"}
                         </span>
                       </div>
-                      <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
+                      <p className="text-xs text-[#62665F] mt-0.5 leading-relaxed font-sans">
                         {item.description}
                       </p>
                     </div>
@@ -209,7 +209,7 @@ export default function SingleComplaintPublicPage() {
               </div>
             </div>
 
-            <div className="p-3 bg-slate-50 border border-slate-200 rounded text-[11px] text-slate-500">
+            <div className="p-3 bg-[#F7F7F4] border border-[#E3E5DE] rounded text-[11px] text-[#62665F] font-mono">
               Note: Confidential official correspondence, internal scrutiny minutes, and investigator notes are redacted in accordance with administrative privacy norms.
             </div>
           </div>

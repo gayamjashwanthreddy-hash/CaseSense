@@ -1,14 +1,28 @@
 import type { Metadata } from "next";
+import { Inter, Newsreader } from "next/font/google";
 import "./globals.css";
 import { QueryProvider } from "@/components/providers/QueryProvider";
 import { RoleProvider } from "@/lib/context/RoleContext";
 import { ToastProvider } from "@/lib/context/ToastContext";
 import { AppShell } from "@/components/layout/AppShell";
 
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const newsreader = Newsreader({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  variable: "--font-serif",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "CaseBridge AI — AICTE Multi-Bureau Grievance & Overlap Resolution (SIH26264)",
+  title: "CaseSense — Institutional Grievance Intelligence Platform",
   description:
-    "Integrated administrative dashboard for monitoring, de-duplication, and tracking institution-related complaints across AICTE bureaus and cells.",
+    "Transparent oversight, cross-bureau coordination, and accountable resolution across AICTE grievance workflows (SIH26264).",
 };
 
 export default function RootLayout({
@@ -17,8 +31,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen bg-slate-50 text-slate-900 font-sans antialiased">
+    <html lang="en" className={`${inter.variable} ${newsreader.variable}`}>
+      <body className="min-h-screen bg-white text-[#20231F] font-sans antialiased selection:bg-[#E8EEE7] selection:text-[#344B3B]">
         <QueryProvider>
           <RoleProvider>
             <ToastProvider>

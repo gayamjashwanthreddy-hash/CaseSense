@@ -51,30 +51,30 @@ function ConfirmationContent() {
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
       {/* Success Badge Banner */}
-      <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-6 text-center space-y-3">
-        <div className="w-12 h-12 bg-emerald-600 text-white rounded-full flex items-center justify-center mx-auto shadow-sm">
+      <div className="bg-[#E8F4EC] border border-[#23734D]/25 rounded-xl p-6 text-center space-y-3">
+        <div className="w-12 h-12 bg-[#23734D] text-white rounded-full flex items-center justify-center mx-auto shadow-xs">
           <CheckCircle2 className="w-7 h-7" />
         </div>
-        <h1 className="text-2xl font-extrabold text-emerald-950 tracking-tight">
+        <h1 className="text-2xl sm:text-3xl font-bold font-serif text-[#20231F] tracking-tight">
           Grievance Successfully Registered
         </h1>
-        <p className="text-emerald-900/80 text-xs sm:text-sm max-w-lg mx-auto leading-relaxed">
-          Your complaint has been formally entered into the AICTE CaseBridge registry. Save your non-guessable reference and security verification credentials below.
+        <p className="text-[#20231F] text-xs sm:text-sm max-w-lg mx-auto leading-relaxed font-mono">
+          Your complaint has been formally entered into the AICTE CaseSense registry. Save your non-guessable reference and security verification credentials below.
         </p>
       </div>
 
       {/* Official Receipt Card */}
-      <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-6 space-y-6">
-        <div className="flex items-center justify-between pb-4 border-b border-slate-200 text-xs">
+      <div className="bg-white rounded-xl border border-[#E3E5DE] shadow-xs p-6 space-y-6">
+        <div className="flex items-center justify-between pb-4 border-b border-[#E3E5DE] text-xs">
           <div>
-            <span className="font-bold text-slate-900 uppercase tracking-wider text-[11px] block">
+            <span className="font-bold text-[#20231F] uppercase tracking-wider text-[11px] block font-mono">
               Official Grievance Receipt
             </span>
-            <span className="text-slate-500 text-[11px]">
+            <span className="text-[#62665F] text-[11px] font-mono">
               AICTE Public Grievance Redressal Cell (PGRC)
             </span>
           </div>
-          <span className="font-mono text-slate-500 text-[11px]">
+          <span className="font-mono text-[#62665F] text-[11px]">
             Dated: {new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
           </span>
         </div>
@@ -82,102 +82,103 @@ function ConfirmationContent() {
         {/* Credentials Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Reference Number */}
-          <div className="p-4 bg-slate-50 rounded-lg border border-slate-200 space-y-1.5">
-            <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider block">
+          <div className="p-4 bg-[#F7F7F4] rounded-lg border border-[#E3E5DE] space-y-1.5">
+            <span className="text-[10px] uppercase font-bold text-[#62665F] tracking-wider block font-mono">
               Complaint Reference Number
             </span>
             <div className="flex items-center justify-between">
-              <span className="font-mono text-lg font-black text-blue-900 tracking-wider">
+              <span className="font-mono text-lg font-bold text-[#344B3B] tracking-wider">
                 {refNumber}
               </span>
               <button
                 type="button"
                 onClick={() => copyToClipboard(refNumber, false)}
-                className="p-1.5 text-slate-500 hover:text-blue-700 hover:bg-white rounded border border-transparent hover:border-slate-300 transition-colors"
+                className="p-1.5 text-[#62665F] hover:text-[#20231F] hover:bg-white rounded border border-transparent hover:border-[#E3E5DE] transition-colors"
                 title="Copy reference number"
               >
-                {copiedRef ? <CheckCircle2 className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
+                {copiedRef ? <CheckCircle2 className="w-4 h-4 text-[#23734D]" /> : <Copy className="w-4 h-4" />}
               </button>
             </div>
-            <p className="text-[10px] text-slate-400">
-              Use this identifier in all future official correspondence.
+            <p className="text-[10px] text-[#62665F] font-mono">
+              Quoted in all subsequent statutory communications.
             </p>
           </div>
 
-          {/* Security Tracking Code */}
-          <div className="p-4 bg-slate-50 rounded-lg border border-slate-200 space-y-1.5">
-            <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider block">
-              Security Tracking Code
+          {/* Security Key */}
+          <div className="p-4 bg-[#F7F7F4] rounded-lg border border-[#E3E5DE] space-y-1.5">
+            <span className="text-[10px] uppercase font-bold text-[#62665F] tracking-wider block font-mono">
+              Secret Tracking Passcode
             </span>
             <div className="flex items-center justify-between">
-              <span className="font-mono text-lg font-black text-slate-800 tracking-wider">
+              <span className="font-mono text-lg font-bold text-[#20231F] tracking-wider">
                 {trackingCode}
               </span>
               <button
                 type="button"
                 onClick={() => copyToClipboard(trackingCode, true)}
-                className="p-1.5 text-slate-500 hover:text-blue-700 hover:bg-white rounded border border-transparent hover:border-slate-300 transition-colors"
-                title="Copy tracking code"
+                className="p-1.5 text-[#62665F] hover:text-[#20231F] hover:bg-white rounded border border-transparent hover:border-[#E3E5DE] transition-colors"
+                title="Copy security passcode"
               >
-                {copiedCode ? <CheckCircle2 className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
+                {copiedCode ? <CheckCircle2 className="w-4 h-4 text-[#23734D]" /> : <Copy className="w-4 h-4" />}
               </button>
             </div>
-            <p className="text-[10px] text-slate-400">
-              Required alongside your reference number to verify status.
+            <p className="text-[10px] text-[#62665F] font-mono">
+              Required alongside your reference number to inspect status.
             </p>
           </div>
         </div>
 
-        {/* Respondent Details */}
-        <div className="p-3.5 bg-slate-50 rounded border border-slate-200 text-xs space-y-1">
-          <span className="text-[10px] uppercase font-semibold text-slate-400 block">
-            Respondent Institution
-          </span>
-          <div className="font-bold text-slate-900">{institutionName}</div>
-          <div className="text-[11px] text-slate-500">
-            Initial Desk Scrutiny Target: 7 Working Days (AICTE Citizen Charter SLA)
+        {/* Target College info */}
+        <div className="p-4 rounded-lg bg-[#F7F7F4] border border-[#E3E5DE] flex items-center space-x-3 text-xs">
+          <Building2 className="w-5 h-5 text-[#344B3B] shrink-0" />
+          <div>
+            <span className="text-[10px] uppercase font-semibold text-[#62665F] block font-mono">
+              Target Technical Institution
+            </span>
+            <span className="font-semibold text-[#20231F] text-xs">
+              {institutionName}
+            </span>
           </div>
         </div>
 
-        {/* Actions Strip */}
-        <div className="flex flex-wrap items-center justify-between pt-2 gap-3">
+        {/* Security Warning */}
+        <div className="p-4 bg-[#FBF1DB] border border-[#925C0B]/25 rounded-lg text-xs text-[#925C0B] flex items-start space-x-2.5">
+          <Lock className="w-4 h-4 text-[#925C0B] shrink-0 mt-0.5" />
+          <div className="space-y-1 font-mono text-[11px]">
+            <span className="font-bold block">Dual-Factor Verification Protocol:</span>
+            <p className="leading-relaxed">
+              To prevent unauthorized parties from discovering whether complaints exist against an institution, live tracking requires both your Reference Number and your Secret Tracking Passcode or registered email address.
+            </p>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 font-mono">
           <button
             type="button"
             onClick={handlePrint}
-            className="inline-flex items-center space-x-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-300 rounded hover:bg-slate-50 transition-colors"
+            className="w-full sm:w-auto px-4 py-2 border border-[#E3E5DE] hover:bg-[#F7F7F4] text-[#20231F] font-semibold text-xs rounded-md transition-colors flex items-center justify-center space-x-1.5"
           >
-            <Printer className="w-3.5 h-3.5 text-slate-500" />
+            <Printer className="w-3.5 h-3.5" />
             <span>Print Official Receipt</span>
           </button>
 
           <Link
-            href={`/track-complaint`}
-            className="inline-flex items-center space-x-1.5 px-4 py-2 text-xs font-semibold text-white bg-blue-700 hover:bg-blue-800 rounded shadow-xs transition-colors"
+            href={`/track-complaint?ref=${encodeURIComponent(refNumber)}`}
+            className="w-full sm:w-auto px-5 py-2 bg-[#344B3B] hover:bg-[#293D30] text-white font-semibold text-xs rounded-md shadow-xs transition-colors flex items-center justify-center space-x-1.5"
           >
-            <Search className="w-3.5 h-3.5" />
-            <span>Track Application Status Now</span>
+            <span>Proceed to Live Tracking Desk</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
-        </div>
-      </div>
-
-      {/* Simulated Notice */}
-      <div className="p-4 bg-slate-100 border border-slate-200 rounded-lg flex items-start space-x-3 text-xs text-slate-600">
-        <AlertCircle className="w-4 h-4 text-slate-500 shrink-0 mt-0.5" />
-        <div className="space-y-1 leading-relaxed">
-          <span className="font-bold text-slate-800 block">Simulated Delivery Disclosure:</span>
-          <span>
-            In this demonstration prototype, automated SMS and email notifications are simulated in your local browser state. No actual SMS or external emails were transmitted.
-          </span>
         </div>
       </div>
     </div>
   );
 }
 
-export default function ComplaintConfirmationPage() {
+export default function ConfirmationPage() {
   return (
-    <Suspense fallback={<div className="p-8 text-center text-xs text-slate-500">Loading confirmation receipt...</div>}>
+    <Suspense fallback={<div className="p-12 text-center text-xs text-[#62665F] font-mono">Loading confirmation receipt...</div>}>
       <ConfirmationContent />
     </Suspense>
   );

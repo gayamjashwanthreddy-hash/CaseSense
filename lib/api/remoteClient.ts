@@ -1,5 +1,5 @@
 /**
- * Remote API Client for CaseBridge AI
+ * Remote API Client for CaseBridge AI / CaseSense
  * Connects Next.js frontend to FastAPI backend and Supabase infrastructure.
  * Automatically falls back to offline CaseBridgeStore if backend is unavailable.
  */
@@ -178,7 +178,6 @@ export async function submitOverlapDecisionApi(
   return CaseBridgeStore.resolveOverlap(pairId, action as any, reviewerNotes, leadBureau || "REGULATION");
 }
 
-
 export function getStoredAuthToken(): string | null {
   if (typeof window === "undefined") return null;
   return localStorage.getItem("casebridge_jwt_token");
@@ -188,6 +187,9 @@ export function clearStoredAuth(): void {
   if (typeof window === "undefined") return;
   localStorage.removeItem("casebridge_jwt_token");
   localStorage.removeItem("casebridge_current_user_v1");
+  localStorage.removeItem("casebridge_inst_token");
+  document.cookie = "casebridge_auth_session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+  document.cookie = "casebridge_inst_session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
   window.dispatchEvent(new CustomEvent("casebridge_store_updated", { detail: { auth: false } }));
 }
 
@@ -216,6 +218,7 @@ export async function loginOfficialApi(
       if (typeof window !== "undefined") {
         localStorage.setItem("casebridge_jwt_token", data.access_token);
         localStorage.setItem("casebridge_current_user_v1", JSON.stringify(userProfile));
+        document.cookie = `casebridge_auth_session=${data.access_token}; path=/; max-age=86400; SameSite=Lax`;
         window.dispatchEvent(new CustomEvent("casebridge_store_updated", { detail: { auth: true } }));
       }
       return { success: true, token: data.access_token, user: userProfile };
@@ -231,6 +234,7 @@ export async function loginOfficialApi(
       if (typeof window !== "undefined") {
         localStorage.setItem("casebridge_jwt_token", mockToken);
         localStorage.setItem("casebridge_current_user_v1", JSON.stringify(seed));
+        document.cookie = `casebridge_auth_session=${mockToken}; path=/; max-age=86400; SameSite=Lax`;
         window.dispatchEvent(new CustomEvent("casebridge_store_updated", { detail: { auth: true } }));
       }
       return { success: true, token: mockToken, user: seed };
@@ -259,6 +263,7 @@ export async function loginInstitutionApi(
       const data = await res.json();
       if (typeof window !== "undefined") {
         localStorage.setItem("casebridge_inst_token", data.access_token);
+        document.cookie = `casebridge_inst_session=${data.access_token}; path=/; max-age=86400; SameSite=Lax`;
       }
       return { success: true, token: data.access_token };
     }
@@ -267,7 +272,12 @@ export async function loginInstitutionApi(
   }
   const acc = CaseBridgeStore.authenticateInstitution(email, accessKey);
   if (acc) {
-    return { success: true, token: "mock_inst_token" };
+    const mockToken = "mock_inst_token";
+    if (typeof window !== "undefined") {
+      localStorage.setItem("casebridge_inst_token", mockToken);
+      document.cookie = `casebridge_inst_session=${mockToken}; path=/; max-age=86400; SameSite=Lax`;
+    }
+    return { success: true, token: mockToken };
   }
   return { success: false, error: "Invalid institutional credentials or unauthorized access key." };
 }

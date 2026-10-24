@@ -63,7 +63,7 @@ export default function InstitutionDashboardPage() {
 
   if (!institution) {
     return (
-      <div className="p-8 text-center text-xs text-slate-500">
+      <div className="p-8 text-center text-xs text-[#62665F] font-mono">
         Authenticating institutional session...
       </div>
     );
@@ -78,38 +78,38 @@ export default function InstitutionDashboardPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Top Banner: Institution Profile Summary */}
-      <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white p-6 rounded-xl border border-[#E3E5DE] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-1">
           <div className="flex items-center space-x-2">
-            <span className="font-mono text-xs font-bold bg-slate-100 text-slate-800 px-2 py-0.5 rounded border border-slate-300">
+            <span className="font-mono text-xs font-bold bg-[#F7F7F4] text-[#20231F] px-2 py-0.5 rounded border border-[#E3E5DE]">
               AICTE PID: {institution.institutionId}
             </span>
-            <span className="text-xs text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded font-semibold">
+            <span className="text-xs text-[#23734D] bg-[#E8F4EC] border border-[#23734D]/25 px-2 py-0.5 rounded font-semibold font-mono">
               {institutionMaster?.approvalStatus || "Approved (2025-2026)"}
             </span>
-            <span className="text-xs text-blue-800 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded font-semibold">
+            <span className="text-xs text-[#344B3B] bg-[#E8EEE7] border border-[#344B3B]/25 px-2 py-0.5 rounded font-semibold font-mono">
               {institutionMaster?.accreditation || "NAAC A+"}
             </span>
           </div>
-          <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="text-xl sm:text-2xl font-bold font-serif text-[#20231F] tracking-tight">
             {institution.institutionName}
           </h1>
-          <p className="text-xs text-slate-500">
-            Signatory: <strong className="text-slate-700">{institution.contactPerson}</strong> ({institution.designation}) • Affiliated to: {institutionMaster?.affiliatedUniversity || "State University"}
+          <p className="text-xs text-[#62665F] font-mono">
+            Signatory: <strong className="text-[#20231F]">{institution.contactPerson}</strong> ({institution.designation}) • Affiliated to: {institutionMaster?.affiliatedUniversity || "State University"}
           </p>
         </div>
 
         <div className="flex items-center space-x-2">
           <Link
             href="/institution/complaints"
-            className="px-3.5 py-2 bg-blue-700 hover:bg-blue-800 text-white font-semibold text-xs rounded-md shadow-xs transition-colors flex items-center space-x-1.5"
+            className="px-4 py-2 bg-[#344B3B] hover:bg-[#293D30] text-white font-semibold text-xs rounded-md shadow-xs transition-colors flex items-center space-x-1.5 font-mono"
           >
             <FileText className="w-3.5 h-3.5" />
             <span>View All Inquiries ({scopedCases.length})</span>
           </Link>
           <Link
             href="/institution/profile"
-            className="px-3.5 py-2 bg-white hover:bg-slate-50 text-slate-700 font-medium text-xs rounded-md border border-slate-300 transition-colors"
+            className="px-4 py-2 bg-white hover:bg-[#F7F7F4] text-[#20231F] font-medium text-xs rounded-md border border-[#E3E5DE] transition-colors font-mono"
           >
             Institutional Profile
           </Link>
@@ -118,54 +118,54 @@ export default function InstitutionDashboardPage() {
 
       {/* Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="p-4 bg-white rounded-lg border border-slate-200 shadow-2xs space-y-1">
-          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+        <div className="p-5 bg-white rounded-xl border border-[#E3E5DE] shadow-xs space-y-1">
+          <span className="text-[11px] font-semibold text-[#62665F] uppercase tracking-wider block font-mono">
             Total Inquiries on Record
           </span>
-          <div className="text-2xl font-black text-slate-900">{scopedCases.length}</div>
-          <p className="text-[11px] text-slate-400">Scoped strictly to PID {institution.institutionId}</p>
+          <div className="text-2xl font-bold font-mono text-[#20231F]">{scopedCases.length}</div>
+          <p className="text-[11px] text-[#85877F] font-mono">Scoped strictly to PID {institution.institutionId}</p>
         </div>
 
-        <div className="p-4 bg-white rounded-lg border border-amber-200 shadow-2xs space-y-1 bg-amber-50/20">
-          <span className="text-[11px] font-semibold text-amber-800 uppercase tracking-wider block">
+        <div className="p-5 bg-white rounded-xl border border-[#925C0B]/25 shadow-xs space-y-1 bg-[#FBF1DB]/30">
+          <span className="text-[11px] font-semibold text-[#925C0B] uppercase tracking-wider block font-mono">
             Active / Open Notices
           </span>
-          <div className="text-2xl font-black text-amber-900">{activeInquiries.length}</div>
-          <p className="text-[11px] text-amber-700 font-medium">Under active bureau scrutiny</p>
+          <div className="text-2xl font-bold font-mono text-[#925C0B]">{activeInquiries.length}</div>
+          <p className="text-[11px] text-[#925C0B]/90 font-medium font-mono">Under active bureau scrutiny</p>
         </div>
 
-        <div className="p-4 bg-white rounded-lg border border-red-200 shadow-2xs space-y-1 bg-red-50/20">
-          <span className="text-[11px] font-semibold text-red-800 uppercase tracking-wider block">
+        <div className="p-5 bg-white rounded-xl border border-[#B42332]/25 shadow-xs space-y-1 bg-[#FBEAEC]/30">
+          <span className="text-[11px] font-semibold text-[#B42332] uppercase tracking-wider block font-mono">
             Urgent Responses Due
           </span>
-          <div className="text-2xl font-black text-red-900">{urgentNotices.length}</div>
-          <p className="text-[11px] text-red-700 font-medium">14-day SLA window active</p>
+          <div className="text-2xl font-bold font-mono text-[#B42332]">{urgentNotices.length}</div>
+          <p className="text-[11px] text-[#B42332]/90 font-medium font-mono">14-day statutory window</p>
         </div>
 
-        <div className="p-4 bg-white rounded-lg border border-emerald-200 shadow-2xs space-y-1 bg-emerald-50/20">
-          <span className="text-[11px] font-semibold text-emerald-800 uppercase tracking-wider block">
+        <div className="p-5 bg-white rounded-xl border border-[#23734D]/25 shadow-xs space-y-1 bg-[#E8F4EC]/30">
+          <span className="text-[11px] font-semibold text-[#23734D] uppercase tracking-wider block font-mono">
             Compliance Counter-Affidavits
           </span>
-          <div className="text-2xl font-black text-emerald-900">{scopedResponses.length}</div>
-          <p className="text-[11px] text-emerald-700 font-medium">Formally filed with AICTE</p>
+          <div className="text-2xl font-bold font-mono text-[#23734D]">{scopedResponses.length}</div>
+          <p className="text-[11px] text-[#23734D]/90 font-medium font-mono">Formally filed with AICTE</p>
         </div>
       </div>
 
       {/* Active Inquiries Requiring Immediate Attention */}
-      <div className="bg-white rounded-lg border border-slate-200 shadow-2xs overflow-hidden space-y-4 p-6">
-        <div className="flex items-center justify-between pb-3 border-b border-slate-200">
+      <div className="bg-white rounded-xl border border-[#E3E5DE] shadow-xs overflow-hidden space-y-4 p-6">
+        <div className="flex items-center justify-between pb-3 border-b border-[#E3E5DE]">
           <div className="space-y-0.5">
-            <h2 className="text-sm font-bold text-slate-900 flex items-center space-x-2">
-              <AlertTriangle className="w-4 h-4 text-amber-600" />
-              <span>Pending Institutional Inquiries & Show-Cause Notices</span>
+            <h2 className="text-sm font-bold text-[#20231F] flex items-center space-x-2">
+              <AlertTriangle className="w-4 h-4 text-[#925C0B]" />
+              <span>Pending Institutional Inquiries &amp; Show-Cause Notices</span>
             </h2>
-            <p className="text-[11px] text-slate-500">
+            <p className="text-[11px] text-[#62665F] font-mono">
               Complaints registered across AICTE bureaus requiring counter-statements or supporting proofs.
             </p>
           </div>
           <Link
             href="/institution/complaints"
-            className="text-xs font-semibold text-blue-700 hover:text-blue-900 inline-flex items-center space-x-1"
+            className="text-xs font-semibold text-[#344B3B] hover:text-[#202F25] inline-flex items-center space-x-1 font-mono"
           >
             <span>View All</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -173,11 +173,11 @@ export default function InstitutionDashboardPage() {
         </div>
 
         {activeInquiries.length === 0 ? (
-          <div className="p-8 text-center text-slate-500 text-xs">
+          <div className="p-8 text-center text-[#62665F] text-xs font-mono">
             No active pending notices on record for your institution.
           </div>
         ) : (
-          <div className="divide-y divide-slate-100">
+          <div className="divide-y divide-[#E3E5DE]">
             {activeInquiries.map((c) => (
               <div
                 key={c.id}
@@ -185,23 +185,23 @@ export default function InstitutionDashboardPage() {
               >
                 <div className="space-y-1">
                   <div className="flex items-center space-x-2">
-                    <span className="font-mono font-bold text-slate-900">{c.id}</span>
+                    <span className="font-mono font-bold text-[#20231F]">{c.id}</span>
                     <BureauBadge bureau={c.bureau} />
                     <PriorityBadge priority={c.priority} />
                     <StatusBadge status={c.status} />
                   </div>
-                  <h3 className="font-semibold text-slate-800 text-xs mt-0.5">
+                  <h3 className="font-semibold text-[#20231F] text-xs mt-0.5">
                     {c.subject}
                   </h3>
-                  <div className="text-[11px] text-slate-500">
-                    Category: <span className="font-medium text-slate-700">{c.category.replace(/_/g, " ")}</span> • Received: {formatDate(c.receivedDate)} • Response Deadline: <span className="text-red-700 font-semibold">{formatDate(c.nextActionDeadline)}</span>
+                  <div className="text-[11px] text-[#62665F] font-mono">
+                    Category: <span className="font-medium text-[#20231F]">{c.category.replace(/_/g, " ")}</span> • Received: {formatDate(c.receivedDate)} • Response Deadline: <span className="text-[#B42332] font-semibold">{formatDate(c.nextActionDeadline)}</span>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-2 shrink-0">
                   <Link
                     href={`/institution/complaints/${encodeURIComponent(c.id)}`}
-                    className="px-3 py-1.5 bg-amber-700 hover:bg-amber-800 text-white font-semibold text-xs rounded transition-colors flex items-center space-x-1"
+                    className="px-3.5 py-1.5 bg-[#344B3B] hover:bg-[#293D30] text-white font-semibold text-xs rounded-md transition-colors flex items-center space-x-1 font-mono"
                   >
                     <Send className="w-3 h-3" />
                     <span>File Counter-Affidavit</span>
@@ -214,14 +214,14 @@ export default function InstitutionDashboardPage() {
       </div>
 
       {/* Recent Submissions Strip */}
-      <div className="bg-white rounded-lg border border-slate-200 shadow-2xs p-6 space-y-4">
-        <h2 className="text-sm font-bold text-slate-900 flex items-center space-x-2">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+      <div className="bg-white rounded-xl border border-[#E3E5DE] shadow-xs p-6 space-y-4">
+        <h2 className="text-sm font-bold text-[#20231F] flex items-center space-x-2">
+          <CheckCircle2 className="w-4 h-4 text-[#23734D]" />
           <span>Recently Filed Compliance Responses</span>
         </h2>
 
         {scopedResponses.length === 0 ? (
-          <div className="p-6 text-center text-xs text-slate-500">
+          <div className="p-6 text-center text-xs text-[#62665F] font-mono">
             No counter-affidavits filed yet. Use the action button above to file a response to any open inquiry.
           </div>
         ) : (
@@ -229,22 +229,22 @@ export default function InstitutionDashboardPage() {
             {scopedResponses.map((r) => (
               <div
                 key={r.id}
-                className="p-3.5 rounded bg-slate-50 border border-slate-200 text-xs space-y-2"
+                className="p-3.5 rounded-lg bg-[#F7F7F4] border border-[#E3E5DE] text-xs space-y-2"
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2 font-semibold text-slate-900">
-                    <span className="font-mono text-blue-900">{r.id}</span>
+                  <div className="flex items-center space-x-2 font-semibold text-[#20231F]">
+                    <span className="font-mono text-[#344B3B]">{r.id}</span>
                     <span>•</span>
-                    <span className="font-mono text-slate-600">Re: {r.caseId}</span>
+                    <span className="font-mono text-[#62665F]">Re: {r.caseId}</span>
                   </div>
-                  <span className="text-[10px] bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded font-semibold">
+                  <span className="text-[10px] bg-[#E8F4EC] text-[#23734D] border border-[#23734D]/25 px-2 py-0.5 rounded font-semibold font-mono">
                     {r.status}
                   </span>
                 </div>
-                <p className="text-slate-700 text-xs leading-relaxed italic line-clamp-2">
+                <p className="text-[#20231F] text-xs leading-relaxed italic line-clamp-2">
                   &quot;{r.statement}&quot;
                 </p>
-                <div className="flex items-center justify-between text-[11px] text-slate-500 pt-1 border-t border-slate-200">
+                <div className="flex items-center justify-between text-[11px] text-[#62665F] pt-1 border-t border-[#E3E5DE] font-mono">
                   <span>Signatory: {r.submittedBy} ({r.officialDesignation})</span>
                   <span>Filed: {r.submittedAt}</span>
                 </div>

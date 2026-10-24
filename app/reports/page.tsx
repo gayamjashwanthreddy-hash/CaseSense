@@ -48,19 +48,19 @@ export default function ReportsPage() {
 
   if (!metrics) {
     return (
-      <div className="py-20 text-center text-xs text-slate-500">
+      <div className="py-20 text-center text-xs text-[#62665F] font-mono">
         Compiling AICTE analytical dossiers...
       </div>
     );
   }
 
   const categoryBreakdown = [
-    { name: "Certificate Withholding", count: 7, color: "#1d4ed8" },
-    { name: "Capitation Surcharges", count: 6, color: "#d97706" },
-    { name: "Faculty / Biometric Discrepancy", count: 5, color: "#dc2626" },
-    { name: "Infrastructure Deficit", count: 4, color: "#059669" },
-    { name: "Admission Irregularities", count: 3, color: "#7c3aed" },
-    { name: "Unapproved Courses", count: 3, color: "#0891b2" },
+    { name: "Certificate Withholding", count: 7, color: "#344B3B" },
+    { name: "Capitation Surcharges", count: 6, color: "#925C0B" },
+    { name: "Faculty / Biometric Discrepancy", count: 5, color: "#B42332" },
+    { name: "Infrastructure Deficit", count: 4, color: "#8A9C85" },
+    { name: "Admission Irregularities", count: 3, color: "#A77B51" },
+    { name: "Unapproved Courses", count: 3, color: "#687B8D" },
   ];
 
   const monthlyTrend = [
@@ -105,103 +105,101 @@ export default function ReportsPage() {
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
-      {/* Header - Editorial Dark Strip */}
-      <div className="bg-[#0A1626] text-white p-6 rounded-2xl border border-[#142C46] shadow-xl space-y-4">
-        <Breadcrumbs items={[{ label: "Reports & Analytics" }]} />
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-1">
-          <div>
-            <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2.5">
-              <BarChart3 className="w-6 h-6 text-blue-400" />
-              <span>AICTE Multi-Bureau Performance & Overlap Analytics</span>
-            </h1>
-            <p className="text-xs text-slate-300 mt-1 max-w-2xl leading-relaxed">
-              Inter-bureau efficiency audits, recurrence classifications, deduplication accuracy metrics, and statutory SLA compliance.
-            </p>
-          </div>
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-5 border-b border-[#E3E5DE]">
+        <div>
+          <Breadcrumbs items={[{ label: "Reports & Analytics" }]} />
+          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-[#20231F] tracking-tight mt-1 flex items-center gap-2.5">
+            <BarChart3 className="w-6 h-6 text-[#344B3B]" />
+            <span>AICTE Multi-Bureau Performance &amp; Overlap Analytics</span>
+          </h1>
+          <p className="text-xs text-[#62665F] font-mono mt-1 max-w-2xl">
+            Inter-bureau efficiency audits, recurrence classifications, deduplication accuracy metrics, and statutory SLA compliance.
+          </p>
+        </div>
 
-          <div className="flex items-center gap-2 flex-wrap">
-            <button
-              onClick={handleExportSummaryCSV}
-              className="inline-flex items-center gap-1.5 text-xs text-slate-300 hover:text-white border border-[#243B55] bg-[#0D1C2E] hover:bg-[#142C46] px-3.5 py-2 rounded-xl transition-colors font-semibold shadow-sm"
-            >
-              <Download className="w-3.5 h-3.5" />
-              <span>Export CSV</span>
-            </button>
-            <button
-              onClick={handlePrint}
-              className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-sm transition-colors"
-            >
-              <Printer className="w-3.5 h-3.5" />
-              <span>Print Dossier</span>
-            </button>
-          </div>
+        <div className="flex items-center gap-2 flex-wrap">
+          <button
+            onClick={handleExportSummaryCSV}
+            className="inline-flex items-center gap-1.5 text-xs text-[#20231F] hover:text-[#344B3B] border border-[#E3E5DE] bg-white hover:bg-[#F7F7F4] px-3.5 py-2 rounded-md transition-colors font-semibold shadow-xs font-mono"
+          >
+            <Download className="w-3.5 h-3.5" />
+            <span>Export CSV</span>
+          </button>
+          <button
+            onClick={handlePrint}
+            className="inline-flex items-center gap-1.5 bg-[#344B3B] hover:bg-[#293D30] text-white text-xs font-bold px-4 py-2 rounded-md shadow-xs transition-colors"
+          >
+            <Printer className="w-3.5 h-3.5" />
+            <span>Print Dossier</span>
+          </button>
         </div>
       </div>
 
       {/* High-level Operational Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+        <div className="bg-white p-5 rounded-xl border border-[#E3E5DE] shadow-xs space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+            <span className="text-[10px] font-bold text-[#62665F] uppercase tracking-widest font-mono">
               Deduplication Accuracy
             </span>
-            <div className="w-6 h-6 rounded-md bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600">
+            <div className="w-6 h-6 rounded-md bg-[#E8F4EC] border border-[#23734D]/25 flex items-center justify-center text-[#23734D]">
               <CheckCircle2 className="w-3.5 h-3.5" />
             </div>
           </div>
-          <div className="text-2xl font-bold text-slate-900 font-mono">94.2%</div>
-          <div className="text-[11px] text-slate-500">Based on human referee confirmations</div>
+          <div className="text-2xl font-bold text-[#20231F] font-mono">94.2%</div>
+          <div className="text-[11px] text-[#62665F]">Based on human referee confirmations</div>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+        <div className="bg-white p-5 rounded-xl border border-[#E3E5DE] shadow-xs space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+            <span className="text-[10px] font-bold text-[#62665F] uppercase tracking-widest font-mono">
               Avg Turnaround Time
             </span>
-            <div className="w-6 h-6 rounded-md bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600">
+            <div className="w-6 h-6 rounded-md bg-[#E8EEE7] border border-[#344B3B]/25 flex items-center justify-center text-[#344B3B]">
               <Clock className="w-3.5 h-3.5" />
             </div>
           </div>
-          <div className="text-2xl font-bold text-slate-900 font-mono">21 Days</div>
-          <div className="text-[11px] text-emerald-700 font-semibold">Compliant with 30-day mandate</div>
+          <div className="text-2xl font-bold text-[#20231F] font-mono">21 Days</div>
+          <div className="text-[11px] text-[#23734D] font-semibold">Compliant with 30-day mandate</div>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+        <div className="bg-white p-5 rounded-xl border border-[#E3E5DE] shadow-xs space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+            <span className="text-[10px] font-bold text-[#62665F] uppercase tracking-widest font-mono">
               Redundant Work Saved
             </span>
-            <div className="w-6 h-6 rounded-md bg-purple-50 border border-purple-200 flex items-center justify-center text-purple-600">
+            <div className="w-6 h-6 rounded-md bg-[#EAF0F6] border border-[#496785]/25 flex items-center justify-center text-[#496785]">
               <Zap className="w-3.5 h-3.5" />
             </div>
           </div>
-          <div className="text-2xl font-bold text-blue-700 font-mono">~180 Hours</div>
-          <div className="text-[11px] text-slate-500">Through unified hearings & merged files</div>
+          <div className="text-2xl font-bold text-[#344B3B] font-mono">~180 Hours</div>
+          <div className="text-[11px] text-[#62665F]">Through unified hearings &amp; merged files</div>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+        <div className="bg-white p-5 rounded-xl border border-[#E3E5DE] shadow-xs space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+            <span className="text-[10px] font-bold text-[#62665F] uppercase tracking-widest font-mono">
               Joint Inquiries Formed
             </span>
-            <div className="w-6 h-6 rounded-md bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600">
+            <div className="w-6 h-6 rounded-md bg-[#FBF1DB] border border-[#925C0B]/25 flex items-center justify-center text-[#925C0B]">
               <Scale className="w-3.5 h-3.5" />
             </div>
           </div>
-          <div className="text-2xl font-bold text-slate-900 font-mono">{metrics.jointCommitteesCount}</div>
-          <div className="text-[11px] text-slate-500">Inter-bureau standing committees</div>
+          <div className="text-2xl font-bold text-[#20231F] font-mono">{metrics.jointCommitteesCount}</div>
+          <div className="text-[11px] text-[#62665F]">Inter-bureau standing committees</div>
         </div>
       </div>
 
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Monthly Intake vs Disposal */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+        <div className="bg-white p-6 rounded-xl border border-[#E3E5DE] shadow-xs space-y-4">
           <div>
-            <h2 className="text-sm font-bold text-slate-900">
+            <h2 className="text-sm font-bold text-[#20231F]">
               Monthly Intake vs Resolution Volume
             </h2>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-[#62665F] mt-0.5 font-mono">
               Comparative analysis of registered cases vs resolved inquiries across 2026.
             </p>
           </div>
@@ -209,34 +207,34 @@ export default function ReportsPage() {
           <div className="h-64 w-full pt-2">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={monthlyTrend} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
-                <XAxis dataKey="month" tick={{ fontSize: 11, fill: "#64748b" }} />
-                <YAxis tick={{ fontSize: 11, fill: "#64748b" }} allowDecimals={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#E3E5DE" vertical={false} />
+                <XAxis dataKey="month" tick={{ fontSize: 11, fill: "#62665F" }} />
+                <YAxis tick={{ fontSize: 11, fill: "#62665F" }} allowDecimals={false} />
                 <Tooltip
-                  cursor={{ fill: "#f8fafc" }}
+                  cursor={{ fill: "#F7F7F4" }}
                   contentStyle={{
                     backgroundColor: "#ffffff",
-                    borderColor: "#e2e8f0",
-                    borderRadius: "12px",
-                    boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+                    borderColor: "#E3E5DE",
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
                     fontSize: "12px",
                   }}
                 />
                 <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "12px" }} />
-                <Bar dataKey="intake" name="Complaints Admitted" fill="#1d4ed8" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="resolved" name="Complaints Disposed" fill="#059669" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="intake" name="Complaints Admitted" fill="#344B3B" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="resolved" name="Complaints Disposed" fill="#8A9C85" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* Regional Density Breakdown */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+        <div className="bg-white p-6 rounded-xl border border-[#E3E5DE] shadow-xs space-y-4">
           <div>
-            <h2 className="text-sm font-bold text-slate-900">
+            <h2 className="text-sm font-bold text-[#20231F]">
               Case Density by AICTE Regional Office
             </h2>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-[#62665F] mt-0.5 font-mono">
               Geographic distribution of active institution-related complaints.
             </p>
           </div>
@@ -248,24 +246,24 @@ export default function ReportsPage() {
                 layout="vertical"
                 margin={{ top: 10, right: 20, left: 20, bottom: 0 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" horizontal={false} />
-                <XAxis type="number" tick={{ fontSize: 11, fill: "#64748b" }} allowDecimals={false} />
-                <YAxis dataKey="region" type="category" tick={{ fontSize: 11, fill: "#334155" }} width={90} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#E3E5DE" horizontal={false} />
+                <XAxis type="number" tick={{ fontSize: 11, fill: "#62665F" }} allowDecimals={false} />
+                <YAxis dataKey="region" type="category" tick={{ fontSize: 11, fill: "#20231F" }} width={90} />
                 <Tooltip
-                  cursor={{ fill: "#f8fafc" }}
+                  cursor={{ fill: "#F7F7F4" }}
                   contentStyle={{
                     backgroundColor: "#ffffff",
-                    borderColor: "#e2e8f0",
-                    borderRadius: "12px",
-                    boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+                    borderColor: "#E3E5DE",
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
                     fontSize: "12px",
                   }}
                 />
-                <Bar dataKey="count" name="Active Inquiries" fill="#0f172a" radius={[0, 4, 4, 0]}>
+                <Bar dataKey="count" name="Active Inquiries" fill="#344B3B" radius={[0, 4, 4, 0]}>
                   {metrics.regionalData.map((_: any, index: number) => (
                     <Cell
                       key={`region-cell-${index}`}
-                      fill={["#1d4ed8", "#4338ca", "#0891b2", "#d97706", "#be123c"][index % 5]}
+                      fill={["#344B3B", "#8A9C85", "#A77B51", "#687B8D", "#925C0B"][index % 5]}
                     />
                   ))}
                 </Bar>
@@ -276,12 +274,12 @@ export default function ReportsPage() {
       </div>
 
       {/* Recurrence by Grievance Category */}
-      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+      <div className="bg-white p-6 rounded-xl border border-[#E3E5DE] shadow-xs space-y-4">
         <div>
-          <h2 className="text-sm font-bold text-slate-900">
+          <h2 className="text-sm font-bold text-[#20231F]">
             Distribution by Grievance Violation Category
           </h2>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-xs text-[#62665F] mt-0.5 font-mono">
             Recurrence patterns across active AICTE technical colleges.
           </p>
         </div>
@@ -290,13 +288,13 @@ export default function ReportsPage() {
           {categoryBreakdown.map((cat, idx) => (
             <div
               key={idx}
-              className="p-4 bg-slate-50/70 rounded-xl border border-slate-200 flex items-center justify-between"
+              className="p-4 bg-[#F7F7F4] rounded-lg border border-[#E3E5DE] flex items-center justify-between"
             >
               <div className="flex items-center gap-2.5">
                 <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: cat.color }} />
-                <span className="text-xs font-semibold text-slate-800">{cat.name}</span>
+                <span className="text-xs font-semibold text-[#20231F]">{cat.name}</span>
               </div>
-              <span className="text-xs font-bold text-slate-900 font-mono bg-white px-2 py-0.5 rounded-md border border-slate-200">
+              <span className="text-xs font-bold text-[#20231F] font-mono bg-white px-2 py-0.5 rounded border border-[#E3E5DE]">
                 {cat.count} Cases
               </span>
             </div>

@@ -36,171 +36,162 @@ export default function InstitutionProfilePage() {
   }, []);
 
   if (!institution) {
-    return <div className="p-8 text-center text-xs text-slate-500">Loading profile...</div>;
+    return <div className="p-8 text-center text-xs text-[#62665F] font-mono">Loading profile...</div>;
   }
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Title */}
-      <div className="border-b border-slate-200 pb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="border-b border-[#E3E5DE] pb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <div className="flex items-center space-x-2">
-            <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-bold font-serif text-[#20231F] tracking-tight">
               Institutional Master Profile
             </h1>
-            <span className="font-mono text-xs font-bold bg-slate-100 text-slate-800 px-2 py-0.5 rounded border border-slate-300">
+            <span className="font-mono text-xs font-bold bg-[#F7F7F4] text-[#20231F] px-2 py-0.5 rounded border border-[#E3E5DE]">
               AICTE PID: {institution.institutionId}
             </span>
           </div>
-          <p className="text-slate-500 text-xs mt-1">
+          <p className="text-[#62665F] text-xs mt-1 font-mono">
             Verified statutory identifiers and administrative compliance record on file with AICTE.
           </p>
         </div>
       </div>
 
       {/* Verified vs Synthetic Badge Header */}
-      <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg flex items-start space-x-3 text-xs text-blue-900">
-        <ShieldCheck className="w-5 h-5 text-blue-700 shrink-0 mt-0.5" />
+      <div className="p-4 bg-[#E8EEE7] border border-[#344B3B]/20 rounded-xl flex items-start space-x-3 text-xs text-[#344B3B]">
+        <ShieldCheck className="w-5 h-5 text-[#344B3B] shrink-0 mt-0.5" />
         <div className="space-y-1">
-          <span className="font-bold block">Verified Permanent Institution Identifier:</span>
-          <p className="text-blue-950/80 leading-relaxed text-[11px]">
+          <span className="font-bold block font-mono">Verified Permanent Institution Identifier:</span>
+          <p className="text-[#20231F] leading-relaxed text-[11px]">
             The AICTE Permanent Institute ID (PID: {institution.institutionId}) is verified against the National Technical Registry. In this demonstration environment, contact persons, simulated compliance logs, and associated cases are synthetic demonstration data.
           </p>
         </div>
       </div>
 
       {/* Main Profile Grid */}
-      <div className="bg-white rounded-lg border border-slate-200 shadow-2xs divide-y divide-slate-100 text-xs">
+      <div className="bg-white rounded-xl border border-[#E3E5DE] shadow-xs divide-y divide-[#E3E5DE] text-xs">
         {/* Section 1: Institution Identity */}
         <div className="p-6 space-y-4">
-          <h2 className="font-bold text-slate-900 uppercase tracking-wider text-[11px] text-slate-400">
+          <h2 className="font-bold text-[#62665F] uppercase tracking-wider text-[11px] font-mono">
             Basic Institutional Information
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <span className="text-[10px] uppercase font-semibold text-slate-400 block">
+              <span className="text-[10px] uppercase font-semibold text-[#85877F] block font-mono">
                 Official Registered Name
               </span>
-              <span className="font-bold text-slate-900 text-sm mt-0.5 block">
+              <span className="font-bold text-[#20231F] text-sm mt-0.5 block">
                 {institution.institutionName}
               </span>
             </div>
 
             <div>
-              <span className="text-[10px] uppercase font-semibold text-slate-400 block">
+              <span className="text-[10px] uppercase font-semibold text-[#85877F] block font-mono">
                 Institutional Category
               </span>
-              <span className="font-semibold text-slate-800 mt-0.5 block">
+              <span className="font-semibold text-[#20231F] mt-0.5 block">
                 {master?.category || "Technical / Engineering"}
               </span>
             </div>
 
             <div>
-              <span className="text-[10px] uppercase font-semibold text-slate-400 block">
-                Approval Status (AICTE APH)
+              <span className="text-[10px] uppercase font-semibold text-[#85877F] block font-mono">
+                Approval Status (AICTE)
               </span>
-              <span className="font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded text-[11px] inline-block mt-0.5">
-                {master?.approvalStatus || "Approved (2025-2026)"}
+              <span className="font-semibold text-[#23734D] mt-0.5 block font-mono">
+                {master?.approvalStatus || "Approved (Extension of Approval Granted)"}
               </span>
             </div>
 
             <div>
-              <span className="text-[10px] uppercase font-semibold text-slate-400 block">
-                Accreditation Status
+              <span className="text-[10px] uppercase font-semibold text-[#85877F] block font-mono">
+                National Accreditation
               </span>
-              <span className="font-bold text-blue-800 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded text-[11px] inline-block mt-0.5">
-                {master?.accreditation || "NBA / NAAC Accredited"}
+              <span className="font-semibold text-[#20231F] mt-0.5 block font-mono">
+                {master?.accreditation || "NAAC A+ / NBA Tier-1"}
               </span>
             </div>
           </div>
         </div>
 
-        {/* Section 2: Jurisdiction & Affiliation */}
+        {/* Section 2: Contact Person */}
         <div className="p-6 space-y-4">
-          <h2 className="font-bold text-slate-900 uppercase tracking-wider text-[11px] text-slate-400">
-            Jurisdiction & University Affiliation
+          <h2 className="font-bold text-[#62665F] uppercase tracking-wider text-[11px] font-mono">
+            Designated Institutional Signatory
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <span className="text-[10px] uppercase font-semibold text-slate-400 block">
-                Affiliated University
+              <span className="text-[10px] uppercase font-semibold text-[#85877F] block font-mono">
+                Authorised Contact Person
               </span>
-              <span className="font-semibold text-slate-800 mt-0.5 block">
-                {master?.affiliatedUniversity || "State Technological University"}
-              </span>
-            </div>
-
-            <div>
-              <span className="text-[10px] uppercase font-semibold text-slate-400 block">
-                Regional Administrative Bureau
-              </span>
-              <span className="font-semibold text-slate-800 mt-0.5 block">
-                {master?.region || "Western Regional Office"}
-              </span>
-            </div>
-
-            <div>
-              <span className="text-[10px] uppercase font-semibold text-slate-400 block">
-                Campus Location
-              </span>
-              <span className="font-semibold text-slate-800 mt-0.5 block">
-                {master?.district}, {master?.state}
-              </span>
-            </div>
-
-            <div>
-              <span className="text-[10px] uppercase font-semibold text-slate-400 block">
-                Compliance Risk Tier
-              </span>
-              <span
-                className={`font-bold px-2 py-0.5 rounded text-[11px] inline-block mt-0.5 ${
-                  master?.riskLevel === "CRITICAL"
-                    ? "bg-red-100 text-red-900"
-                    : master?.riskLevel === "HIGH"
-                    ? "bg-amber-100 text-amber-900"
-                    : "bg-slate-100 text-slate-800"
-                }`}
-              >
-                {master?.riskLevel || "MEDIUM"} Risk Tier
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Section 3: Authorized Signatory */}
-        <div className="p-6 space-y-4">
-          <h2 className="font-bold text-slate-900 uppercase tracking-wider text-[11px] text-slate-400">
-            Designated Institutional Signatory
-          </h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div>
-              <span className="text-[10px] uppercase font-semibold text-slate-400 block">
-                Head of Institution / Signatory
-              </span>
-              <span className="font-bold text-slate-900 mt-0.5 block">
+              <span className="font-bold text-[#20231F] mt-0.5 block">
                 {institution.contactPerson}
               </span>
-              <span className="text-slate-500 text-[11px]">{institution.designation}</span>
             </div>
 
             <div>
-              <span className="text-[10px] uppercase font-semibold text-slate-400 block">
-                Official Registered Email
+              <span className="text-[10px] uppercase font-semibold text-[#85877F] block font-mono">
+                Designation
               </span>
-              <span className="font-mono text-slate-800 mt-0.5 block">
+              <span className="font-semibold text-[#20231F] mt-0.5 block">
+                {institution.designation}
+              </span>
+            </div>
+
+            <div>
+              <span className="text-[10px] uppercase font-semibold text-[#85877F] block font-mono">
+                Official Email
+              </span>
+              <span className="font-mono text-[#20231F] mt-0.5 block">
                 {institution.email}
               </span>
             </div>
 
             <div>
-              <span className="text-[10px] uppercase font-semibold text-slate-400 block">
-                Institutional Telephone
+              <span className="text-[10px] uppercase font-semibold text-[#85877F] block font-mono">
+                Contact Phone
               </span>
-              <span className="font-mono text-slate-800 mt-0.5 block">
+              <span className="font-mono text-[#20231F] mt-0.5 block">
                 {institution.phone}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Section 3: Geographic Coordinates */}
+        <div className="p-6 space-y-4">
+          <h2 className="font-bold text-[#62665F] uppercase tracking-wider text-[11px] font-mono">
+            Campus Jurisdiction &amp; Affiliation
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <span className="text-[10px] uppercase font-semibold text-[#85877F] block font-mono">
+                District &amp; State
+              </span>
+              <span className="font-semibold text-[#20231F] mt-0.5 block">
+                {master?.district || "Pune"}, {master?.state || "Maharashtra"}
+              </span>
+            </div>
+
+            <div>
+              <span className="text-[10px] uppercase font-semibold text-[#85877F] block font-mono">
+                AICTE Regional Office
+              </span>
+              <span className="font-semibold text-[#20231F] mt-0.5 block">
+                {master?.region || "Western"} Regional Office (WRO)
+              </span>
+            </div>
+
+            <div className="sm:col-span-2">
+              <span className="text-[10px] uppercase font-semibold text-[#85877F] block font-mono">
+                Affiliated University
+              </span>
+              <span className="font-semibold text-[#20231F] mt-0.5 block">
+                {master?.affiliatedUniversity || "Savitribai Phule Pune University"}
               </span>
             </div>
           </div>

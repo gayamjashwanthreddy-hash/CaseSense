@@ -1,34 +1,48 @@
 import React from "react";
 import { PriorityLevel } from "@/lib/api/types";
 
-export function PriorityBadge({ priority }: { priority: PriorityLevel }) {
+export function PriorityBadge({
+  priority,
+  size = "md",
+}: {
+  priority: PriorityLevel;
+  size?: "sm" | "md";
+}) {
+  const sizeClasses = size === "sm" ? "text-[10px] px-1.5 py-0.5" : "text-[11px] px-2 py-0.5";
+
   switch (priority) {
     case "CRITICAL":
       return (
-        <span className="inline-flex items-center gap-1 text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-rose-600/10 text-rose-800 border border-rose-500/30 uppercase tracking-tight">
-          <span className="w-1.5 h-1.5 rounded-full bg-rose-600 animate-pulse" />
+        <span
+          className={`inline-flex items-center gap-1 font-semibold rounded font-mono uppercase tracking-wider bg-[#FBEAEC] text-[#B42332] border border-[#F3C5CB] ${sizeClasses}`}
+        >
+          <span className="w-1 h-1 rounded-full bg-[#B42332]" />
           <span>Critical</span>
         </span>
       );
     case "HIGH":
       return (
-        <span className="inline-flex items-center gap-1 text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-800 border border-amber-500/30 uppercase tracking-tight">
-          <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-          <span>High</span>
+        <span
+          className={`inline-flex items-center gap-1 font-semibold rounded font-mono uppercase tracking-wider bg-[#FBF1DB] text-[#925C0B] border border-[#F0DCB0] ${sizeClasses}`}
+        >
+          <span className="w-1 h-1 rounded-full bg-[#925C0B]" />
+          <span>High Priority</span>
         </span>
       );
     case "MEDIUM":
       return (
-        <span className="inline-flex items-center gap-1 text-[10px] font-mono font-medium px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-300 uppercase tracking-tight">
-          <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+        <span
+          className={`inline-flex items-center gap-1 font-medium rounded font-mono uppercase tracking-wider bg-[#EAF0F6] text-[#496785] border border-[#C5D5E4] ${sizeClasses}`}
+        >
           <span>Medium</span>
         </span>
       );
     case "LOW":
     default:
       return (
-        <span className="inline-flex items-center gap-1 text-[10px] font-mono font-normal px-1.5 py-0.5 rounded bg-slate-50 text-slate-600 border border-slate-200 uppercase tracking-tight">
-          <span className="w-1.5 h-1.5 rounded-full bg-slate-300" />
+        <span
+          className={`inline-flex items-center gap-1 font-medium rounded font-mono uppercase tracking-wider bg-[#F0F1ED] text-[#62665F] border border-[#E3E5DE] ${sizeClasses}`}
+        >
           <span>Routine</span>
         </span>
       );

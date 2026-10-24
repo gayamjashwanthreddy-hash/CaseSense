@@ -3,32 +3,79 @@
 @tailwind utilities;
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  /* Surface Colors */
+  --background: #FFFFFF;
+  --background-secondary: #F7F7F4;
+  --background-subtle: #F0F1EB;
+  --surface-elevated: #FFFFFF;
+
+  /* Typography / Text Colors */
+  --foreground: #20231F;
+  --foreground-secondary: #62665F;
+  --foreground-muted: #85877F;
+
+  /* Borders & Dividers */
+  --border: #E3E5DE;
+  --divider: #D4D8CF;
+
+  /* Brand: Restrained Deep Olive */
+  --primary-olive: #344B3B;
+  --primary-olive-hover: #293D30;
+  --primary-olive-active: #202F25;
+  --nav-selected-bg: #E8EEE7;
+  --nav-selected-text: #344B3B;
+  --brand-surface: #F0F3ED;
+  --focus-ring: #526B57;
+
+  /* Semantic Status Tokens */
+  --status-success-text: #23734D;
+  --status-success-bg: #E8F4EC;
+  --status-warning-text: #925C0B;
+  --status-warning-bg: #FBF1DB;
+  --status-error-text: #B42332;
+  --status-error-bg: #FBEAEC;
+  --status-info-text: #496785;
+  --status-info-bg: #EAF0F6;
+  --status-neutral-text: #62665F;
+  --status-neutral-bg: #F0F1ED;
+
+  /* Data Visualization Tokens */
+  --chart-primary: #344B3B;
+  --chart-secondary: #8A9C85;
+  --chart-tertiary: #A77B51;
+  --chart-fourth: #687B8D;
+  --chart-neutral: #A6AAA1;
+  --chart-grid: #E3E5DE;
+  --chart-axis: #62665F;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Editorial serif headings */
+.font-editorial {
+  font-family: var(--font-serif, "Newsreader", "Source Serif 4", Georgia, Cambria, "Times New Roman", Times, serif);
+}
+
 /* Custom subtle scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #F7F7F4;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 3px;
+  background: #D4D8CF;
+  border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #85877F;
 }
 
 @layer utilities {
@@ -36,37 +83,30 @@ body {
     text-wrap: balance;
   }
 
-  .bg-grid-pattern {
-    background-size: 32px 32px;
+  /* Fine subtle institutional grid for white background */
+  .bg-subtle-grid {
+    background-size: 28px 28px;
     background-image: 
-      linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      linear-gradient(to right, rgba(227, 229, 222, 0.5) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(227, 229, 222, 0.5) 1px, transparent 1px);
   }
 
-  .bg-radial-lens {
-    background: radial-gradient(circle at 50% 20%, rgba(54, 120, 212, 0.15) 0%, rgba(8, 14, 24, 0) 70%);
+  .border-divider {
+    border-color: #E3E5DE;
   }
 
-  .bg-radial-lens-teal {
-    background: radial-gradient(circle at 80% 30%, rgba(62, 158, 150, 0.12) 0%, rgba(8, 14, 24, 0) 60%);
+  .border-divider-strong {
+    border-color: #D4D8CF;
   }
 }
 
 @keyframes pulseSubtle {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 0.8; transform: scale(1.02); }
-}
-
-@keyframes flowLine {
-  0% { stroke-dashoffset: 60; }
-  100% { stroke-dashoffset: 0; }
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.02); }
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .animate-pulse-subtle {
-    animation: pulseSubtle 6s ease-in-out infinite;
-  }
-  .animate-flow-line {
-    animation: flowLine 4s linear infinite;
+    animation: pulseSubtle 4s ease-in-out infinite;
   }
 }

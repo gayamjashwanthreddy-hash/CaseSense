@@ -12,6 +12,7 @@ interface RoleContextType {
   availableUsers: UserProfile[];
   token: string | null;
   isAuthenticated: boolean;
+  isLoadingAuth: boolean;
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
 }
@@ -21,20 +22,29 @@ const RoleContext = createContext<RoleContextType | undefined>(undefined);
 export function RoleProvider({ children }: { children: React.ReactNode }) {
   const [currentUser, setCurrentUserState] = useState<UserProfile>(SEED_USERS[0]);
   const [token, setToken] = useState<string | null>(null);
+  const [isLoadingAuth, setIsLoadingAuth] = useState(true);
 
   useEffect(() => {
     CaseBridgeStore.init();
-    const stored = CaseBridgeStore.getCurrentUser();
-    if (stored) {
-      setCurrentUserState(stored);
+    const storedToken = getStoredAuthToken();
+    setToken(storedToken);
+
+    if (storedToken) {
+      const stored = CaseBridgeStore.getCurrentUser();
+      if (stored) {
+        setCurrentUserState(stored);
+      }
     }
-    const t = getStoredAuthToken();
-    setToken(t);
+    setIsLoadingAuth(false);
 
     const handleUpdate = () => {
-      setCurrentUserState(CaseBridgeStore.getCurrentUser());
-      setToken(getStoredAuthToken());
+      const updatedToken = getStoredAuthToken();
+      setToken(updatedToken);
+      if (updatedToken) {
+        setCurrentUserState(CaseBridgeStore.getCurrentUser());
+      }
     };
+
     window.addEventListener("casebridge_store_updated", handleUpdate);
     return () => window.removeEventListener("casebridge_store_updated", handleUpdate);
   }, []);
@@ -45,6 +55,7 @@ export function RoleProvider({ children }: { children: React.ReactNode }) {
     if (typeof window !== "undefined") {
       const mockToken = "token_" + user.id;
       localStorage.setItem("casebridge_jwt_token", mockToken);
+      document.cookie = `casebridge_auth_session=${mockToken}; path=/; max-age=86400; SameSite=Lax`;
       setToken(mockToken);
     }
   };
@@ -54,6 +65,9 @@ export function RoleProvider({ children }: { children: React.ReactNode }) {
     if (res.success && res.user && res.token) {
       setCurrentUserState(res.user);
       setToken(res.token);
+      if (typeof window !== "undefined") {
+        document.cookie = `casebridge_auth_session=${res.token}; path=/; max-age=86400; SameSite=Lax`;
+      }
       return { success: true };
     }
     return { success: false, error: res.error || "Authentication failed" };
@@ -61,6 +75,10 @@ export function RoleProvider({ children }: { children: React.ReactNode }) {
 
   const logout = () => {
     clearStoredAuth();
+    if (typeof window !== "undefined") {
+      document.cookie = "casebridge_auth_session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      document.cookie = "casebridge_inst_session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
     setToken(null);
   };
 
@@ -72,6 +90,7 @@ export function RoleProvider({ children }: { children: React.ReactNode }) {
         availableUsers: SEED_USERS,
         token,
         isAuthenticated: Boolean(token),
+        isLoadingAuth,
         login,
         logout,
       }}

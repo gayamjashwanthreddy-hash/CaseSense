@@ -14,6 +14,7 @@ import {
   ChevronRight,
   Database,
   ExternalLink,
+  LifeBuoy,
 } from "lucide-react";
 import { CaseBridgeStore } from "@/lib/api/store";
 
@@ -46,15 +47,14 @@ export function Sidebar() {
       href: "/cases",
       icon: FolderKanban,
       badge: activeCasesCount > 0 ? activeCasesCount : null,
-      badgeColor: "bg-slate-800 text-slate-300 border border-slate-700",
+      badgeColor: "bg-[#F0F1EB] text-[#20231F] border border-[#E3E5DE]",
     },
     {
       label: "Bureau Coordination",
       href: "/overlap-review",
       icon: GitCompare,
       badge: pendingOverlapCount > 0 ? `${pendingOverlapCount}` : null,
-      badgeColor:
-        "bg-amber-500/20 text-amber-300 border border-amber-500/40 font-mono font-semibold",
+      badgeColor: "bg-[#FBF1DB] text-[#925C0B] border border-[#F0DCB0] font-mono font-bold",
     },
     {
       label: "Institution Profiles",
@@ -82,96 +82,96 @@ export function Sidebar() {
     },
   ];
 
+  const isActive = (href: string) => {
+    if (href === "/dashboard" && pathname === "/dashboard") return true;
+    if (href !== "/dashboard" && pathname.startsWith(href)) return true;
+    return false;
+  };
+
   return (
-    <aside className="w-64 bg-[#0A1626] border-r border-[#162942] flex flex-col justify-between shrink-0 select-none min-h-[calc(100vh-3.5rem)] text-[#E2E8F0]">
-      <div className="py-4">
-        <div className="px-4 mb-3 flex items-center justify-between">
-          <span className="text-[10px] font-mono uppercase tracking-widest text-[#7D8FA9]">
-            Console Navigation
-          </span>
-          <span className="inline-flex items-center gap-1 text-[10px] font-mono text-emerald-400">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            LIVE
-          </span>
-        </div>
+    <aside className="w-64 bg-white border-r border-[#E3E5DE] flex flex-col justify-between shrink-0 select-none hidden md:flex">
+      {/* Primary Navigation Menu */}
+      <div className="p-3.5 space-y-4">
+        <div>
+          <div className="text-[10px] font-bold text-[#85877F] uppercase tracking-wider px-3 mb-2 font-mono">
+            Institutional Workspace
+          </div>
+          <nav className="space-y-1">
+            {navItems.map((item) => {
+              const active = isActive(item.href);
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-colors group ${
+                    active
+                      ? "bg-[#E8EEE7] text-[#344B3B] font-semibold"
+                      : "text-[#62665F] hover:bg-[#F7F7F4] hover:text-[#20231F]"
+                  }`}
+                >
+                  <div className="flex items-center gap-2.5">
+                    <Icon
+                      className={`w-4 h-4 transition-colors shrink-0 ${
+                        active
+                          ? "text-[#344B3B]"
+                          : "text-[#85877F] group-hover:text-[#20231F]"
+                      }`}
+                    />
+                    <span>{item.label}</span>
+                  </div>
 
-        <nav className="space-y-1 px-2.5">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive =
-              pathname === item.href ||
-              (item.href !== "/dashboard" && pathname.startsWith(item.href));
-
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`group flex items-center justify-between px-3 py-2.5 text-xs font-medium rounded-lg transition-all duration-150 ${
-                  isActive
-                    ? "bg-[#162D4A] text-white shadow-xs border border-[#2A4973]/70 font-semibold"
-                    : "text-[#94A3B8] hover:text-white hover:bg-[#12233A]/60"
-                }`}
-              >
-                <div className="flex items-center gap-2.5">
-                  <Icon
-                    className={`w-4 h-4 transition-colors ${
-                      isActive
-                        ? "text-[#58A6FF]"
-                        : "text-[#64748B] group-hover:text-[#94A3B8]"
-                    }`}
-                  />
-                  <span className="tracking-tight">{item.label}</span>
-                </div>
-
-                <div className="flex items-center gap-1.5">
                   {item.badge && (
                     <span
-                      className={`text-[10px] px-1.5 py-0.2 rounded-md font-mono ${
-                        item.badgeColor || "bg-slate-800 text-slate-300"
+                      className={`text-[10px] px-1.5 py-0.2 rounded-md ${
+                        item.badgeColor || "bg-[#F0F1EB] text-[#20231F]"
                       }`}
                     >
                       {item.badge}
                     </span>
                   )}
-                  {isActive && (
-                    <div className="w-1 h-3.5 rounded-full bg-[#58A6FF]" />
-                  )}
-                </div>
-              </Link>
-            );
-          })}
-        </nav>
-      </div>
-
-      {/* System Telemetry & Quick Navigation */}
-      <div className="p-3.5 border-t border-[#162942] bg-[#070F1B] space-y-3">
-        <div className="flex items-center justify-between text-[11px]">
-          <Link
-            href="/"
-            className="text-[#58A6FF] hover:text-blue-300 transition-colors font-medium flex items-center gap-1 text-[11px]"
-          >
-            <span>Public Home</span>
-            <ExternalLink className="w-3 h-3" />
-          </Link>
-          <Link
-            href="/institution/dashboard"
-            className="text-amber-400 hover:text-amber-300 transition-colors font-medium flex items-center gap-1 text-[11px]"
-          >
-            <span>College Desk</span>
-            <ChevronRight className="w-3 h-3" />
-          </Link>
+                </Link>
+              );
+            })}
+          </nav>
         </div>
 
-        <div className="pt-2 border-t border-[#162942]/60">
-          <div className="flex items-center justify-between text-[10px] text-[#7D8FA9] font-mono">
-            <span className="flex items-center gap-1">
-              <Database className="w-3 h-3 text-[#58A6FF]" />
-              <span>SUPABASE RLS</span>
-            </span>
-            <span className="text-emerald-400 font-semibold">ENFORCED</span>
+        {/* Public Grievance Portal Link */}
+        <div className="pt-2 border-t border-[#E3E5DE]">
+          <div className="text-[10px] font-bold text-[#85877F] uppercase tracking-wider px-3 mb-2 font-mono">
+            Public Gateway
           </div>
-          <div className="text-[10px] text-[#64748B] mt-1 font-mono">
-            AICTE Cross-Bureau Overlap Engine
+          <div className="space-y-1">
+            <Link
+              href="/"
+              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs text-[#62665F] hover:bg-[#F7F7F4] hover:text-[#20231F] transition-colors"
+            >
+              <span>Public Landing Page</span>
+              <ExternalLink className="w-3 h-3 text-[#85877F]" />
+            </Link>
+            <Link
+              href="/track-complaint"
+              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs text-[#62665F] hover:bg-[#F7F7F4] hover:text-[#20231F] transition-colors"
+            >
+              <span>Citizen Tracking Desk</span>
+              <ExternalLink className="w-3 h-3 text-[#85877F]" />
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer Info Box */}
+      <div className="p-3 border-t border-[#E3E5DE] space-y-2 bg-[#F7F7F4]">
+        <div className="p-2.5 rounded-lg border border-[#E3E5DE] bg-white text-[11px] space-y-1 text-[#62665F]">
+          <div className="flex items-center justify-between">
+            <span className="font-semibold text-[#20231F] flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#23734D]" />
+              AICTE Grid Active
+            </span>
+            <span className="text-[9px] font-mono text-[#85877F]">v2.6</span>
+          </div>
+          <div className="text-[10px] text-[#85877F]">
+            SIH26264 &bull; Code Ninja&apos;s
           </div>
         </div>
       </div>
