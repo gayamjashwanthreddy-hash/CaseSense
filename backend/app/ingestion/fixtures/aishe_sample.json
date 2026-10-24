@@ -1,0 +1,65 @@
+{
+  "statusCode": "AISH001",
+  "statusDesc": "Success",
+  "pmVidyaLaxmiInstitutes": [
+    {
+      "aisheCode": "U-0456",
+      "instituteName": "Indian Institute of Technology Madras",
+      "stateName": "Tamil Nadu",
+      "managementType": "Central Government",
+      "nirfSubCode": "",
+      "year": "2024",
+      "district": "Chennai",
+      "website": "www.iitm.ac.in",
+      "yearOfEstablishment": "1959",
+      "location": "Urban",
+      "id": 1
+    },
+    {
+      "aisheCode": "C-6377",
+      "instituteName": "Hindu College",
+      "stateName": "Delhi",
+      "managementType": "State Government",
+      "nirfSubCode": "",
+      "year": "2024",
+      "district": "North",
+      "website": "https://hinducollege.ac.in",
+      "yearOfEstablishment": "1899",
+      "location": "Urban",
+      "id": 2
+    },
+    {
+      "aisheCode": "U-0220",
+      "instituteName": "Indian Institute of Science Bangalore",
+      "stateName": "Karnataka",
+      "managementType": "Central Government",
+      "nirfSubCode": "",
+      "year": "2024",
+      "district": "Bengaluru Urban",
+      "website": "https://iisc.ac.in",
+      "yearOfEstablishment": "1909",
+      "location": "Urban",
+      "id": 3
+    }
+  ],
+  "rnDInstitutions": [
+    {
+      "aisheCode": "R-10001",
+      "name": "ISRO HEADQUARTERS",
+      "stateCode": "29",
+      "stateName": "Karnataka",
+      "districtCode": "572",
+      "districtName": "Bengaluru Urban",
+      "ministryOnosName": "Dept of Space"
+    },
+    {
+      "aisheCode": "R-10002",
+      "name": "BHABHA ATOMIC RESEARCH CENTRE",
+      "stateCode": "27",
+      "stateName": "Maharashtra",
+      "districtCode": "517",
+      "districtName": "Mumbai Suburban",
+      "ministryOnosName": "Dept of Atomic Energy"
+    }
+  ]
+}

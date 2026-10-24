@@ -7,6 +7,12 @@ from app.models.relationship import ComplaintRelationship
 from app.models.response import ComplaintResponse
 from app.models.attachment import Attachment
 from app.models.audit import AuditLog
+from app.models.ingestion import (
+    DataIngestionRun,
+    PublicGrievanceStatistic,
+    PublicInstitutionRecord,
+    PublicRegulatoryDocument,
+)
 
 __all__ = [
     "User",
@@ -18,4 +24,8 @@ __all__ = [
     "ComplaintResponse",
     "Attachment",
     "AuditLog",
+    "DataIngestionRun",
+    "PublicGrievanceStatistic",
+    "PublicInstitutionRecord",
+    "PublicRegulatoryDocument",
 ]

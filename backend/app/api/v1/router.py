@@ -1,5 +1,15 @@
 from fastapi import APIRouter
-from app.api.v1 import auth, complaints, overlap, institutions, bureaus, dashboard, reports, admin
+from app.api.v1 import (
+    auth,
+    complaints,
+    overlap,
+    institutions,
+    bureaus,
+    dashboard,
+    reports,
+    admin,
+    ingestion,
+)
 
 api_router = APIRouter()
 
@@ -11,3 +21,4 @@ api_router.include_router(bureaus.router, prefix="/bureaus", tags=["Bureaus & Wo
 api_router.include_router(dashboard.router, prefix="/dashboard", tags=["Executive Dashboard"])
 api_router.include_router(reports.router, prefix="/reports", tags=["Analytics & Reports"])
 api_router.include_router(admin.router, prefix="/admin", tags=["Governance & Audit"])
+api_router.include_router(ingestion.router, prefix="/ingestion", tags=["Regulatory Data Ingestion"])

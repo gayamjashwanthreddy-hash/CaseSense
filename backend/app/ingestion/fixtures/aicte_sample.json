@@ -1,0 +1,84 @@
+{
+  "source": "AICTE Approval Process Handbook (APH) Approved Institutes Directory",
+  "reportingPeriod": "2025-2026",
+  "institutions": [
+    {
+      "pid": "1-10492811",
+      "name": "Apex Institute of Technology & Management",
+      "state": "Uttar Pradesh",
+      "district": "Lucknow",
+      "region": "Northern",
+      "category": "Engineering & Technology",
+      "approvalStatus": "Approved - Extension of Approval Granted",
+      "address": "Sector 14, Institutional Area, Gomti Nagar, Lucknow, 226010",
+      "affiliatedUniversity": "Dr. A.P.J. Abdul Kalam Technical University",
+      "headOfInstitution": "Dr. Rameshwar Nath Tiwari",
+      "website": "www.apexit.ac.in"
+    },
+    {
+      "pid": "1-20948271",
+      "name": "Dr. B.R. Ambedkar National Polytechnic",
+      "state": "Maharashtra",
+      "district": "Pune",
+      "region": "Western",
+      "category": "Diploma / Polytechnic",
+      "approvalStatus": "Approved - Extension of Approval Granted",
+      "address": "Survey No 45/2, Sinhagad Road, Vadgaon, Pune, 411041",
+      "affiliatedUniversity": "Maharashtra State Board of Technical Education",
+      "headOfInstitution": "Prof. Sunita Deshmukh",
+      "website": "www.bra-polytechnic.edu.in"
+    },
+    {
+      "pid": "1-30918274",
+      "name": "National Institute of Management Sciences",
+      "state": "Uttar Pradesh",
+      "district": "Lucknow",
+      "region": "Northern",
+      "category": "Management / MBA",
+      "approvalStatus": "Approved - Conditional Compliance Audit",
+      "address": "Plot 8, Knowledge Park II, Greater Noida, 201310",
+      "affiliatedUniversity": "Chhatrapati Shahu Ji Maharaj University",
+      "headOfInstitution": "Dr. Arvind Saxena",
+      "website": "www.nims-lucknow.org.in"
+    },
+    {
+      "pid": "1-40918299",
+      "name": "Kalinga Polytechnic of Technology",
+      "state": "Odisha",
+      "district": "Bhubaneswar",
+      "region": "Eastern",
+      "category": "Diploma / Polytechnic",
+      "approvalStatus": "Approved - Pending Facility Inspection",
+      "address": "Campus 3, Patia, Bhubaneswar, 751024",
+      "affiliatedUniversity": "State Council for Technical Education & Vocational Training, Odisha",
+      "headOfInstitution": "Er. Manoranjan Mohanty",
+      "website": "www.kalingapolytechnic.ac.in"
+    },
+    {
+      "pid": "1-50918312",
+      "name": "Vidyapeeth College of Engineering",
+      "state": "Maharashtra",
+      "district": "Pune",
+      "region": "Western",
+      "category": "Engineering & Technology",
+      "approvalStatus": "Approved - Extension of Approval Granted",
+      "address": "Vidyapeeth Campus, Kothrud, Pune, 411038",
+      "affiliatedUniversity": "Savitribai Phule Pune University",
+      "headOfInstitution": "Dr. Ashok Patwardhan",
+      "website": "www.vidyapeeth-engineering.ac.in"
+    },
+    {
+      "pid": "1-60918445",
+      "name": "Himalayan Institute of Technical Education",
+      "state": "Uttarakhand",
+      "district": "Dehradun",
+      "region": "Northern",
+      "category": "Engineering & Technology",
+      "approvalStatus": "Show-Cause Notice Issued (Deficit In Land Registry)",
+      "address": "Rajpur Road, Near IT Park, Dehradun, 248001",
+      "affiliatedUniversity": "Uttarakhand Technical University",
+      "headOfInstitution": "Dr. Virendra Rawat",
+      "website": "www.himalayan-tech.edu.in"
+    }
+  ]
+}
